@@ -1,36 +1,29 @@
 #property strict
 #property indicator_chart_window
-#property version "1.00"
+#property indicator_plots 0
+#property version "0.2.0"
 
 #include <ContextEngine/DashboardRenderer.mqh>
 
 CDashboardRenderer Dashboard;
 
-//+------------------------------------------------------------------+
-//| Custom indicator initialization function                         |
-//+------------------------------------------------------------------+
 int OnInit()
 {
+   Alert("CE Dashboard v0.2");
+
+   Print("===== CE Dashboard v0.2 =====");
+
    Dashboard.Create();
-   Dashboard.Update(
-      "Context Engine\n"
-      "Version 1.0"
-   );
+   Dashboard.Update();
 
    return(INIT_SUCCEEDED);
 }
 
-//+------------------------------------------------------------------+
-//| Custom indicator deinitialization function                       |
-//+------------------------------------------------------------------+
 void OnDeinit(const int reason)
 {
    Dashboard.Destroy();
 }
 
-//+------------------------------------------------------------------+
-//| Custom indicator iteration function                              |
-//+------------------------------------------------------------------+
 int OnCalculate(const int rates_total,
                 const int prev_calculated,
                 const datetime &time[],

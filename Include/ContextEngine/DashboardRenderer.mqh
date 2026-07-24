@@ -1,119 +1,95 @@
 //+------------------------------------------------------------------+
-//| Context Engine                                                   |
-//| Dashboard Renderer                                               |
-//| Version : 1.00                                                   |
+//| DashboardRenderer.mqh                                            |
 //+------------------------------------------------------------------+
-
-#ifndef __CE_DASHBOARD_RENDERER_MQH__
-#define __CE_DASHBOARD_RENDERER_MQH__
+#ifndef __DASHBOARD_RENDERER_MQH__
+#define __DASHBOARD_RENDERER_MQH__
 
 class CDashboardRenderer
 {
 private:
 
-   string m_name;
+   string m_prefix;
 
-   int m_corner;
-   int m_x;
-   int m_y;
-   
-   color m_color;
-   
-   int m_fontSize;
-   
-   string m_font;
+   void CreateLabel(
+      const string name,
+      const string text,
+      const int x,
+      const int y,
+      const color clr)
+   {
+      string obj = m_prefix + name;
+
+      if(ObjectFind(0, obj) < 0)
+      {
+         ObjectCreate(0, obj, OBJ_LABEL, 0, 0, 0);
+
+         ObjectSetInteger(0, obj, OBJPROP_CORNER, CORNER_LEFT_UPPER);
+         ObjectSetInteger(0, obj, OBJPROP_XDISTANCE, x);
+         ObjectSetInteger(0, obj, OBJPROP_YDISTANCE, y);
+         ObjectSetInteger(0, obj, OBJPROP_COLOR, clr);
+         ObjectSetInteger(0, obj, OBJPROP_FONTSIZE, 10);
+
+         ObjectSetString(0, obj, OBJPROP_FONT, "Consolas");
+      }
+
+      ObjectSetString(0, obj, OBJPROP_TEXT, text);
+   }
 
 public:
 
-   // Constructor
-   CDashboardRenderer(void);
+   CDashboardRenderer()
+   {
+      m_prefix = "CE.";
+   }
 
-   // Destructor
-   ~CDashboardRenderer(void);
+   bool Create()
+   {
+      Print("[CE] Dashboard Create");
 
-   // Public Methods
-   bool Create(void);
-   void Update(const string text);
-   void Destroy(void);
+      return true;
+   }
+
+   void Update()
+   {
+      CreateLabel("Title",
+                  "Context Engine",
+                  20,
+                  20,
+                  clrDodgerBlue);
+
+      CreateLabel("Version",
+                  "Version : 0.2.0",
+                  20,
+                  40,
+                  clrWhite);
+
+      CreateLabel("Symbol",
+                  "Symbol : " + _Symbol,
+                  20,
+                  60,
+                  clrWhite);
+
+      CreateLabel("TF",
+                  "TF : " + EnumToString(_Period),
+                  20,
+                  80,
+                  clrWhite);
+
+      CreateLabel("Status",
+                  "Status : READY",
+                  20,
+                  100,
+                  clrLime);
+
+      ChartRedraw();
+   }
+
+   void Destroy()
+   {
+      ObjectsDeleteAll(0, m_prefix);
+
+      Print("[CE] Dashboard Destroy");
+   }
 };
-
-//------------------------------------------------------------------
-// Constructor
-//------------------------------------------------------------------
-
-CDashboardRenderer::CDashboardRenderer(void)
-{
-   m_name="CE_Dashboard";
-
-   m_corner=CORNER_LEFT_UPPER;
-
-   m_x=10;
-
-   m_y=20;
-
-   m_color=clrLime;
-
-   m_fontSize=10;
-
-   m_font="Consolas";
-}
-
-//------------------------------------------------------------------
-// Destructor
-//------------------------------------------------------------------
-
-CDashboardRenderer::~CDashboardRenderer(void)
-{
-}
-
-//------------------------------------------------------------------
-// Create Dashboard
-//------------------------------------------------------------------
-
-bool CDashboardRenderer::Create(void)
-{
-   if(ObjectFind(0,m_name)>=0)
-   ObjectDelete(0,m_name);
-
-   if(!ObjectCreate(0,m_name,OBJ_LABEL,0,0,0))
-      return(false);
-   
-   ObjectSetInteger(0,m_name,OBJPROP_CORNER,m_corner);
-   
-   ObjectSetInteger(0,m_name,OBJPROP_XDISTANCE,m_x);
-   
-   ObjectSetInteger(0,m_name,OBJPROP_YDISTANCE,m_y);
-   
-   ObjectSetInteger(0,m_name,OBJPROP_COLOR,m_color);
-   
-   ObjectSetInteger(0,m_name,OBJPROP_FONTSIZE,m_fontSize);
-   
-   ObjectSetString(0,m_name,OBJPROP_FONT,m_font);
-   
-   return(true);
-}
-
-//------------------------------------------------------------------
-// Update Dashboard
-//------------------------------------------------------------------
-
-void CDashboardRenderer::Update(const string text)
-{
-   ObjectSetString(
-      0,
-      m_name,
-      OBJPROP_TEXT,
-      text
-      );
-}
-
-//------------------------------------------------------------------
-// Destroy Dashboard
-//------------------------------------------------------------------
-
-void CDashboardRenderer::Destroy(void)
-{
-   ObjectDelete(0,m_name);
-}
 
 #endif
