@@ -8,7 +8,7 @@
 #include <ContextEngine/Domain/CECandle.mqh>
 #include <ContextEngine/Domain/CEPriceSeries.mqh>
 #include <ContextEngine/Data/CEDataProvider.mqh>
-#include <ContextEngine/Analysis/CESwingDetector.mqh>
+#include <ContextEngine/Analysis/CESwingAnalyzer.mqh>
 #include <ContextEngine/Domain/CEMarketStructurePoint.mqh>
 #include <ContextEngine/Domain/CEMarketStructureSeries.mqh>
 #include <ContextEngine/Analysis/CEMarketStructureDetector.mqh>
@@ -16,10 +16,10 @@
 #include <ContextEngine/Domain/CETrendSeries.mqh>
 #include <ContextEngine/Analysis/CETrendDetector.mqh>
 #include <ContextEngine/Core/CEAnalysisPipeline.mqh>
+#include <ContextEngine/Core/CEAnalysisContext.mqh>
 
 CDashboardRenderer Dashboard;
 CEContext Context;
-CESwingDetector SwingDetector;
 CEMarketStructureDetector StructureDetector;
 CEBOSDetector BOSDetector;
 CETrendDetector TrendDetector;
@@ -38,45 +38,25 @@ int OnInit()
          candles);
    
    CEPriceSeries series;
-   series.Set(candles);
-   
-   CESwingDetector detector;
-   
-   CESwingSeries swings;
-   
-   int count = detector.Detect(
-                  series,
-                  swings);
-   
-   CEMarketStructureSeries structures;
-
-   StructureDetector.Detect(
-      swings,
-      structures);
-   
-   BOSDetector.Detect(StructureDetector);
-   
-   CETrendSeries trends;
-
-   TrendDetector.Detect(
-      structures,
-      trends);
-   
-   for(int i = 0; i < trends.Count(); i++)
-   {
-      CETrendPoint trend = trends.At(i);
-   
-      Print(
-         trend.Index,
-         " ",
-         EnumToString(trend.TrendType));
-   }
+   series.Set(candles);   
    
    CEAnalysisPipeline pipeline;
 
    Print(
       "Analyzer Count = ",
       pipeline.Count());
+      
+   CEAnalysisContext context;
+
+   context.PriceSeries = series;
+   
+   CESwingAnalyzer analyzer;
+   
+   analyzer.Analyze(context);
+   
+   Print(
+      "Swing Count = ",
+      context.SwingSeries.Count());
 
    return(INIT_SUCCEEDED);
 }
