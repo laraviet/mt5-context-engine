@@ -9,10 +9,6 @@ CDashboardRenderer Dashboard;
 
 int OnInit()
 {
-   Alert("CE Dashboard v0.2");
-
-   Print("===== CE Dashboard v0.2 =====");
-
    Dashboard.Create();
    Dashboard.Update();
 

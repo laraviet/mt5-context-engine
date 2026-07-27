@@ -4,7 +4,9 @@
 #ifndef __DASHBOARD_RENDERER_MQH__
 #define __DASHBOARD_RENDERER_MQH__
 
+#include <ContextEngine/Constants.mqh>
 #include <ContextEngine/UI/CETheme.mqh>
+#include <ContextEngine/Core/CELogger.mqh>
 
 class CDashboardRenderer
 {
@@ -31,12 +33,15 @@ private:
       {
          if(!ObjectCreate(0, obj, OBJ_LABEL, 0, 0, 0))
          {
-            Print("[CE] Create failed: ", obj,
-                  " Error=", GetLastError());
+            CELogger::Error(
+               CE_MODULE_DASHBOARD,
+               "Cannot create " + obj);
             return;
          }
    
-         Print("[CE] Created ", obj);
+         CELogger::Info(
+            CE_MODULE_DASHBOARD,
+            "Create " + obj);
    
          ObjectSetInteger(0, obj, OBJPROP_CORNER, CORNER_LEFT_UPPER);
          ObjectSetInteger(0, obj, OBJPROP_XDISTANCE, x);
@@ -46,17 +51,7 @@ private:
          ObjectSetString(0, obj, OBJPROP_FONT, "Consolas");
       }
    
-      ObjectSetString(0, obj, OBJPROP_TEXT, text);
-   
-      Print("[CE] Update ", obj,
-            " -> ", text);
-      
-      Print("-----------------------------");
-      Print("Name    : ", obj);
-      Print("X       : ", ObjectGetInteger(0, obj, OBJPROP_XDISTANCE));
-      Print("Y       : ", ObjectGetInteger(0, obj, OBJPROP_YDISTANCE));
-      Print("Text    : ", ObjectGetString(0, obj, OBJPROP_TEXT));
-      Print("-----------------------------");
+      ObjectSetString(0, obj, OBJPROP_TEXT, text);     
    }
    
    void DrawLine(const string name,
@@ -92,14 +87,18 @@ public:
 
    bool Create()
    {
-      Print("[CE] Dashboard Create");
+      CELogger::Info(
+         CE_MODULE_DASHBOARD,
+         "Create");
 
       return true;
    }
 
    void Update()
    {
-      Print("[CE] Dashboard Update");
+      CELogger::Info(
+         CE_MODULE_DASHBOARD,
+         "Update");
    
       Begin();
    
@@ -135,7 +134,9 @@ public:
    {
       ObjectsDeleteAll(0, m_prefix);
 
-      Print("[CE] Dashboard Destroy");
+      CELogger::Info(
+         CE_MODULE_DASHBOARD,
+         "Destroy");
    }
 };
 
