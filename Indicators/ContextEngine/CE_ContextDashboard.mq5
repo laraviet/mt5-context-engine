@@ -15,6 +15,7 @@
 #include <ContextEngine/Analysis/CEBOSDetector.mqh>
 #include <ContextEngine/Domain/CETrendSeries.mqh>
 #include <ContextEngine/Analysis/CETrendDetector.mqh>
+#include <ContextEngine/Core/CEAnalysisPipeline.mqh>
 
 CDashboardRenderer Dashboard;
 CEContext Context;
@@ -70,6 +71,12 @@ int OnInit()
          " ",
          EnumToString(trend.TrendType));
    }
+   
+   CEAnalysisPipeline pipeline;
+
+   Print(
+      "Analyzer Count = ",
+      pipeline.Count());
 
    return(INIT_SUCCEEDED);
 }
