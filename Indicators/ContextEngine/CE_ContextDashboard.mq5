@@ -5,9 +5,13 @@
 
 #include <ContextEngine/UI/DashboardRenderer.mqh>
 #include <ContextEngine/Core/CEContext.mqh>
+#include <ContextEngine/Domain/CECandle.mqh>
+#include <ContextEngine/Data/CEDataProvider.mqh>
 
 CDashboardRenderer Dashboard;
 CEContext Context;
+CEDataProvider Provider;
+CECandle Candle;
 
 int OnInit()
 {
@@ -15,6 +19,18 @@ int OnInit()
    Context.Status = "READY";
    Dashboard.Create();
    Dashboard.Update(Context);
+   
+   if(Provider.GetLatestCandle(Candle))
+   {
+      Print("Open  : ", Candle.Open);
+      Print("High  : ", Candle.High);
+      Print("Low   : ", Candle.Low);
+      Print("Close : ", Candle.Close);
+   }
+   else
+   {
+      Print("CopyRates failed.");
+   }
 
    return(INIT_SUCCEEDED);
 }
