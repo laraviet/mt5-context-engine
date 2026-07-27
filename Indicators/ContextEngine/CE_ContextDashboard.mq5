@@ -4,13 +4,17 @@
 #property version "0.2.0"
 
 #include <ContextEngine/UI/DashboardRenderer.mqh>
+#include <ContextEngine/Core/CEContext.mqh>
 
 CDashboardRenderer Dashboard;
+CEContext Context;
 
 int OnInit()
 {
+   Context.UpdateChart();
+   Context.Status = "READY";
    Dashboard.Create();
-   Dashboard.Update();
+   Dashboard.Update(Context);
 
    return(INIT_SUCCEEDED);
 }

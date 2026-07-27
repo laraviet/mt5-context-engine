@@ -7,6 +7,7 @@
 #include <ContextEngine/Constants.mqh>
 #include <ContextEngine/UI/CETheme.mqh>
 #include <ContextEngine/Core/CELogger.mqh>
+#include <ContextEngine/Core/CEContext.mqh>
 
 class CDashboardRenderer
 {
@@ -94,7 +95,7 @@ public:
       return true;
    }
 
-   void Update()
+   void Update(const CEContext &context)
    {
       CELogger::Info(
          CE_MODULE_DASHBOARD,
@@ -114,17 +115,17 @@ public:
       
       DrawLine(
          "Symbol",
-         "Symbol : " + _Symbol,
+         "Symbol : " + context.Symbol,
           m_theme.TextColor);
       
       DrawLine(
          "TF",
-         "TF : " + EnumToString(_Period),
+         "TF : " + EnumToString(context.Timeframe),
           m_theme.TextColor);
          
       DrawLine(
          "Status",
-         "Status : READY",
+         "Status : " + context.Status,
           m_theme.SuccessColor);
    
       ChartRedraw();
