@@ -10,26 +10,39 @@
 
 CDashboardRenderer Dashboard;
 CEContext Context;
-CEDataProvider Provider;
-CECandle Candle;
+
 
 int OnInit()
 {
+   CEDataProvider Provider;
+   CECandle candles[];
+
    Context.UpdateChart();
    Context.Status = "READY";
    Dashboard.Create();
    Dashboard.Update(Context);
    
-   if(Provider.GetLatestCandle("USDJPY", PERIOD_H4, Candle))
+   if(Provider.GetCandles(
+      _Symbol,
+      _Period,
+      5,
+      candles))
    {
-      Print("Open  : ", Candle.Open);
-      Print("High  : ", Candle.High);
-      Print("Low   : ", Candle.Low);
-      Print("Close : ", Candle.Close);
-   }
-   else
-   {
-      Print("CopyRates failed.");
+      for(int i = 0; i < ArraySize(candles); i++)
+      {
+         Print(
+            i,
+            "  ",
+            TimeToString(candles[i].Time),
+            "  O=",
+            candles[i].Open,
+            "  H=",
+            candles[i].High,
+            "  L=",
+            candles[i].Low,
+            "  C=",
+            candles[i].Close);
+      }
    }
 
    return(INIT_SUCCEEDED);
