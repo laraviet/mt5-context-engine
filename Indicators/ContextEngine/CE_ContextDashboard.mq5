@@ -20,7 +20,7 @@ int OnInit()
    Dashboard.Create();
    Dashboard.Update(Context);
    
-   if(Provider.GetLatestCandle(Candle))
+   if(Provider.GetLatestCandle("USDJPY", PERIOD_H4, Candle))
    {
       Print("Open  : ", Candle.Open);
       Print("High  : ", Candle.High);

@@ -7,13 +7,16 @@ class CEDataProvider
 {
 public:
 
-   bool GetLatestCandle(CECandle &candle)
+   bool GetLatestCandle(
+      const string symbol,
+      ENUM_TIMEFRAMES timeframe,
+      CECandle &candle)
    {
       MqlRates rates[];
 
       if(CopyRates(
-            _Symbol,
-            _Period,
+            symbol,
+            timeframe,
             0,
             1,
             rates) != 1)
