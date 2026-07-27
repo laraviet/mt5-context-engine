@@ -2,7 +2,8 @@
 #define __CE_SWING_DETECTOR_MQH__
 
 #include <ContextEngine/Domain/CEPriceSeries.mqh>
-#include <ContextEngine/Analysis/CESwingPoint.mqh>
+#include <ContextEngine/Domain/CESwingPoint.mqh>
+#include <ContextEngine/Domain/CESwingSeries.mqh>
 
 class CESwingDetector
 {
@@ -75,6 +76,42 @@ public:
       }
    
       return true;
+   }
+   
+   int Detect(
+   const CEPriceSeries &series,
+   CESwingSeries &swings)
+   {
+      swings.Clear();
+   
+      for(int i = 0; i < series.Count(); i++)
+      {
+         if(IsSwingHigh(series, i))
+         {
+            CESwingPoint point;
+   
+            point.Index = i;
+            point.Time  = series.At(i).Time;
+            point.Price = series.At(i).High;
+            point.Type  = SWING_HIGH;
+
+            swings.Add(point);
+         }
+   
+         if(IsSwingLow(series, i))
+         {
+            CESwingPoint point;
+   
+            point.Index = i;
+            point.Time  = series.At(i).Time;
+            point.Price = series.At(i).Low;
+            point.Type  = SWING_LOW;
+   
+            swings.Add(point);
+         }
+      }
+   
+      return swings.Count();
    }
    
 };

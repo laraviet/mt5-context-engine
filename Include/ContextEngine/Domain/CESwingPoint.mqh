@@ -10,17 +10,17 @@ enum CESwingType
 
 struct CESwingPoint
 {
-   int index;
-   datetime time;
-   double price;
-   CESwingType type;
+   int Index;
+   datetime Time;
+   double Price;
+   CESwingType Type;
 
    CESwingPoint()
    {
-      index = -1;
-      time = 0;
-      price = 0.0;
-      type = SWING_NONE;
+      Index = -1;
+      Time = 0;
+      Price = 0.0;
+      Type = SWING_NONE;
    }
 };
 

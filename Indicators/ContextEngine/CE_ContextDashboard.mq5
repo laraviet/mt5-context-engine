@@ -9,39 +9,55 @@
 #include <ContextEngine/Domain/CEPriceSeries.mqh>
 #include <ContextEngine/Data/CEDataProvider.mqh>
 #include <ContextEngine/Analysis/CESwingDetector.mqh>
+#include <ContextEngine/Domain/CEMarketStructurePoint.mqh>
+#include <ContextEngine/Domain/CEMarketStructureSeries.mqh>
+#include <ContextEngine/Analysis/CEMarketStructureDetector.mqh>
 
 CDashboardRenderer Dashboard;
 CEContext Context;
 CESwingDetector SwingDetector;
+CEMarketStructureDetector StructureDetector;
 
 
 int OnInit()
 {
-   CEDataProvider Provider;
+   CEDataProvider provider;
+
    CECandle candles[];
-
-   Context.UpdateChart();
-   Context.Status = "READY";
-   Dashboard.Create();
-   Dashboard.Update(Context);
    
-   Provider.GetCandles(
-      _Symbol,
-      _Period,
-      20,
-      candles);
-      
+   provider.GetCandles(
+         _Symbol,
+         _Period,
+         50,
+         candles);
+   
    CEPriceSeries series;
-
    series.Set(candles);
    
-   for(int i = 0; i < series.Count(); i++)
-   {
-      if(SwingDetector.IsSwingHigh(series, i))
-         Print("Swing High: ", i);
+   CESwingDetector detector;
    
-      if(SwingDetector.IsSwingLow(series, i))
-         Print("Swing Low: ", i);
+   CESwingSeries swings;
+   
+   int count = detector.Detect(
+                  series,
+                  swings);
+   
+   CEMarketStructureSeries structures;
+
+   StructureDetector.Detect(
+      swings,
+      structures);
+   
+   for(int i = 0; i < structures.Count(); i++)
+   {
+      CEMarketStructurePoint point = structures.At(i);
+   
+      Print(
+         point.Index,
+         " ",
+         EnumToString(point.StructureType),
+         " ",
+         DoubleToString(point.Price, _Digits));
    }
 
    return(INIT_SUCCEEDED);
