@@ -13,12 +13,15 @@
 #include <ContextEngine/Domain/CEMarketStructureSeries.mqh>
 #include <ContextEngine/Analysis/CEMarketStructureDetector.mqh>
 #include <ContextEngine/Analysis/CEBOSDetector.mqh>
+#include <ContextEngine/Domain/CETrendSeries.mqh>
+#include <ContextEngine/Analysis/CETrendDetector.mqh>
 
 CDashboardRenderer Dashboard;
 CEContext Context;
 CESwingDetector SwingDetector;
 CEMarketStructureDetector StructureDetector;
 CEBOSDetector BOSDetector;
+CETrendDetector TrendDetector;
 
 
 int OnInit()
@@ -51,6 +54,22 @@ int OnInit()
       structures);
    
    BOSDetector.Detect(StructureDetector);
+   
+   CETrendSeries trends;
+
+   TrendDetector.Detect(
+      structures,
+      trends);
+   
+   for(int i = 0; i < trends.Count(); i++)
+   {
+      CETrendPoint trend = trends.At(i);
+   
+      Print(
+         trend.Index,
+         " ",
+         EnumToString(trend.TrendType));
+   }
 
    return(INIT_SUCCEEDED);
 }
