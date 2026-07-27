@@ -11,9 +11,9 @@ private:
 
 public:
 
-   void Clear()
+   void CEAnalyzerPipeline()
    {
-      ArrayResize(m_analyzers, 0);
+      ArrayResize(m_analyzers,0);
    }
 
    int Count() const
@@ -21,14 +21,39 @@ public:
       return ArraySize(m_analyzers);
    }
 
-   void Add(ICEAnalyzer *analyzer)
+   bool Add(ICEAnalyzer *analyzer)
    {
-      int size = ArraySize(m_analyzers);
-
-      ArrayResize(m_analyzers, size + 1);
-
-      m_analyzers[size] = analyzer;
+      int n=ArraySize(m_analyzers);
+   
+      ArrayResize(m_analyzers,n+1);
+   
+      m_analyzers[n]=analyzer;
+   
+      return true;
    }
+   
+   bool Run(CEAnalysisContext &context)
+   {
+      for(int i=0;i<ArraySize(m_analyzers);i++)
+      {
+         if(CheckPointer(m_analyzers[i])==POINTER_INVALID)
+            continue;
+   
+         m_analyzers[i].Analyze(context);
+      }
+   
+      return true;
+   }
+   
+   ~CEAnalysisPipeline()
+   {
+      for(int i=0;i<ArraySize(m_analyzers);i++)
+      {
+         if(CheckPointer(m_analyzers[i])!=POINTER_INVALID)
+            delete m_analyzers[i];
+      }
+   }
+   
 };
 
 #endif

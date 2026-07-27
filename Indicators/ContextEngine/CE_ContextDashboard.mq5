@@ -17,6 +17,7 @@
 #include <ContextEngine/Analysis/CETrendDetector.mqh>
 #include <ContextEngine/Core/CEAnalysisPipeline.mqh>
 #include <ContextEngine/Core/CEAnalysisContext.mqh>
+#include <ContextEngine/Infrastructure/CEAnalyzerRegistry.mqh>
 
 CDashboardRenderer Dashboard;
 CEContext Context;
@@ -41,6 +42,8 @@ int OnInit()
    series.Set(candles);   
    
    CEAnalysisPipeline pipeline;
+   
+   CEAnalyzerRegistry::Register(pipeline);
 
    Print(
       "Analyzer Count = ",
@@ -48,11 +51,9 @@ int OnInit()
       
    CEAnalysisContext context;
 
-   context.PriceSeries = series;
+   context.PriceSeries = series;   
    
-   CESwingAnalyzer analyzer;
-   
-   analyzer.Analyze(context);
+   pipeline.Run(context);
    
    Print(
       "Swing Count = ",

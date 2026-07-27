@@ -7,6 +7,7 @@
 #include <ContextEngine/Domain/CEPriceSeries.mqh>
 #include <ContextEngine/Domain/CESwingPoint.mqh>
 #include <ContextEngine/Domain/CESwingSeries.mqh>
+#include "../Core/CELogger.mqh"
 
 class CESwingAnalyzer : public ICEAnalyzer
 {
@@ -25,6 +26,10 @@ public:
    bool CESwingAnalyzer::Analyze(
       CEAnalysisContext &context) override
    {
+      CELogger::Info(
+         CE_MODULE_ANALYZER,
+         "Run Swing Analyzer");
+         
       context.SwingSeries.Clear();
    
       for(int i = 0; i < context.PriceSeries.Count(); i++)
