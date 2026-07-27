@@ -12,11 +12,13 @@
 #include <ContextEngine/Domain/CEMarketStructurePoint.mqh>
 #include <ContextEngine/Domain/CEMarketStructureSeries.mqh>
 #include <ContextEngine/Analysis/CEMarketStructureDetector.mqh>
+#include <ContextEngine/Analysis/CEBOSDetector.mqh>
 
 CDashboardRenderer Dashboard;
 CEContext Context;
 CESwingDetector SwingDetector;
 CEMarketStructureDetector StructureDetector;
+CEBOSDetector BOSDetector;
 
 
 int OnInit()
@@ -48,17 +50,7 @@ int OnInit()
       swings,
       structures);
    
-   for(int i = 0; i < structures.Count(); i++)
-   {
-      CEMarketStructurePoint point = structures.At(i);
-   
-      Print(
-         point.Index,
-         " ",
-         EnumToString(point.StructureType),
-         " ",
-         DoubleToString(point.Price, _Digits));
-   }
+   BOSDetector.Detect(StructureDetector);
 
    return(INIT_SUCCEEDED);
 }
