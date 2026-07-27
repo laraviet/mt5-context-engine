@@ -4,6 +4,8 @@
 #ifndef __DASHBOARD_RENDERER_MQH__
 #define __DASHBOARD_RENDERER_MQH__
 
+#include <ContextEngine/UI/CETheme.mqh>
+
 class CDashboardRenderer
 {
 private:
@@ -12,6 +14,7 @@ private:
    int    m_x;
    int    m_y;
    int    m_lineHeight;
+   CETheme m_theme;
 
    void CreateLabel(
       const string name,
@@ -39,7 +42,7 @@ private:
          ObjectSetInteger(0, obj, OBJPROP_XDISTANCE, x);
          ObjectSetInteger(0, obj, OBJPROP_YDISTANCE, y);
          ObjectSetInteger(0, obj, OBJPROP_COLOR, clr);
-         ObjectSetInteger(0, obj, OBJPROP_FONTSIZE, 10);
+         ObjectSetInteger(0, obj, OBJPROP_FONTSIZE, m_theme.FontSize);
          ObjectSetString(0, obj, OBJPROP_FONT, "Consolas");
       }
    
@@ -74,15 +77,17 @@ public:
 
    CDashboardRenderer()
    {
-      m_prefix     = "CE.";
-      m_x          = 20;
-      m_y          = 20;
-      m_lineHeight = 20;
+      m_prefix="CE.";
+
+      m_x = m_theme.PaddingLeft;
+      m_y = m_theme.PaddingTop;
+   
+      m_lineHeight = m_theme.LineHeight;
    }
    
    void Begin()
    {
-      m_y = 20;
+      m_y = m_theme.PaddingTop;
    }
 
    bool Create()
@@ -101,27 +106,27 @@ public:
       DrawLine(
          "Title",
          "Context Engine",
-         clrDodgerBlue);
+         m_theme.TitleColor);
    
       DrawLine(
          "Version",
          "Version : 0.2.0",
-         clrRed);
+          m_theme.TextColor);
       
       DrawLine(
          "Symbol",
          "Symbol : " + _Symbol,
-         clrOrange);
+          m_theme.TextColor);
       
       DrawLine(
          "TF",
          "TF : " + EnumToString(_Period),
-         clrMagenta);
+          m_theme.TextColor);
          
       DrawLine(
          "Status",
          "Status : READY",
-         clrLime);
+          m_theme.SuccessColor);
    
       ChartRedraw();
    }

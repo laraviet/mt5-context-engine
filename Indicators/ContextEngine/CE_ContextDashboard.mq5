@@ -3,7 +3,7 @@
 #property indicator_plots 0
 #property version "0.2.0"
 
-#include <ContextEngine/DashboardRenderer.mqh>
+#include <ContextEngine/UI/DashboardRenderer.mqh>
 
 CDashboardRenderer Dashboard;
 
