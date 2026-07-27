@@ -6,6 +6,7 @@
 #include <ContextEngine/UI/DashboardRenderer.mqh>
 #include <ContextEngine/Core/CEContext.mqh>
 #include <ContextEngine/Domain/CECandle.mqh>
+#include <ContextEngine/Domain/CEPriceSeries.mqh>
 #include <ContextEngine/Data/CEDataProvider.mqh>
 
 CDashboardRenderer Dashboard;
@@ -22,28 +23,21 @@ int OnInit()
    Dashboard.Create();
    Dashboard.Update(Context);
    
-   if(Provider.GetCandles(
+   Provider.GetCandles(
       _Symbol,
       _Period,
-      5,
-      candles))
-   {
-      for(int i = 0; i < ArraySize(candles); i++)
-      {
-         Print(
-            i,
-            "  ",
-            TimeToString(candles[i].Time),
-            "  O=",
-            candles[i].Open,
-            "  H=",
-            candles[i].High,
-            "  L=",
-            candles[i].Low,
-            "  C=",
-            candles[i].Close);
-      }
-   }
+      20,
+      candles);
+      
+   CEPriceSeries series;
+
+   series.Set(candles);
+   
+   Print(series.Count());
+   
+   Print(series.Latest().Close);
+   
+   Print(series.At(0).Close);
 
    return(INIT_SUCCEEDED);
 }
