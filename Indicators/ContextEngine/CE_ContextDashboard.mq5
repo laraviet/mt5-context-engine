@@ -8,9 +8,11 @@
 #include <ContextEngine/Domain/CECandle.mqh>
 #include <ContextEngine/Domain/CEPriceSeries.mqh>
 #include <ContextEngine/Data/CEDataProvider.mqh>
+#include <ContextEngine/Analysis/CESwingDetector.mqh>
 
 CDashboardRenderer Dashboard;
 CEContext Context;
+CESwingDetector SwingDetector;
 
 
 int OnInit()
@@ -33,11 +35,14 @@ int OnInit()
 
    series.Set(candles);
    
-   Print(series.Count());
+   for(int i = 0; i < series.Count(); i++)
+   {
+      if(SwingDetector.IsSwingHigh(series, i))
+         Print("Swing High: ", i);
    
-   Print(series.Latest().Close);
-   
-   Print(series.At(0).Close);
+      if(SwingDetector.IsSwingLow(series, i))
+         Print("Swing Low: ", i);
+   }
 
    return(INIT_SUCCEEDED);
 }
