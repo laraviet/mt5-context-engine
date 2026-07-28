@@ -42,7 +42,9 @@ int OnInit()
       Print(
          TrendTypeToString(point.TrendType),
          " / ",
-         TrendStrengthToString(point.Strength));
+         TrendStrengthToString(point.Strength),
+         " / ",
+         TrendStateToString(point.State));
    }
    
    Dashboard.Update(dashboard);   

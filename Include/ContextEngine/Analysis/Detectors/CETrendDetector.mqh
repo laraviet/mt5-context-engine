@@ -1,4 +1,4 @@
-#ifndef __CE_TREND_DETECTOR_MQH__
+﻿#ifndef __CE_TREND_DETECTOR_MQH__
 #define __CE_TREND_DETECTOR_MQH__
 
 #include "../../Domain/CEMarketStructureSeries.mqh"
@@ -43,8 +43,13 @@ public:
             DetectStrength(
                structures,
                i,
-               point.TrendType);
-   
+               point.TrendType);           
+         
+         point.State =
+            DetectState(
+               point.TrendType,
+               point.Strength);
+               
          trends.Add(point);
       }
    
@@ -174,6 +179,31 @@ private:
          return TREND_STRENGTH_WEAK;
    
       return TREND_STRENGTH_UNKNOWN;
+   }
+   
+   CETrendState DetectState(
+      const CETrendType trend,
+      const CETrendStrength strength) const
+   {
+      // Chưa xác định được xu hướng
+      if(trend == TREND_UNKNOWN)
+         return TREND_STATE_UNKNOWN;
+   
+      // Trend vừa mới hình thành
+      if(strength == TREND_STRENGTH_UNKNOWN)
+         return TREND_STATE_STARTING;
+   
+      if(strength == TREND_STRENGTH_WEAK)
+         return TREND_STATE_STARTING;
+   
+      // Trend đang tiếp diễn
+      if(strength == TREND_STRENGTH_NORMAL)
+         return TREND_STATE_CONTINUATION;
+   
+      if(strength == TREND_STRENGTH_STRONG)
+         return TREND_STATE_CONTINUATION;
+   
+      return TREND_STATE_UNKNOWN;
    }
    
    

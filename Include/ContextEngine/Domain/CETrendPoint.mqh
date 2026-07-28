@@ -2,6 +2,7 @@
 #define __CE_TREND_POINT_MQH__
 
 #include "CETrendStrength.mqh"
+#include "CETrendState.mqh"
 
 enum CETrendType
 {
@@ -41,9 +42,9 @@ public:
 
    datetime Time;
 
-   CETrendType TrendType;
-   
-   CETrendStrength Strength;
+   CETrendType TrendType;   
+   CETrendStrength Strength;   
+   CETrendState State;
 
    CETrendPoint()
    {
@@ -51,6 +52,7 @@ public:
       Time = 0;
       TrendType = TREND_UNKNOWN;
       Strength = TREND_STRENGTH_UNKNOWN;
+      State = TREND_STATE_UNKNOWN;
    }
 };
 
