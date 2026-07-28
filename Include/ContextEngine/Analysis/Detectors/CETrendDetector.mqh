@@ -1,9 +1,9 @@
 #ifndef __CE_TREND_DETECTOR_MQH__
 #define __CE_TREND_DETECTOR_MQH__
 
-#include "../Domain/CEMarketStructureSeries.mqh"
-#include "../Domain/CETrendSeries.mqh"
-#include "ITrendDetector.mqh"
+#include "../../Domain/CEMarketStructureSeries.mqh"
+#include "../../Domain/CETrendSeries.mqh"
+#include "../Interfaces/ITrendDetector.mqh"
 
 class CETrendDetector : public ITrendDetector
 {

@@ -1,9 +1,9 @@
 #ifndef __CE_SWING_DETECTOR_MQH__
 #define __CE_SWING_DETECTOR_MQH__
 
-#include "../Domain/CEPriceSeries.mqh"
-#include "../Domain/CESwingSeries.mqh"
-#include "ISwingDetector.mqh"
+#include "../../Domain/CEPriceSeries.mqh"
+#include "../../Domain/CESwingSeries.mqh"
+#include "../Interfaces/ISwingDetector.mqh"
 
 class CESwingDetector : public ISwingDetector
 {

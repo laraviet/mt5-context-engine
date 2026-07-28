@@ -1,10 +1,10 @@
 #ifndef __CE_TREND_ANALYZER_MQH__
 #define __CE_TREND_ANALYZER_MQH__
 
-#include "../Core/ICEAnalyzer.mqh"
-#include "../Core/CEAnalysisContext.mqh"
-#include "ITrendDetector.mqh"
-#include "../Constants.mqh"
+#include "../../Core/ICEAnalyzer.mqh"
+#include "../../Core/CEAnalysisContext.mqh"
+#include "../Interfaces/ITrendDetector.mqh"
+#include "../../Constants.mqh"
 
 class CETrendAnalyzer : public ICEAnalyzer
 {

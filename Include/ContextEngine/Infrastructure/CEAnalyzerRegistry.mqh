@@ -2,10 +2,10 @@
 #define __CE_ANALYZER_REGISTRY_MQH__
 
 #include "../Core/CEAnalysisPipeline.mqh"
-#include "../Analysis/CESwingAnalyzer.mqh"
-#include "../Analysis/CEStructureAnalyzer.mqh"
-#include "../Analysis/CEMarketStructureDetector.mqh"
-#include "../Analysis/CETrendAnalyzer.mqh"
+#include "../Analysis/Analyzers/CESwingAnalyzer.mqh"
+#include "../Analysis/Analyzers/CEStructureAnalyzer.mqh"
+#include "../Analysis/Detectors/CEMarketStructureDetector.mqh"
+#include "../Analysis/Analyzers/CETrendAnalyzer.mqh"
 #include "CEDetectorRegistry.mqh"
 
 class CEAnalyzerRegistry

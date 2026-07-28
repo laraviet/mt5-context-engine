@@ -1,9 +1,9 @@
 #ifndef __CE_MARKET_STRUCTURE_DETECTOR_MQH__
 #define __CE_MARKET_STRUCTURE_DETECTOR_MQH__
 
-#include "../Domain/CESwingSeries.mqh"
-#include "../Domain/CEMarketStructureSeries.mqh"
-#include "IMarketStructureDetector.mqh"
+#include "../../Domain/CESwingSeries.mqh"
+#include "../../Domain/CEMarketStructureSeries.mqh"
+#include "../Interfaces/IMarketStructureDetector.mqh"
 
 class CEMarketStructureDetector : public IMarketStructureDetector
 {

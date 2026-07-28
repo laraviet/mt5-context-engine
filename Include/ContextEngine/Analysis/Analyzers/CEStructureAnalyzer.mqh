@@ -1,11 +1,11 @@
 #ifndef __CE_STRUCTURE_ANALYZER_MQH__
 #define __CE_STRUCTURE_ANALYZER_MQH__
 
-#include "../Core/ICEAnalyzer.mqh"
-#include "../Core/CEAnalysisContext.mqh"
-#include "../Constants.mqh"
+#include "../../Core/ICEAnalyzer.mqh"
+#include "../../Core/CEAnalysisContext.mqh"
+#include "../../Constants.mqh"
 
-#include "IMarketStructureDetector.mqh"
+#include "../Interfaces/IMarketStructureDetector.mqh"
 
 class CEStructureAnalyzer : public ICEAnalyzer
 {

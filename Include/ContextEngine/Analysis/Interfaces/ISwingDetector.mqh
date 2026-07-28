@@ -1,8 +1,8 @@
 #ifndef __I_SWING_DETECTOR_MQH__
 #define __I_SWING_DETECTOR_MQH__
 
-#include "../Domain/CEPriceSeries.mqh"
-#include "../Domain/CESwingSeries.mqh"
+#include "../../Domain/CEPriceSeries.mqh"
+#include "../../Domain/CESwingSeries.mqh"
 
 class ISwingDetector
 {

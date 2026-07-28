@@ -1,12 +1,12 @@
 #ifndef __CE_DETECTOR_REGISTRY_MQH__
 #define __CE_DETECTOR_REGISTRY_MQH__
 
-#include "../Analysis/CESwingDetector.mqh"
-#include "../Analysis/CEMarketStructureDetector.mqh"
-#include "../Analysis/CETrendDetector.mqh"
-#include "../Analysis/ISwingDetector.mqh"
-#include "../Analysis/IMarketStructureDetector.mqh"
-#include "../Analysis/ITrendDetector.mqh"
+#include "../Analysis/Detectors/CESwingDetector.mqh"
+#include "../Analysis/Detectors/CEMarketStructureDetector.mqh"
+#include "../Analysis/Detectors/CETrendDetector.mqh"
+#include "../Analysis/Interfaces/ISwingDetector.mqh"
+#include "../Analysis/Interfaces/IMarketStructureDetector.mqh"
+#include "../Analysis/Interfaces/ITrendDetector.mqh"
 
 class CEDetectorRegistry
 {
@@ -14,7 +14,7 @@ public:
 
    static ISwingDetector *CreateSwingDetector()
    {
-      return new CESwingDetector(2);
+      return new CESwingDetector();
    }
 
    static IMarketStructureDetector *CreateStructureDetector()

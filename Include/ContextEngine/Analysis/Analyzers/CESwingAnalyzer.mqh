@@ -1,9 +1,9 @@
 #ifndef __CE_SWING_ANALYZER_MQH__
 #define __CE_SWING_ANALYZER_MQH__
 
-#include "../Core/ICEAnalyzer.mqh"
-#include "../Core/CEAnalysisContext.mqh"
-#include "ISwingDetector.mqh"
+#include "../../Core/ICEAnalyzer.mqh"
+#include "../../Core/CEAnalysisContext.mqh"
+#include "../Interfaces/ISwingDetector.mqh"
 
 class CESwingAnalyzer : public ICEAnalyzer
 {
