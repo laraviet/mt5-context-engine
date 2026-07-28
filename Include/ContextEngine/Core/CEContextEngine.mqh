@@ -12,6 +12,7 @@
 #include "../Domain/CECandle.mqh"
 #include "../Constants.mqh"
 #include "../Core/CELogger.mqh"
+#include "../Config/CEEngineConfig.mqh"
 
 class CEContextEngine
 {
@@ -20,13 +21,22 @@ private:
    CEDataProvider      m_provider;
    CEAnalysisContext   m_context;
    CEAnalysisPipeline  m_pipeline;
+   CEEngineConfig m_config;
 
 public:
 
+   CEContextEngine(
+      const CEEngineConfig &config)
+   {
+      m_config = config;
+   }
+
    bool Initialize()
    {
-      CEAnalyzerRegistry::Register(m_pipeline);
-
+      CEAnalyzerRegistry::Register(
+         m_pipeline,
+         m_config);
+   
       return true;
    }
    

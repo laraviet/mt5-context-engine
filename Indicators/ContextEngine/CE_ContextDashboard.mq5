@@ -8,13 +8,17 @@
 #include <ContextEngine/UI/CEDashboardContext.mqh>
 #include <ContextEngine/UI/CEDashboardContextBuilder.mqh>
 #include <ContextEngine/Core/CEContext.mqh>
+#include <ContextEngine/Config/CEEngineConfig.mqh>
 
-CEContextEngine Engine;
 CDashboardRenderer Dashboard;
 CEContext Context;
 
 int OnInit()
-{
+{   
+   CEEngineConfig config;   
+   config.Swing.Strength = 2;
+   CEContextEngine Engine(config);
+   
    Engine.Initialize();
 
    Engine.Run();

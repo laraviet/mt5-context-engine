@@ -12,19 +12,19 @@ class CEAnalyzerRegistry
 {
 public:
 
-   static void Register(CEAnalysisPipeline &pipeline)
+   static void Register(CEAnalysisPipeline &pipeline, const CEEngineConfig &config)
    {
       pipeline.Add(
          new CESwingAnalyzer(
-            CEDetectorRegistry::CreateSwingDetector()));
+            CEDetectorRegistry::CreateSwingDetector(config)));
       
       pipeline.Add(
          new CEStructureAnalyzer(
-            CEDetectorRegistry::CreateStructureDetector()));
+            CEDetectorRegistry::CreateStructureDetector(config)));
       
       pipeline.Add(
          new CETrendAnalyzer(
-            CEDetectorRegistry::CreateTrendDetector()));
+            CEDetectorRegistry::CreateTrendDetector(config)));
    }
 };
 

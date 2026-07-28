@@ -7,29 +7,31 @@
 #include "../Analysis/Interfaces/ISwingDetector.mqh"
 #include "../Analysis/Interfaces/IMarketStructureDetector.mqh"
 #include "../Analysis/Interfaces/ITrendDetector.mqh"
+#include "../Config/CEEngineConfig.mqh"
 
 class CEDetectorRegistry
 {
 public:
 
-   static ISwingDetector *CreateSwingDetector()
+   static ISwingDetector *CreateSwingDetector(
+      const CEEngineConfig &config)
    {
-      CESwingConfig config;
-
-      config.Strength = 2;
-   
-      return new CESwingDetector(config);
+      return new CESwingDetector(
+         config.Swing);
    }
 
-   static IMarketStructureDetector *CreateStructureDetector()
+   static IMarketStructureDetector *CreateStructureDetector(
+      const CEEngineConfig &config)
    {
       return new CEMarketStructureDetector();
    }
 
-   static ITrendDetector *CreateTrendDetector()
+   static ITrendDetector *CreateTrendDetector(
+      const CEEngineConfig &config)
    {
       return new CETrendDetector();
    }
+   
 };
 
 #endif
