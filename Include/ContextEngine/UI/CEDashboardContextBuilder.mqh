@@ -3,27 +3,89 @@
 
 #include "../Core/CEAnalysisContext.mqh"
 #include "CEDashboardContext.mqh"
+#include "CETheme.mqh"
 
 class CEDashboardContextBuilder
 {
+private:
+   CETheme m_theme;
+   
 public:
 
    void Build(
       const CEAnalysisContext &analysis,
       CEDashboardContext &dashboard)
-   {
-      dashboard.Title   = "Context Engine";
-      dashboard.Version = "0.2.0";
+   {      
+      
+      CEDashboardCard card;
+   
+      //Title
+      card.Id = "TITLE";
+      card.Text = "Context Engine";
+      card.Color = m_theme.TitleColor;
+      
+      dashboard.Add(card);
+      
+      //Version
+      card.Id = "VERSION";
+      card.Text = "0.2.0";
+      card.Color = m_theme.TextColor;
+      
+      dashboard.Add(card);
+      
+      //Symbol
+      card.Id = "SYMBOL";
+      card.Text = analysis.Symbol;
+      card.Color = m_theme.TextColor;
+      
+      dashboard.Add(card);
+      
+      //timeframe
+      card.Id = "TIMEFRAME";
+      card.Text = EnumToString(analysis.Timeframe);
+      card.Color = m_theme.TextColor;
+      
+      dashboard.Add(card);
+      
+      //status
+      card.Id = "STATUS";
+      card.Text = analysis.Status;
+      card.Color = m_theme.SuccessColor;
+      
+      dashboard.Add(card);
+      
+      //swing
 
-      dashboard.Symbol    = analysis.Symbol;
-      dashboard.Timeframe = EnumToString(analysis.Timeframe);
-      dashboard.Status    = analysis.Status;
+      card.Id = "SWING";
+      card.Text = IntegerToString(
+         analysis.SwingSeries.Count());
+      
+      card.Color = m_theme.TextColor;
+      
+      dashboard.Add(card);
+      
+      //structure
 
-      dashboard.SwingCount     = analysis.SwingSeries.Count();
-      dashboard.StructureCount = analysis.StructureSeries.Count();
-      dashboard.TrendCount     = analysis.TrendSeries.Count();
-
-      dashboard.TrendText = "UNKNOWN";
+      card.Id = "STRUCTURE";
+      card.Text = IntegerToString(
+         analysis.StructureSeries.Count());
+      
+      card.Color = m_theme.TextColor;
+      
+      dashboard.Add(card);
+      
+      //trend
+      card.Id = "TREND";
+      card.Text = IntegerToString(
+         analysis.TrendSeries.Count());
+      
+      card.Color = m_theme.TextColor;
+      
+      dashboard.Add(card);
+      
+      Print(
+         "Dashboard Cards = ",
+         dashboard.Count());
    }
 };
 

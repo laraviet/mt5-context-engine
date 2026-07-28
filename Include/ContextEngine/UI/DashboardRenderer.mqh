@@ -67,6 +67,28 @@ private:
          clr);
    
       m_y += m_lineHeight;
+   }
+   
+   void RenderCards(
+      const CEDashboardContext &context)
+   {
+      for(int i = 0; i < context.Count(); i++)
+      {
+         CEDashboardCard card =
+            context.At(i);
+   
+         RenderCard(card,i);
+      }
+   }
+   
+   void RenderCard(
+      const CEDashboardCard &card,
+      const int index)
+   {
+      DrawLine(
+         card.Id,
+         card.Text,
+         card.Color);       
    }                 
 
 public:
@@ -103,45 +125,7 @@ public:
    
       Begin();
    
-      DrawLine(
-         "Title",
-         "Context Engine",
-         m_theme.TitleColor);
-   
-      DrawLine(
-         "Version",
-         "Version : 0.2.0",
-          m_theme.TextColor);
-      
-      DrawLine(
-         "Symbol",
-         "Symbol : " + context.Symbol,
-          m_theme.TextColor);
-      
-      DrawLine(
-         "TF",
-         "TF : " + context.Timeframe,
-          m_theme.TextColor);
-         
-      DrawLine(
-         "Status",
-         "Status : " + context.Status,
-          m_theme.SuccessColor);
-          
-      DrawLine(
-         "Swing",
-         "Swing : " + IntegerToString(context.SwingCount),
-         m_theme.TextColor);
-      
-      DrawLine(
-         "Structure",
-         "Structure : " + IntegerToString(context.StructureCount),
-         m_theme.TextColor);
-      
-      DrawLine(
-         "Trend",
-         "Trend : " + IntegerToString(context.TrendCount),
-         m_theme.TextColor);
+      RenderCards(context);
    
       ChartRedraw();
    }
