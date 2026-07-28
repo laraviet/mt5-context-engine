@@ -10,6 +10,8 @@
 #include <ContextEngine/Core/CEContext.mqh>
 #include <ContextEngine/Config/CEEngineConfig.mqh>
 
+#include <ContextEngine/Domain/CETrendSeries.mqh>
+
 CDashboardRenderer Dashboard;
 CEContext Context;
 
@@ -29,6 +31,20 @@ int OnInit()
    builder.Build(
       Engine.Context(),
       dashboard);
+      
+   CETrendSeries trends;
+   trends = Engine.Context().TrendSeries;
+   
+   for(int i = 0; i < trends.Count(); i++)
+   {
+      CETrendPoint point =
+         trends.At(i);
+   
+      Print(
+         TrendTypeToString(point.TrendType),
+         " / ",
+         TrendStrengthToString(point.Strength));
+   }
    
    Dashboard.Update(dashboard);   
 

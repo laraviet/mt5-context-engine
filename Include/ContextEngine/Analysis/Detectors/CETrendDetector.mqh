@@ -4,6 +4,7 @@
 #include "../../Domain/CEMarketStructureSeries.mqh"
 #include "../../Domain/CETrendSeries.mqh"
 #include "../Interfaces/ITrendDetector.mqh"
+#include "../../Domain/CETrendStrength.mqh"
 
 class CETrendDetector : public ITrendDetector
 {
@@ -23,9 +24,16 @@ public:
    
          point.Index = structure.Index;
          point.Time  = structure.Time;
-         point.TrendType = DetectTrend(
-            structures,
-            i);
+         point.TrendType =
+            DetectTrend(
+               structures,
+               i);
+         
+         point.Strength =
+            DetectStrength(
+               structures,
+               i,
+               point.TrendType);
    
          trends.Add(point);
       }
@@ -65,6 +73,98 @@ private:
    
       return TREND_UNKNOWN;
    }
+   
+   CETrendStrength DetectStrength(
+      const CEMarketStructureSeries &structures,
+      const int index,
+      const CETrendType trend) const
+   {
+      switch(trend)
+      {
+         case TREND_UP:
+            return DetectBullStrength(
+               structures,
+               index);
+   
+         case TREND_DOWN:
+            return DetectBearStrength(
+               structures,
+               index);
+   
+         default:
+            return TREND_STRENGTH_UNKNOWN;
+      }
+   }
+   
+   CETrendStrength DetectBullStrength(
+      const CEMarketStructureSeries &structures,
+      const int index) const
+   {
+      int count = 0;
+   
+      for(int i = index; i >= 0; i--)
+      {
+         CEStructureType type =
+            structures.At(i).StructureType;
+   
+         if(type == STRUCTURE_HH ||
+            type == STRUCTURE_HL)
+         {
+            count++;
+         }
+         else
+         {
+            break;
+         }
+      }
+   
+      if(count >= 6)
+         return TREND_STRENGTH_STRONG;
+   
+      if(count >= 4)
+         return TREND_STRENGTH_NORMAL;
+   
+      if(count >= 2)
+         return TREND_STRENGTH_WEAK;
+   
+      return TREND_STRENGTH_UNKNOWN;
+   }
+   
+   CETrendStrength DetectBearStrength(
+      const CEMarketStructureSeries &structures,
+      const int index) const
+   {
+      int count = 0;
+   
+      for(int i = index; i >= 0; i--)
+      {
+         CEStructureType type =
+            structures.At(i).StructureType;
+   
+         if(type == STRUCTURE_LL ||
+            type == STRUCTURE_LH)
+         {
+            count++;
+         }
+         else
+         {
+            break;
+         }
+      }
+   
+      if(count >= 6)
+         return TREND_STRENGTH_STRONG;
+   
+      if(count >= 4)
+         return TREND_STRENGTH_NORMAL;
+   
+      if(count >= 2)
+         return TREND_STRENGTH_WEAK;
+   
+      return TREND_STRENGTH_UNKNOWN;
+   }
+   
+   
 };
 
 #endif
