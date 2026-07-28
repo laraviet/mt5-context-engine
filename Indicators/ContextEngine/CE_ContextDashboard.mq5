@@ -17,14 +17,7 @@ int OnInit()
 
    Engine.Run();
    
-   Dashboard.Update(Context);
-   
-   CEAnalysisContext m_context;
-   m_context = Engine.Context();
-   
-   Print(
-      "Structure Count = ",
-      m_context.StructureSeries.Count());
+   Dashboard.Update(Context);   
 
    return(INIT_SUCCEEDED);
 }

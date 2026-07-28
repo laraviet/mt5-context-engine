@@ -2,6 +2,8 @@
 #define __CE_ANALYSIS_PIPELINE_MQH__
 
 #include "ICEAnalyzer.mqh"
+#include "../Constants.mqh"
+#include "../Core/CELogger.mqh"
 
 class CEAnalysisPipeline
 {
@@ -11,7 +13,7 @@ private:
 
 public:
 
-   void CEAnalyzerPipeline()
+   CEAnalysisPipeline()
    {
       ArrayResize(m_analyzers,0);
    }
@@ -38,6 +40,10 @@ public:
       {
          if(CheckPointer(m_analyzers[i])==POINTER_INVALID)
             continue;
+            
+         CELogger::Info(
+            CE_MODULE_ANALYZER,
+            "Run " + m_analyzers[i].Name());
    
          m_analyzers[i].Analyze(context);
       }

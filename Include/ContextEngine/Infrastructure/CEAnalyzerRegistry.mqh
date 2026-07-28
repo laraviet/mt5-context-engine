@@ -4,6 +4,7 @@
 #include "../Core/CEAnalysisPipeline.mqh"
 #include "../Analysis/CESwingAnalyzer.mqh"
 #include "../Analysis/CEStructureAnalyzer.mqh"
+#include "../Analysis/CETrendAnalyzer.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -13,6 +14,7 @@ public:
    {
       pipeline.Add(new CESwingAnalyzer());
       pipeline.Add(new CEStructureAnalyzer());
+      pipeline.Add(new CETrendAnalyzer());
    }
 };
 
