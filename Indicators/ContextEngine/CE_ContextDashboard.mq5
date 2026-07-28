@@ -5,6 +5,8 @@
 
 #include <ContextEngine/Core/CEContextEngine.mqh>
 #include <ContextEngine/UI/DashboardRenderer.mqh>
+#include <ContextEngine/UI/CEDashboardContext.mqh>
+#include <ContextEngine/UI/CEDashboardContextBuilder.mqh>
 #include <ContextEngine/Core/CEContext.mqh>
 
 CEContextEngine Engine;
@@ -17,7 +19,14 @@ int OnInit()
 
    Engine.Run();
    
-   Dashboard.Update(Context);   
+   CEDashboardContext dashboard;
+   CEDashboardContextBuilder builder;
+   
+   builder.Build(
+      Engine.Context(),
+      dashboard);
+   
+   Dashboard.Update(dashboard);   
 
    return(INIT_SUCCEEDED);
 }

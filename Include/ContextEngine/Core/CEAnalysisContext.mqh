@@ -5,8 +5,9 @@
 #include "../Domain/CESwingSeries.mqh"
 #include "../Domain/CEMarketStructureSeries.mqh"
 #include "../Domain/CETrendSeries.mqh"
+#include "CEContext.mqh"
 
-class CEAnalysisContext
+class CEAnalysisContext : public CEContext
 {
 public:
 

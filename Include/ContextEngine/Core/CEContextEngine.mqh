@@ -36,6 +36,8 @@ public:
          CE_MODULE_ENGINE,
          "Load");
          
+      m_context.UpdateChart();
+         
       return m_provider.GetPriceSeries(
          _Symbol,
          _Period,

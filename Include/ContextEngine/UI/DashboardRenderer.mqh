@@ -7,7 +7,7 @@
 #include <ContextEngine/Constants.mqh>
 #include <ContextEngine/UI/CETheme.mqh>
 #include <ContextEngine/Core/CELogger.mqh>
-#include <ContextEngine/Core/CEContext.mqh>
+#include "CEDashboardContext.mqh";
 
 class CDashboardRenderer
 {
@@ -95,7 +95,7 @@ public:
       return true;
    }
 
-   void Update(const CEContext &context)
+   void Update(const CEDashboardContext  &context)
    {
       CELogger::Info(
          CE_MODULE_DASHBOARD,
@@ -120,13 +120,28 @@ public:
       
       DrawLine(
          "TF",
-         "TF : " + EnumToString(context.Timeframe),
+         "TF : " + context.Timeframe,
           m_theme.TextColor);
          
       DrawLine(
          "Status",
          "Status : " + context.Status,
           m_theme.SuccessColor);
+          
+      DrawLine(
+         "Swing",
+         "Swing : " + IntegerToString(context.SwingCount),
+         m_theme.TextColor);
+      
+      DrawLine(
+         "Structure",
+         "Structure : " + IntegerToString(context.StructureCount),
+         m_theme.TextColor);
+      
+      DrawLine(
+         "Trend",
+         "Trend : " + IntegerToString(context.TrendCount),
+         m_theme.TextColor);
    
       ChartRedraw();
    }
