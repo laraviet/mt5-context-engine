@@ -1,3 +1,5 @@
+#include "CECandle.mqh"
+
 class CEPriceSeries
 {
 private:

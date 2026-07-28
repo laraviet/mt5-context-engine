@@ -7,6 +7,7 @@
 #include <ContextEngine/Domain/CEPriceSeries.mqh>
 #include <ContextEngine/Domain/CESwingPoint.mqh>
 #include <ContextEngine/Domain/CESwingSeries.mqh>
+#include <ContextEngine/Constants.mqh>
 #include "../Core/CELogger.mqh"
 
 class CESwingAnalyzer : public ICEAnalyzer

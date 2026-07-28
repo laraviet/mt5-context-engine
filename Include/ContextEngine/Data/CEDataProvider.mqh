@@ -2,6 +2,7 @@
 #define __CE_DATA_PROVIDER_MQH__
 
 #include <ContextEngine/Domain/CECandle.mqh>
+#include <ContextEngine/Domain/CEPriceSeries.mqh>
 
 class CEDataProvider
 {
@@ -59,6 +60,28 @@ public:
          candles[i].RealVolume = rates[i].real_volume;
          candles[i].Spread     = rates[i].spread;
       }
+   
+      return true;
+   }
+   
+   bool GetPriceSeries(
+      const string symbol,
+      ENUM_TIMEFRAMES timeframe,
+      const int count,
+      CEPriceSeries &series)
+   {
+      CECandle candles[];
+   
+      if(!GetCandles(
+            symbol,
+            timeframe,
+            count,
+            candles))
+      {
+         return false;
+      }
+   
+      series.Set(candles);
    
       return true;
    }
