@@ -4,28 +4,19 @@
 #include "../../Domain/CEPriceSeries.mqh"
 #include "../../Domain/CESwingSeries.mqh"
 #include "../Interfaces/ISwingDetector.mqh"
+#include "../../Config/CESwingConfig.mqh"
 
 class CESwingDetector : public ISwingDetector
 {
 private:
 
-   int m_strength;
+   CESwingConfig m_config;
 
 public:
 
-   CESwingDetector(const int strength = 2)
+   CESwingDetector(const CESwingConfig &config)
    {
-      m_strength = strength;
-   }
-
-   void SetStrength(const int strength)
-   {
-      m_strength = MathMax(1, strength);
-   }
-
-   int Strength() const
-   {
-      return m_strength;
+      m_config = config;
    }
 
    int Detect(
@@ -72,8 +63,8 @@ private:
       const CEPriceSeries &series,
       const int index) const
    {
-      return index >= m_strength &&
-             index < series.Count() - m_strength;
+      return index >= m_config.Strength &&
+             index < series.Count() - m_config.Strength;
    }
 
    bool IsSwingHigh(
@@ -85,7 +76,7 @@ private:
 
       const CECandle current = series.At(index);
 
-      for(int i=1;i<=m_strength;i++)
+      for(int i=1;i<=m_config.Strength;i++)
       {
          if(series.At(index-i).High >= current.High)
             return false;
@@ -106,7 +97,7 @@ private:
 
       const CECandle current = series.At(index);
 
-      for(int i=1;i<=m_strength;i++)
+      for(int i=1;i<=m_config.Strength;i++)
       {
          if(series.At(index-i).Low <= current.Low)
             return false;

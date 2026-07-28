@@ -14,7 +14,11 @@ public:
 
    static ISwingDetector *CreateSwingDetector()
    {
-      return new CESwingDetector();
+      CESwingConfig config;
+
+      config.Strength = 2;
+   
+      return new CESwingDetector(config);
    }
 
    static IMarketStructureDetector *CreateStructureDetector()
