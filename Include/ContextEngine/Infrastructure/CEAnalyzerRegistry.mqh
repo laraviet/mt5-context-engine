@@ -3,6 +3,7 @@
 
 #include "../Core/CEAnalysisPipeline.mqh"
 #include "../Analysis/CESwingAnalyzer.mqh"
+#include "../Analysis/CEStructureAnalyzer.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -11,6 +12,7 @@ public:
    static void Register(CEAnalysisPipeline &pipeline)
    {
       pipeline.Add(new CESwingAnalyzer());
+      pipeline.Add(new CEStructureAnalyzer());
    }
 };
 

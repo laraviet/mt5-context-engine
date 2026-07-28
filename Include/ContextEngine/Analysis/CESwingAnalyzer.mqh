@@ -21,7 +21,7 @@ public:
 
    int Priority() const override
    {
-      return 100;
+      return CE_PRIORITY_SWING;
    }
 
    bool CESwingAnalyzer::Analyze(

@@ -10,6 +10,8 @@
 
 #include "../Domain/CEPriceSeries.mqh"
 #include "../Domain/CECandle.mqh"
+#include "../Constants.mqh"
+#include "../Core/CELogger.mqh"
 
 class CEContextEngine
 {
@@ -27,23 +29,37 @@ public:
 
       return true;
    }
+   
+   bool Load()
+   {
+      CELogger::Info(
+         CE_MODULE_ENGINE,
+         "Load");
+         
+      return m_provider.GetPriceSeries(
+         _Symbol,
+         _Period,
+         300,
+         m_context.PriceSeries);
+   }
+   
+   bool Analyze()
+   {
+      CELogger::Info(
+         CE_MODULE_ENGINE,
+         "Analyze");
+      return m_pipeline.Run(m_context);
+   }
 
    bool Run()
    {
-      if(!m_provider.GetPriceSeries(
-            _Symbol,
-            _Period,
-            300,
-            m_context.PriceSeries))
-      {
+      if(!Load())
          return false;
-      }
 
-      //-------------------------------------
-      // Execute pipeline
-      //-------------------------------------
-
-      return m_pipeline.Run(m_context);
+      if(!Analyze())
+         return false;
+   
+      return true;
    }
 
    CEAnalysisContext Context()

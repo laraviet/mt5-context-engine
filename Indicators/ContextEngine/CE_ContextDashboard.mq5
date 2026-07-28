@@ -5,15 +5,26 @@
 
 #include <ContextEngine/Core/CEContextEngine.mqh>
 #include <ContextEngine/UI/DashboardRenderer.mqh>
+#include <ContextEngine/Core/CEContext.mqh>
 
 CEContextEngine Engine;
 CDashboardRenderer Dashboard;
+CEContext Context;
 
 int OnInit()
 {
    Engine.Initialize();
 
    Engine.Run();
+   
+   Dashboard.Update(Context);
+   
+   CEAnalysisContext m_context;
+   m_context = Engine.Context();
+   
+   Print(
+      "Structure Count = ",
+      m_context.StructureSeries.Count());
 
    return(INIT_SUCCEEDED);
 }
