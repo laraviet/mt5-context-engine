@@ -5,16 +5,22 @@
 #include "../Core/CEAnalysisContext.mqh"
 #include "../Constants.mqh"
 
-#include "CEMarketStructureDetector.mqh"
+#include "IMarketStructureDetector.mqh"
 
 class CEStructureAnalyzer : public ICEAnalyzer
 {
 private:
 
-   CEMarketStructureDetector m_detector;
+   IMarketStructureDetector *m_detector;
 
 public:
 
+   CEStructureAnalyzer(
+      IMarketStructureDetector *detector)
+   {
+      m_detector = detector;
+   }
+   
    virtual string Name() const
    {
       return "Structure Analyzer";
@@ -31,6 +37,13 @@ public:
 
       return true;
    }
+   
+   ~CEStructureAnalyzer()
+   {
+      if(CheckPointer(m_detector)!=POINTER_INVALID)
+         delete m_detector;
+   }
+   
 };
 
 #endif

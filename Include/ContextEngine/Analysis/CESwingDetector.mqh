@@ -3,8 +3,9 @@
 
 #include "../Domain/CEPriceSeries.mqh"
 #include "../Domain/CESwingSeries.mqh"
+#include "ISwingDetector.mqh"
 
-class CESwingDetector
+class CESwingDetector : public ISwingDetector
 {
 private:
 

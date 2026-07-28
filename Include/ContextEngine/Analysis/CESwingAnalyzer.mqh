@@ -3,19 +3,19 @@
 
 #include "../Core/ICEAnalyzer.mqh"
 #include "../Core/CEAnalysisContext.mqh"
-#include "CESwingDetector.mqh"
+#include "ISwingDetector.mqh"
 
 class CESwingAnalyzer : public ICEAnalyzer
 {
 private:
 
-   CESwingDetector m_detector;
+   ISwingDetector *m_detector;
 
 public:
 
-   CESwingAnalyzer()
-      : m_detector(2)
+   CESwingAnalyzer(ISwingDetector *detector)
    {
+      m_detector = detector;
    }
 
    virtual string Name() const override
@@ -36,6 +36,12 @@ public:
          context.SwingSeries);
 
       return true;
+   }
+   
+   ~CESwingAnalyzer()
+   {
+      if(CheckPointer(m_detector)!=POINTER_INVALID)
+         delete m_detector;
    }
 };
 

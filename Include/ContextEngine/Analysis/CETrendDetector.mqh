@@ -3,8 +3,9 @@
 
 #include "../Domain/CEMarketStructureSeries.mqh"
 #include "../Domain/CETrendSeries.mqh"
+#include "ITrendDetector.mqh"
 
-class CETrendDetector
+class CETrendDetector : public ITrendDetector
 {
 public:
 

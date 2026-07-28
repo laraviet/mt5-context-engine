@@ -3,8 +3,9 @@
 
 #include "../Domain/CESwingSeries.mqh"
 #include "../Domain/CEMarketStructureSeries.mqh"
+#include "IMarketStructureDetector.mqh"
 
-class CEMarketStructureDetector
+class CEMarketStructureDetector : public IMarketStructureDetector
 {
 public:
 

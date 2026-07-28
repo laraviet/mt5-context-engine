@@ -3,16 +3,21 @@
 
 #include "../Core/ICEAnalyzer.mqh"
 #include "../Core/CEAnalysisContext.mqh"
-#include "CETrendDetector.mqh"
+#include "ITrendDetector.mqh"
 #include "../Constants.mqh"
 
 class CETrendAnalyzer : public ICEAnalyzer
 {
 private:
 
-   CETrendDetector m_detector;
+   ITrendDetector *m_detector;
 
 public:
+
+   CETrendAnalyzer(ITrendDetector *detector)
+   {
+      m_detector = detector;
+   }
 
    virtual string Name() const
    {
@@ -31,6 +36,12 @@ public:
          context.TrendSeries);
 
       return true;
+   }
+   
+   ~CETrendAnalyzer()
+   {
+      if(CheckPointer(m_detector)!=POINTER_INVALID)
+         delete m_detector;
    }
 };
 
