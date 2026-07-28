@@ -5,10 +5,20 @@
 #include "../../Domain/CETrendSeries.mqh"
 #include "../Interfaces/ITrendDetector.mqh"
 #include "../../Domain/CETrendStrength.mqh"
+#include "../../Config/CETrendConfig.mqh"
 
 class CETrendDetector : public ITrendDetector
 {
 public:
+
+   CETrendDetector()
+   {
+   }
+   
+   CETrendDetector(const CETrendConfig &config)
+   {
+      m_config = config;
+   }
 
    int Detect(
       const CEMarketStructureSeries &structures,
@@ -43,6 +53,8 @@ public:
 
 private:
 
+   CETrendConfig m_config;
+   
    CETrendType DetectTrend(
       const CEMarketStructureSeries &structures,
       const int index) const
@@ -118,13 +130,13 @@ private:
          }
       }
    
-      if(count >= 6)
+      if(count >= m_config.StrongThreshold)
          return TREND_STRENGTH_STRONG;
    
-      if(count >= 4)
+      if(count >= m_config.NormalThreshold)
          return TREND_STRENGTH_NORMAL;
    
-      if(count >= 2)
+      if(count >= m_config.WeakThreshold)
          return TREND_STRENGTH_WEAK;
    
       return TREND_STRENGTH_UNKNOWN;
@@ -152,13 +164,13 @@ private:
          }
       }
    
-      if(count >= 6)
+      if(count >= m_config.StrongThreshold)
          return TREND_STRENGTH_STRONG;
    
-      if(count >= 4)
+      if(count >= m_config.NormalThreshold)
          return TREND_STRENGTH_NORMAL;
    
-      if(count >= 2)
+      if(count >= m_config.WeakThreshold)
          return TREND_STRENGTH_WEAK;
    
       return TREND_STRENGTH_UNKNOWN;

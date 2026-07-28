@@ -17,8 +17,7 @@ CEContext Context;
 
 int OnInit()
 {   
-   CEEngineConfig config;   
-   config.Swing.Strength = 2;
+   CEEngineConfig config;
    CEContextEngine Engine(config);
    
    Engine.Initialize();

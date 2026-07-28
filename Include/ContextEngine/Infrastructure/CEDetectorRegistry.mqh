@@ -8,6 +8,7 @@
 #include "../Analysis/Interfaces/IMarketStructureDetector.mqh"
 #include "../Analysis/Interfaces/ITrendDetector.mqh"
 #include "../Config/CEEngineConfig.mqh"
+#include "../Config/CETrendConfig.mqh"
 
 class CEDetectorRegistry
 {
@@ -29,7 +30,7 @@ public:
    static ITrendDetector *CreateTrendDetector(
       const CEEngineConfig &config)
    {
-      return new CETrendDetector();
+      return new CETrendDetector(config.Trend);
    }
    
 };

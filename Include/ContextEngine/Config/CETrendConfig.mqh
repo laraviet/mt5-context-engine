@@ -5,13 +5,15 @@ class CETrendConfig
 {
 public:
 
-   int Reserved;
-
-public:
+   int WeakThreshold;
+   int NormalThreshold;
+   int StrongThreshold;
 
    CETrendConfig()
    {
-      Reserved = 0;
+      WeakThreshold   = 2;
+      NormalThreshold = 4;
+      StrongThreshold = 6;
    }
 };
 
