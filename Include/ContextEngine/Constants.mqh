@@ -9,6 +9,7 @@
 #define CE_STAGE_TREND        300
 #define CE_STAGE_SMARTMONEY   400
 #define CE_STAGE_CONFIRMATION 500
+#define CE_STAGE_SUMMARY      900
 
 enum CEAnalyzerPriority
 {
@@ -17,5 +18,6 @@ enum CEAnalyzerPriority
    CE_PRIORITY_TREND     = 30,
    CE_PRIORITY_BOS       = 40,
    CE_PRIORITY_CHOCH     = 50,
-   CE_PRIORITY_FVG       = 60
+   CE_PRIORITY_FVG       = 60,
+   CE_PRIORITY_SUMMARY   = 90
 };

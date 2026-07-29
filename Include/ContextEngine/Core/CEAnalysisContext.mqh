@@ -6,6 +6,7 @@
 #include "../Domain/CEMarketStructureSeries.mqh"
 #include "../Domain/CETrendSeries.mqh"
 #include "CEContext.mqh"
+#include "../Domain/CEContextSummary.mqh"
 
 class CEAnalysisContext : public CEContext
 {
@@ -18,6 +19,8 @@ public:
    CEMarketStructureSeries StructureSeries;
 
    CETrendSeries TrendSeries;
+   
+   CEContextSummary Summary;
 
 public:
 
@@ -28,6 +31,8 @@ public:
       StructureSeries.Clear();
 
       TrendSeries.Clear();
+      
+      Summary.Reset();
    }
 };
 

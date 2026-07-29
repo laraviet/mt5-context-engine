@@ -10,6 +10,8 @@
 #include "../Factories/CESwingAnalyzerFactory.mqh"
 #include "../Factories/CEStructureAnalyzerFactory.mqh"
 #include "../Factories/CETrendAnalyzerFactory.mqh"
+#include "../Analysis/Analyzers/CEContextSummaryAnalyzer.mqh"
+#include "../Factories/CEContextSummaryAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -34,6 +36,9 @@ public:
 
       m_pipeline.Add(
          CETrendAnalyzerFactory::Create(config));
+         
+      m_pipeline.Add(
+         CEContextSummaryAnalyzerFactory::Create(config));
 
       return true;
    }
