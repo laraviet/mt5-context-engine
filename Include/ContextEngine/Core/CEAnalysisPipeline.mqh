@@ -10,6 +10,39 @@ class CEAnalysisPipeline
 private:
 
    ICEAnalyzer *m_analyzers[];
+   
+   void Sort()
+   {
+      int n = ArraySize(m_analyzers);
+   
+      for(int i = 0; i < n - 1; i++)
+      {
+         for(int j = i + 1; j < n; j++)
+         {
+            ICEAnalyzer *left  = m_analyzers[i];
+            ICEAnalyzer *right = m_analyzers[j];
+   
+            bool swap = false;
+   
+            if(left.Stage() > right.Stage())
+            {
+               swap = true;
+            }
+            else if(left.Stage() == right.Stage())
+            {
+               if(left.Priority() > right.Priority())
+                  swap = true;
+            }
+   
+            if(swap)
+            {
+               ICEAnalyzer *tmp = m_analyzers[i];
+               m_analyzers[i]   = m_analyzers[j];
+               m_analyzers[j]   = tmp;
+            }
+         }
+      }
+   }
 
 public:
 
@@ -30,6 +63,8 @@ public:
       ArrayResize(m_analyzers,n+1);
    
       m_analyzers[n]=analyzer;
+      
+      Sort();
    
       return true;
    }

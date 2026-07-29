@@ -4,6 +4,12 @@
 #define CE_MODULE_ANALYZER  "Analyzer"
 #define CE_MODULE_ENGINE    "Engine"
 
+#define CE_STAGE_SWING        100
+#define CE_STAGE_STRUCTURE    200
+#define CE_STAGE_TREND        300
+#define CE_STAGE_SMARTMONEY   400
+#define CE_STAGE_CONFIRMATION 500
+
 enum CEAnalyzerPriority
 {
    CE_PRIORITY_SWING     = 10,

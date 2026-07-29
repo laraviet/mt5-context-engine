@@ -28,6 +28,11 @@ public:
    {
       return CE_PRIORITY_SWING;
    }
+   
+   int Stage() const override
+   {
+      return CE_STAGE_SWING;
+   }
 
    virtual bool Analyze(
       CEAnalysisContext &context) override

@@ -30,6 +30,11 @@ public:
    {
       return CE_PRIORITY_STRUCTURE;
    }
+   
+   int Stage() const override
+   {
+      return CE_STAGE_STRUCTURE;
+   }
 
    virtual bool Analyze(CEAnalysisContext &context)
    {

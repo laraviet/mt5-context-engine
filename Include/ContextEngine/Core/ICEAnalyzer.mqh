@@ -12,6 +12,8 @@ public:
    virtual string Name() const = 0;
 
    virtual int Priority() const = 0;
+   
+   virtual int Stage() const = 0;
 
    virtual bool Analyze(
       CEAnalysisContext &context) = 0;

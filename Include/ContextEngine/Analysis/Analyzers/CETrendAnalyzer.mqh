@@ -28,6 +28,11 @@ public:
    {
       return CE_PRIORITY_TREND;
    }
+   
+   int Stage() const override
+   {
+      return CE_STAGE_TREND;
+   }
 
    virtual bool Analyze(CEAnalysisContext &context)
    {
