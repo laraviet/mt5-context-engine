@@ -4,10 +4,16 @@
 #include "../../Core/ICEAnalyzer.mqh"
 #include "../../Core/CEAnalysisContext.mqh"
 #include "../../Constants.mqh"
+#include "../../Config/CEEngineConfig.mqh"
 
 class CEScoreAnalyzer : public ICEAnalyzer
 {
 public:
+
+   CEScoreAnalyzer(const CEEngineConfig &config)
+   {
+      m_config = &config;
+   }
 
    virtual string Name() const override
    {

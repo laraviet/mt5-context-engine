@@ -37,7 +37,7 @@ public:
    virtual bool Analyze(CEAnalysisContext &context)
    {
       m_detector.Detect(
-         context.StructureSeries,
+         context.BOSSeries,
          context.TrendSeries);
 
       return true;

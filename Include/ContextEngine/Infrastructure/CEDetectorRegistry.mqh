@@ -32,7 +32,7 @@ public:
    static ITrendDetector *CreateTrendDetector(
       const CEEngineConfig &config)
    {
-      return new CETrendDetector(config.Trend);
+      return new CETrendDetector();
    }
    
    static IBOSDetector *CreateBOSDetector(

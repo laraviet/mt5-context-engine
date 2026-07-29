@@ -1,212 +1,107 @@
 ﻿#ifndef __CE_TREND_DETECTOR_MQH__
 #define __CE_TREND_DETECTOR_MQH__
 
-#include "../../Domain/CEMarketStructureSeries.mqh"
+#include "../../Domain/CEBOSSeries.mqh"
 #include "../../Domain/CETrendSeries.mqh"
-#include "../Interfaces/ITrendDetector.mqh"
 #include "../../Domain/CETrendStrength.mqh"
-#include "../../Config/CETrendConfig.mqh"
+#include "../../Domain/CEBOSType.mqh"
+
+#include "../Interfaces/ITrendDetector.mqh"
 
 class CETrendDetector : public ITrendDetector
 {
 public:
 
-   CETrendDetector()
-   {
-   }
-   
-   CETrendDetector(const CETrendConfig &config)
-   {
-      m_config = config;
-   }
-
-   int Detect(
-      const CEMarketStructureSeries &structures,
+   virtual int Detect(
+      const CEBOSSeries &bos,
       CETrendSeries &trends)
    {
       trends.Clear();
-   
-      for(int i = 0; i < structures.Count(); i++)
+
+      for(int i=0;i<bos.Count();i++)
       {
-         CEMarketStructurePoint structure = structures.At(i);
-   
+         CEBOSPoint current = bos.At(i);
+
          CETrendPoint point;
-   
-         point.Index = structure.Index;
-         point.Time  = structure.Time;
+
+         point.Index = current.Index;
+         point.Time  = current.Time;
+
          point.TrendType =
-            DetectTrend(
-               structures,
-               i);
-         
+            DetectTrend(current);
+
          point.Strength =
             DetectStrength(
-               structures,
+               bos,
                i,
-               point.TrendType);           
-         
-         point.State =
-            DetectState(
-               point.TrendType,
-               point.Strength);
-               
+               point.TrendType);
+
          trends.Add(point);
       }
-   
+
       return trends.Count();
    }
 
 private:
 
-   CETrendConfig m_config;
-   
    CETrendType DetectTrend(
-      const CEMarketStructureSeries &structures,
-      const int index) const
+      const CEBOSPoint &bos) const
    {
-      CEMarketStructurePoint current = structures.At(index);
-   
-      if(current.StructureType == STRUCTURE_HH)
+      switch(bos.Type)
       {
-         for(int i = index - 1; i >= 0; i--)
-         {
-            CEMarketStructurePoint previous = structures.At(i);
-   
-            if(previous.StructureType == STRUCTURE_HL)
-               return TREND_UP;
-         }
+         case BOS_BULLISH:
+
+            return TREND_UP;
+
+         case BOS_BEARISH:
+
+            return TREND_DOWN;
+
+         default:
+
+            return TREND_UNKNOWN;
       }
-   
-      if(current.StructureType == STRUCTURE_LL)
-      {
-         for(int i = index - 1; i >= 0; i--)
-         {
-            CEMarketStructurePoint previous = structures.At(i);
-   
-            if(previous.StructureType == STRUCTURE_LH)
-               return TREND_DOWN;
-         }
-      }
-   
-      return TREND_UNKNOWN;
    }
-   
+
    CETrendStrength DetectStrength(
-      const CEMarketStructureSeries &structures,
+      const CEBOSSeries &bos,
       const int index,
       const CETrendType trend) const
    {
-      switch(trend)
-      {
-         case TREND_UP:
-            return DetectBullStrength(
-               structures,
-               index);
-   
-         case TREND_DOWN:
-            return DetectBearStrength(
-               structures,
-               index);
-   
-         default:
-            return TREND_STRENGTH_UNKNOWN;
-      }
-   }
-   
-   CETrendStrength DetectBullStrength(
-      const CEMarketStructureSeries &structures,
-      const int index) const
-   {
       int count = 0;
-   
-      for(int i = index; i >= 0; i--)
+
+      for(int i=index;i>=0;i--)
       {
-         CEStructureType type =
-            structures.At(i).StructureType;
-   
-         if(type == STRUCTURE_HH ||
-            type == STRUCTURE_HL)
+         CEBOSPoint point = bos.At(i);
+
+         if(trend==TREND_UP &&
+            point.Type==BOS_BULLISH)
          {
             count++;
+            continue;
          }
-         else
-         {
-            break;
-         }
-      }
-   
-      if(count >= m_config.StrongThreshold)
-         return TREND_STRENGTH_STRONG;
-   
-      if(count >= m_config.NormalThreshold)
-         return TREND_STRENGTH_NORMAL;
-   
-      if(count >= m_config.WeakThreshold)
-         return TREND_STRENGTH_WEAK;
-   
-      return TREND_STRENGTH_UNKNOWN;
-   }
-   
-   CETrendStrength DetectBearStrength(
-      const CEMarketStructureSeries &structures,
-      const int index) const
-   {
-      int count = 0;
-   
-      for(int i = index; i >= 0; i--)
-      {
-         CEStructureType type =
-            structures.At(i).StructureType;
-   
-         if(type == STRUCTURE_LL ||
-            type == STRUCTURE_LH)
+
+         if(trend==TREND_DOWN &&
+            point.Type==BOS_BEARISH)
          {
             count++;
+            continue;
          }
-         else
-         {
-            break;
-         }
+
+         break;
       }
-   
-      if(count >= m_config.StrongThreshold)
+
+      if(count>=4)
          return TREND_STRENGTH_STRONG;
-   
-      if(count >= m_config.NormalThreshold)
+
+      if(count>=2)
          return TREND_STRENGTH_NORMAL;
-   
-      if(count >= m_config.WeakThreshold)
+
+      if(count>=1)
          return TREND_STRENGTH_WEAK;
-   
+
       return TREND_STRENGTH_UNKNOWN;
    }
-   
-   CETrendState DetectState(
-      const CETrendType trend,
-      const CETrendStrength strength) const
-   {
-      // Chưa xác định được xu hướng
-      if(trend == TREND_UNKNOWN)
-         return TREND_STATE_UNKNOWN;
-   
-      // Trend vừa mới hình thành
-      if(strength == TREND_STRENGTH_UNKNOWN)
-         return TREND_STATE_STARTING;
-   
-      if(strength == TREND_STRENGTH_WEAK)
-         return TREND_STATE_STARTING;
-   
-      // Trend đang tiếp diễn
-      if(strength == TREND_STRENGTH_NORMAL)
-         return TREND_STATE_CONTINUATION;
-   
-      if(strength == TREND_STRENGTH_STRONG)
-         return TREND_STATE_CONTINUATION;
-   
-      return TREND_STATE_UNKNOWN;
-   }
-   
-   
 };
 
 #endif

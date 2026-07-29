@@ -11,7 +11,7 @@ public:
    static CEScoreAnalyzer *Create(
       const CEEngineConfig &config)
    {
-      return new CEScoreAnalyzer();
+      return new CEScoreAnalyzer(config);
    }
 };
 
