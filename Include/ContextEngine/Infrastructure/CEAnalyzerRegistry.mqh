@@ -14,6 +14,7 @@
 #include "../Factories/CEContextSummaryAnalyzerFactory.mqh"
 #include "../Factories/CEScoreAnalyzerFactory.mqh"
 #include "../Factories/CEBOSAnalyzerFactory.mqh"
+#include "../Factories/CEChochAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -47,6 +48,9 @@ public:
          
       m_pipeline.Add(
          CEBOSAnalyzerFactory::Create(config));
+         
+      m_pipeline.Add(
+         CEChochAnalyzerFactory::Create());
 
       return true;
    }

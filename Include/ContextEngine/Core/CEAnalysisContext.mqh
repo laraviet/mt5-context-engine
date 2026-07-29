@@ -8,6 +8,7 @@
 #include "CEContext.mqh"
 #include "../Domain/CEContextSummary.mqh"
 #include "../Domain/CEBOSSeries.mqh"
+#include "../Domain/CEChochSeries.mqh"
 
 class CEAnalysisContext : public CEContext
 {
@@ -24,6 +25,8 @@ public:
    CEContextSummary Summary;
    
    CEBOSSeries BOSSeries;
+   
+   CEChochSeries CHOCHSeries;
 
 public:
 
@@ -38,6 +41,8 @@ public:
       Summary.Reset();
       
       BOSSeries.Clear();
+      
+      CHOCHSeries.Clear();
    }
 };
 

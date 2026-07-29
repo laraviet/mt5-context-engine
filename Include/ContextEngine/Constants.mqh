@@ -8,6 +8,7 @@
 #define CE_STAGE_STRUCTURE    200
 #define CE_STAGE_TREND        300
 #define CE_STAGE_BOS          350
+#define CE_STAGE_CHOCH        360
 #define CE_STAGE_SMARTMONEY   400
 #define CE_STAGE_CONFIRMATION 500
 #define CE_STAGE_SUMMARY      900
