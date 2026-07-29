@@ -8,9 +8,9 @@
 
 #define CE_STAGE_SWING         100
 #define CE_STAGE_STRUCTURE     200
-#define CE_STAGE_TREND         300
 
-#define CE_STAGE_BOS           350
+#define CE_STAGE_BOS           300
+#define CE_STAGE_TREND         350
 #define CE_STAGE_CHOCH         360
 
 #define CE_STAGE_LIQUIDITY     370
@@ -22,6 +22,7 @@
 
 #define CE_STAGE_FVG_SUMMARY   850
 #define CE_STAGE_SUMMARY       900
+#define CE_STAGE_MARKET_BIAS   950
 #define CE_STAGE_SCORE        1000
 
 enum CEAnalyzerPriority

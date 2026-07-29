@@ -34,17 +34,9 @@ int OnInit()
       
    Print("==============================");
 
-   Print("Total      : ", Engine.Context().Summary.FVG.Total);
-   
-   Print("Filled     : ", Engine.Context().Summary.FVG.Filled);
-   
-   Print("Active     : ", Engine.Context().Summary.FVG.Active);
-   
-   Print("LargestGap : ", Engine.Context().Summary.FVG.LargestGap);
-   
-   Print("AverageGap : ", Engine.Context().Summary.FVG.AverageGap);
-   
-   Print("FillRatio  : ", Engine.Context().Summary.FVG.FillRatio);
+   Print(
+   "Bias : ",
+   Engine.Context().Summary.Bias.ToString());
    
    Print("==============================");
    

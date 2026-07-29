@@ -36,12 +36,12 @@ public:
 
       context.Summary.Statistics.TrendCount =
          context.TrendSeries.Count();
-
+   
       if(context.TrendSeries.Count() > 0)
       {
          CETrendPoint trend =
             context.TrendSeries.At(
-               context.TrendSeries.Count() - 1);
+               context.TrendSeries.Count() - 1);               
 
          context.Summary.Market.Trend =
             trend.TrendType;
