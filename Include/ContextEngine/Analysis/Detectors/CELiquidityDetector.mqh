@@ -13,22 +13,26 @@ public:
    {
       liquidity.Clear();
 
-      for(int i = 0; i < bos.Count(); i++)
+      for(int i=0;i<bos.Count();i++)
       {
-         CEBOSPoint current = bos.At(i);
+         CEBOSPoint current =
+            bos.At(i);
 
          CELiquidityPoint point;
 
          point.Index = current.Index;
-         point.Time  = current.Time;
 
+         point.Time = current.Time;
+         
          point.BOSIndex = i;
-
+         
          point.SwingIndex = current.BrokenSwingIndex;
-
+         
          point.Price = current.BreakPrice;
-
-         point.Swept = current.Confirmed;
+         
+         point.Swept = true;
+         
+         point.SweepOnly = !current.Confirmed;
 
          if(current.IsBullish())
             point.Type = LIQUIDITY_BUY_SIDE;

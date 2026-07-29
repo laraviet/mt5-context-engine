@@ -11,6 +11,7 @@
 #include <ContextEngine/Config/CEEngineConfig.mqh>
 
 #include <ContextEngine/Domain/CETrendSeries.mqh>
+#include <ContextEngine/Domain/CELiquidityPoint.mqh>
 
 CDashboardRenderer Dashboard;
 CEContext Context;
@@ -45,6 +46,24 @@ int OnInit()
          TrendStrengthToString(point.Strength),
          " / ",
          TrendStateToString(point.State));
+   }
+   
+   for(int i=0;i<Engine.Context().LiquiditySeries.Count();i++)
+   {
+      CELiquidityPoint point =
+         Engine.Context().LiquiditySeries.At(i);
+   
+      Print(
+         "Liquidity ",
+         i,
+         " | Swing=",
+         point.SwingIndex,
+         " | BOS=",
+         point.BOSIndex,
+         " | Swept=",
+         point.Swept,
+         " | SweepOnly=",
+         point.SweepOnly);
    }
    
    Dashboard.Update(dashboard);   

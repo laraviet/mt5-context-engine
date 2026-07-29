@@ -21,6 +21,8 @@ public:
 
    bool Swept;
 
+   bool SweepOnly;
+
 public:
 
    CELiquidityPoint()
@@ -43,6 +45,8 @@ public:
       Price = 0;
 
       Swept = false;
+
+      SweepOnly = false;
    }
 
    bool IsBuySide() const
@@ -53,6 +57,16 @@ public:
    bool IsSellSide() const
    {
       return Type == LIQUIDITY_SELL_SIDE;
+   }
+
+   bool IsSweepOnly() const
+   {
+      return SweepOnly;
+   }
+
+   bool IsConfirmedSweep() const
+   {
+      return Swept && !SweepOnly;
    }
 };
 
