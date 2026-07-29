@@ -1,21 +1,19 @@
 #ifndef __CE_CONTEXT_SUMMARY_MQH__
 #define __CE_CONTEXT_SUMMARY_MQH__
 
-#include "CETrendPoint.mqh"
+#include "CEContextMarket.mqh"
+#include "CEContextStatistics.mqh"
+#include "CEContextScore.mqh"
 
 class CEContextSummary
 {
 public:
 
-   CETrendType Trend;
+   CEContextMarket Market;
 
-   CETrendStrength Strength;
+   CEContextStatistics Statistics;
 
-   int SwingCount;
-
-   int StructureCount;
-
-   int TrendCount;
+   CEContextScore Score;
 
    bool IsValid;
 
@@ -28,15 +26,11 @@ public:
 
    void Reset()
    {
-      Trend = TREND_UNKNOWN;
+      Market.Reset();
 
-      Strength = TREND_STRENGTH_UNKNOWN;
+      Statistics.Reset();
 
-      SwingCount = 0;
-
-      StructureCount = 0;
-
-      TrendCount = 0;
+      Score.Reset();
 
       IsValid = false;
    }

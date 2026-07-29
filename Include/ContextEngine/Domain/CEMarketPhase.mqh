@@ -1,0 +1,15 @@
+#ifndef __CE_MARKET_PHASE_MQH__
+#define __CE_MARKET_PHASE_MQH__
+
+enum CEMarketPhase
+{
+   MARKET_PHASE_UNKNOWN = 0,
+
+   MARKET_PHASE_TREND,
+
+   MARKET_PHASE_RANGE,
+
+   MARKET_PHASE_TRANSITION
+};
+
+#endif

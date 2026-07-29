@@ -29,13 +29,13 @@ public:
    {
       context.Summary.Reset();
 
-      context.Summary.SwingCount =
+      context.Summary.Statistics.SwingCount =
          context.SwingSeries.Count();
 
-      context.Summary.StructureCount =
+      context.Summary.Statistics.StructureCount =
          context.StructureSeries.Count();
 
-      context.Summary.TrendCount =
+      context.Summary.Statistics.TrendCount =
          context.TrendSeries.Count();
 
       if(context.TrendSeries.Count() > 0)
@@ -44,13 +44,33 @@ public:
             context.TrendSeries.At(
                context.TrendSeries.Count() - 1);
 
-         context.Summary.Trend =
+         context.Summary.Market.Trend =
             trend.TrendType;
 
-         context.Summary.Strength =
+         context.Summary.Market.Strength =
             trend.Strength;
+            
+         switch(trend.TrendType)
+         {
+            case TREND_UP:
+            case TREND_DOWN:
+               context.Summary.Market.Phase =
+                  MARKET_PHASE_TREND;
+               break;
+         
+            case TREND_RANGE:
+               context.Summary.Market.Phase =
+                  MARKET_PHASE_RANGE;
+               break;
+         
+            default:
+               context.Summary.Market.Phase =
+                  MARKET_PHASE_UNKNOWN;
+               break;
+         }
       }
 
+      context.Summary.Score.Calculate();
       context.Summary.IsValid = true;
 
       return true;
