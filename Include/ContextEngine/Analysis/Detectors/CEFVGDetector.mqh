@@ -8,37 +8,34 @@ class CEFVGDetector : public IFVGDetector
 public:
 
    virtual int Detect(
+      const CECandleSeries &candles,
       CEFVGSeries &series)
    {
       series.Clear();
 
-      int bars = Bars(_Symbol, _Period);
+      if(candles.Count() < 3)
+         return 0;
 
-      for(int i = bars - 3; i >= 2; i--)
+      for(int i = 2; i < candles.Count(); i++)
       {
-         double high1 = iHigh(_Symbol, _Period, i);
-         double low1  = iLow (_Symbol, _Period, i);
-
-         double high3 = iHigh(_Symbol, _Period, i - 2);
-         double low3  = iLow (_Symbol, _Period, i - 2);
-
-         datetime time =
-            iTime(_Symbol, _Period, i - 1);
+         CECandle first  = candles.At(i - 2);
+         CECandle second = candles.At(i - 1);
+         CECandle third  = candles.At(i);
 
          // Bullish FVG
-         if(high1 < low3)
+         if(first.High < third.Low)
          {
             CEFVGPoint point;
 
             point.Index = i - 1;
 
-            point.Time = time;
+            point.Time = second.Time;
 
             point.Type = FVG_BULLISH;
 
-            point.LowerPrice = high1;
+            point.LowerPrice = first.High;
 
-            point.UpperPrice = low3;
+            point.UpperPrice = third.Low;
 
             point.Filled = false;
 
@@ -46,19 +43,19 @@ public:
          }
 
          // Bearish FVG
-         if(low1 > high3)
+         if(first.Low > third.High)
          {
             CEFVGPoint point;
 
             point.Index = i - 1;
 
-            point.Time = time;
+            point.Time = second.Time;
 
             point.Type = FVG_BEARISH;
 
-            point.UpperPrice = low1;
+            point.UpperPrice = first.Low;
 
-            point.LowerPrice = high3;
+            point.LowerPrice = third.High;
 
             point.Filled = false;
 

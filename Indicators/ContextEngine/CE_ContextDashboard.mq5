@@ -35,35 +35,17 @@ int OnInit()
    CETrendSeries trends;
    trends = Engine.Context().TrendSeries;
    
-   for(int i = 0; i < trends.Count(); i++)
+   for(int i = 0; i < Engine.Context().FVGSeries.Count(); i++)
    {
-      CETrendPoint point =
-         trends.At(i);
+      CEFVGPoint point =
+         Engine.Context().FVGSeries.At(i);
    
       Print(
-         TrendTypeToString(point.TrendType),
-         " / ",
-         TrendStrengthToString(point.Strength),
-         " / ",
-         TrendStateToString(point.State));
-   }
-   
-   for(int i=0;i<Engine.Context().LiquiditySeries.Count();i++)
-   {
-      CELiquidityPoint point =
-         Engine.Context().LiquiditySeries.At(i);
-   
-      Print(
-         "Liquidity ",
-         i,
-         " | Swing=",
-         point.SwingIndex,
-         " | BOS=",
-         point.BOSIndex,
-         " | Swept=",
-         point.Swept,
-         " | SweepOnly=",
-         point.SweepOnly);
+         point.Index,
+         " ",
+         point.LowerPrice,
+         " ",
+         point.UpperPrice);
    }
    
    Dashboard.Update(dashboard);   

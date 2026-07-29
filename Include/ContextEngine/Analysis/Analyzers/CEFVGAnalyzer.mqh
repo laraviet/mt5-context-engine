@@ -46,6 +46,7 @@ public:
       CEAnalysisContext &context) override
    {
       m_detector.Detect(
+         context.CandleSeries,
          context.FVGSeries);
 
       return true;
