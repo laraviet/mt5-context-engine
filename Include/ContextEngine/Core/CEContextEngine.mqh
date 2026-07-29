@@ -2,6 +2,7 @@
 #define __CE_CONTEXT_ENGINE_MQH__
 
 #include "../Infrastructure/CEAnalyzerRegistry.mqh"
+#include "../Infrastructure/Loaders/CECandleLoader.mqh"
 
 #include "../Data/CEDataProvider.mqh"
 
@@ -35,7 +36,15 @@ public:
    {
       CEAnalyzerRegistry registry(m_pipeline);
    
-      registry.Register(m_config);      
+      registry.Register(m_config);
+      
+      CECandleLoader loader;
+      
+      loader.Load(
+         m_context.Symbol,
+         m_context.Timeframe,
+         m_config.Candle.MaxBars,
+         m_context.CandleSeries);      
    
       return true;
    }

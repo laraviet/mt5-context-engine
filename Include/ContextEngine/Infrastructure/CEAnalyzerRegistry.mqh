@@ -16,6 +16,7 @@
 #include "../Factories/CEBOSAnalyzerFactory.mqh"
 #include "../Factories/CEChochAnalyzerFactory.mqh"
 #include "../Factories/CELiquidityAnalyzerFactory.mqh"
+#include "../Factories/CEFVGAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -37,15 +38,6 @@ public:
 
       m_pipeline.Add(
          CEStructureAnalyzerFactory::Create(config));
-
-      m_pipeline.Add(
-         CETrendAnalyzerFactory::Create(config));
-         
-      m_pipeline.Add(
-         CEContextSummaryAnalyzerFactory::Create(config));
-         
-      m_pipeline.Add(
-         CEScoreAnalyzerFactory::Create(config));
          
       m_pipeline.Add(
          CEBOSAnalyzerFactory::Create(config));
@@ -54,7 +46,19 @@ public:
          CELiquidityAnalyzerFactory::Create(config));
          
       m_pipeline.Add(
+         CEFVGAnalyzerFactory::Create(config));
+         
+      m_pipeline.Add(
          CEChochAnalyzerFactory::Create());
+
+      m_pipeline.Add(
+         CETrendAnalyzerFactory::Create(config));
+         
+      m_pipeline.Add(
+         CEContextSummaryAnalyzerFactory::Create(config));
+         
+      m_pipeline.Add(
+         CEScoreAnalyzerFactory::Create(config));               
 
       return true;
    }

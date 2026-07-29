@@ -10,6 +10,8 @@
 #include "../Domain/CEBOSSeries.mqh"
 #include "../Domain/CEChochSeries.mqh"
 #include "../Domain/CELiquiditySeries.mqh"
+#include "../Domain/CEFVGSeries.mqh"
+#include "../Domain/CECandleSeries.mqh"
 
 class CEAnalysisContext : public CEContext
 {
@@ -30,6 +32,10 @@ public:
    CEChochSeries CHOCHSeries;
    
    CELiquiditySeries LiquiditySeries;
+   
+   CEFVGSeries FVGSeries;
+   
+   CECandleSeries CandleSeries;
 
 public:
 
@@ -48,6 +54,10 @@ public:
       CHOCHSeries.Clear();
       
       LiquiditySeries.Clear();
+      
+      FVGSeries.Clear();
+      
+      CandleSeries.Clear();
    }
 };
 

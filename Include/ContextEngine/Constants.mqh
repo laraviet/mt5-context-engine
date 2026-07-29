@@ -9,6 +9,7 @@
 #define CE_STAGE_TREND        300
 #define CE_STAGE_BOS          350
 #define CE_STAGE_LIQUIDITY    355
+#define CE_STAGE_FVG          357
 #define CE_STAGE_CHOCH        360
 #define CE_STAGE_SMARTMONEY   400
 #define CE_STAGE_CONFIRMATION 500

@@ -56,9 +56,6 @@ public:
          candles[i].High       = rates[i].high;
          candles[i].Low        = rates[i].low;
          candles[i].Close      = rates[i].close;
-         candles[i].TickVolume = rates[i].tick_volume;
-         candles[i].RealVolume = rates[i].real_volume;
-         candles[i].Spread     = rates[i].spread;
       }
    
       return true;

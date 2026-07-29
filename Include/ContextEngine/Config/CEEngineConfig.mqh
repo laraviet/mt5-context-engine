@@ -6,6 +6,7 @@
 #include "CETrendConfig.mqh"
 #include "../Core/CEScoreProfile.mqh"
 #include "../Core/CEScoreProfiles.mqh"
+#include "CECandleConfig.mqh"
 
 class CEEngineConfig
 {
@@ -18,6 +19,8 @@ public:
    CETrendConfig Trend;
    
    CEScoreProfile ScoreProfile;
+   
+   CECandleConfig Candle;
 
 public:
 
