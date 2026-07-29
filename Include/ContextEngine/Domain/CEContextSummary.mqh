@@ -4,6 +4,7 @@
 #include "CEContextMarket.mqh"
 #include "CEContextStatistics.mqh"
 #include "CEContextScore.mqh"
+#include "CEFVGSummary.mqh"
 
 class CEContextSummary
 {
@@ -14,6 +15,8 @@ public:
    CEContextStatistics Statistics;
 
    CEContextScore Score;
+   
+   CEFVGSummary FVG;
 
    bool IsValid;
 
@@ -31,6 +34,8 @@ public:
       Statistics.Reset();
 
       Score.Reset();
+      
+      FVG.Reset();
 
       IsValid = false;
    }

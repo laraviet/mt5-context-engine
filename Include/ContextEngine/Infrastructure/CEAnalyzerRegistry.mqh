@@ -18,6 +18,8 @@
 #include "../Factories/CELiquidityAnalyzerFactory.mqh"
 #include "../Factories/CEFVGAnalyzerFactory.mqh"
 #include "../Factories/CEFVGFillAnalyzerFactory.mqh"
+#include "../Factories/CEFVGSummaryAnalyzerFactory.mqh"
+#include "../Factories/CEContextInitializeAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -35,6 +37,9 @@ public:
     bool Register(const CEEngineConfig &config)
    {
       m_pipeline.Add(
+         CEContextInitializeAnalyzerFactory::Create());
+         
+      m_pipeline.Add(
          CESwingAnalyzerFactory::Create(config));
 
       m_pipeline.Add(
@@ -51,6 +56,9 @@ public:
          
       m_pipeline.Add(
          CEFVGFillAnalyzerFactory::Create());
+         
+      m_pipeline.Add(
+         CEFVGSummaryAnalyzerFactory::Create());   
          
       m_pipeline.Add(
          CEChochAnalyzerFactory::Create());

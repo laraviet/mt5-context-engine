@@ -57,14 +57,14 @@ private:
       double mid =
          (point.UpperPrice +
           point.LowerPrice) * 0.5;
-   
+
       for(int i = point.Index + 1;
           i < candles.Count();
           i++)
       {
          CECandle candle =
             candles.At(i);
-   
+
          if(point.IsBullish())
          {
             if(candle.Low <= mid)
@@ -76,10 +76,9 @@ private:
                return true;
          }
       }
-   
+
       return false;
    }
-   
 };
 
 #endif

@@ -11,11 +11,6 @@ private:
 
 public:
 
-   CEFVGSeries()
-   {
-      ArrayResize(m_items, 0);
-   }
-
    void Clear()
    {
       ArrayResize(m_items, 0);
@@ -34,25 +29,25 @@ public:
 
       m_items[size] = point;
    }
-   
+
+   CEFVGPoint At(const int index) const
+   {
+      return m_items[index];
+   }
+
    bool Update(
       const int index,
       const CEFVGPoint &point)
    {
       if(index < 0)
          return false;
-   
+
       if(index >= Count())
          return false;
-   
-      m_items[index] = point;
-   
-      return true;
-   }
 
-   CEFVGPoint At(const int index) const
-   {
-      return m_items[index];
+      m_items[index] = point;
+
+      return true;
    }
 };
 

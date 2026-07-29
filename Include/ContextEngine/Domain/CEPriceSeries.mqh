@@ -8,6 +8,11 @@ private:
 
 public:
 
+    void Clear()
+   {
+      ArrayResize(m_candles, 0);
+   }
+
    void Set(const CECandle &candles[])
    {
       int count = ArraySize(candles);

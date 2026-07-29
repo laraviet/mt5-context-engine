@@ -27,8 +27,7 @@ public:
    virtual bool Analyze(
       CEAnalysisContext &context) override
    {
-      context.Summary.Reset();
-
+   
       context.Summary.Statistics.SwingCount =
          context.SwingSeries.Count();
 

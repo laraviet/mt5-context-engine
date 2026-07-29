@@ -32,46 +32,21 @@ int OnInit()
       Engine.Context(),
       dashboard);
       
-   int total = Engine.Context().FVGSeries.Count();
+   Print("==============================");
 
-   int filled = 0;
+   Print("Total      : ", Engine.Context().Summary.FVG.Total);
    
-   int active = 0;
+   Print("Filled     : ", Engine.Context().Summary.FVG.Filled);
    
-   for(int i = 0; i < total; i++)
-   {
-      CEFVGPoint point =
-         Engine.Context().FVGSeries.At(i);
+   Print("Active     : ", Engine.Context().Summary.FVG.Active);
    
-      if(point.Filled)
-         filled++;
-      else
-         active++;
-   }
+   Print("LargestGap : ", Engine.Context().Summary.FVG.LargestGap);
    
-   Print("================================");
+   Print("AverageGap : ", Engine.Context().Summary.FVG.AverageGap);
    
-   Print("Total FVG   : ", total);
+   Print("FillRatio  : ", Engine.Context().Summary.FVG.FillRatio);
    
-   Print("Filled FVG : ", filled);
-   
-   Print("Active FVG : ", active);
-   
-   Print("================================");
-   
-   for(int i = 0; i < Engine.Context().FVGSeries.Count(); i++)
-   {
-      CEFVGPoint point = Engine.Context().FVGSeries.At(i);
-   
-      if(!point.Filled)
-      {
-         Print(
-            "ACTIVE : ",
-            TimeToString(point.Time),
-            " Gap=",
-            DoubleToString(point.Gap, _Digits));
-      }
-   }
+   Print("==============================");
    
    Dashboard.Update(dashboard);   
 

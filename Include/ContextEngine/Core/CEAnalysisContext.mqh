@@ -41,24 +41,42 @@ public:
 
    void Clear()
    {
+      ClearAll();
+   }
+   
+   void ClearAnalysis()
+   {
       SwingSeries.Clear();
 
       StructureSeries.Clear();
 
       TrendSeries.Clear();
-      
-      Summary.Reset();
-      
+
       BOSSeries.Clear();
-      
+
       CHOCHSeries.Clear();
-      
+
       LiquiditySeries.Clear();
-      
+
       FVGSeries.Clear();
-      
+
+      Summary.Reset();
+   }
+
+   void ClearInput()
+   {
+      PriceSeries.Clear();
+
       CandleSeries.Clear();
    }
+
+   void ClearAll()
+   {
+      ClearAnalysis();
+
+      ClearInput();
+   }
+   
 };
 
 #endif
