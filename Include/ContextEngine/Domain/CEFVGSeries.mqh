@@ -34,6 +34,21 @@ public:
 
       m_items[size] = point;
    }
+   
+   bool Update(
+      const int index,
+      const CEFVGPoint &point)
+   {
+      if(index < 0)
+         return false;
+   
+      if(index >= Count())
+         return false;
+   
+      m_items[index] = point;
+   
+      return true;
+   }
 
    CEFVGPoint At(const int index) const
    {

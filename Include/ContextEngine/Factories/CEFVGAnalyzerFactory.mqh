@@ -3,6 +3,7 @@
 
 #include "../Analysis/Analyzers/CEFVGAnalyzer.mqh"
 #include "../Analysis/Detectors/CEFVGDetector.mqh"
+#include "../Config/CEEngineConfig.mqh"
 
 class CEFVGAnalyzerFactory
 {
@@ -12,7 +13,8 @@ public:
       const CEEngineConfig &config)
    {
       return new CEFVGAnalyzer(
-         new CEFVGDetector());
+         new CEFVGDetector(
+            config.FVG));
    }
 };
 

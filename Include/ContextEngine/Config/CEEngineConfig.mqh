@@ -7,6 +7,7 @@
 #include "../Core/CEScoreProfile.mqh"
 #include "../Core/CEScoreProfiles.mqh"
 #include "CECandleConfig.mqh"
+#include "CEFVGConfig.mqh"
 
 class CEEngineConfig
 {
@@ -21,6 +22,8 @@ public:
    CEScoreProfile ScoreProfile;
    
    CECandleConfig Candle;
+   
+   CEFVGConfig FVG;
 
 public:
 

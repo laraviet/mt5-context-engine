@@ -32,20 +32,45 @@ int OnInit()
       Engine.Context(),
       dashboard);
       
-   CETrendSeries trends;
-   trends = Engine.Context().TrendSeries;
+   int total = Engine.Context().FVGSeries.Count();
+
+   int filled = 0;
    
-   for(int i = 0; i < Engine.Context().FVGSeries.Count(); i++)
+   int active = 0;
+   
+   for(int i = 0; i < total; i++)
    {
       CEFVGPoint point =
          Engine.Context().FVGSeries.At(i);
    
-      Print(
-         point.Index,
-         " ",
-         point.LowerPrice,
-         " ",
-         point.UpperPrice);
+      if(point.Filled)
+         filled++;
+      else
+         active++;
+   }
+   
+   Print("================================");
+   
+   Print("Total FVG   : ", total);
+   
+   Print("Filled FVG : ", filled);
+   
+   Print("Active FVG : ", active);
+   
+   Print("================================");
+   
+   for(int i = 0; i < Engine.Context().FVGSeries.Count(); i++)
+   {
+      CEFVGPoint point = Engine.Context().FVGSeries.At(i);
+   
+      if(!point.Filled)
+      {
+         Print(
+            "ACTIVE : ",
+            TimeToString(point.Time),
+            " Gap=",
+            DoubleToString(point.Gap, _Digits));
+      }
    }
    
    Dashboard.Update(dashboard);   

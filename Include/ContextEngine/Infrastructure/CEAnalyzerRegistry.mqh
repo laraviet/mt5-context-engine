@@ -17,6 +17,7 @@
 #include "../Factories/CEChochAnalyzerFactory.mqh"
 #include "../Factories/CELiquidityAnalyzerFactory.mqh"
 #include "../Factories/CEFVGAnalyzerFactory.mqh"
+#include "../Factories/CEFVGFillAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -47,6 +48,9 @@ public:
          
       m_pipeline.Add(
          CEFVGAnalyzerFactory::Create(config));
+         
+      m_pipeline.Add(
+         CEFVGFillAnalyzerFactory::Create());
          
       m_pipeline.Add(
          CEChochAnalyzerFactory::Create());

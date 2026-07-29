@@ -17,6 +17,8 @@ public:
 
    double LowerPrice;
 
+   double Gap;
+
    bool Filled;
 
 public:
@@ -38,6 +40,8 @@ public:
 
       LowerPrice = 0;
 
+      Gap = 0;
+
       Filled = false;
    }
 
@@ -49,6 +53,11 @@ public:
    bool IsBearish() const
    {
       return Type == FVG_BEARISH;
+   }
+
+   bool IsActive() const
+   {
+      return !Filled;
    }
 };
 

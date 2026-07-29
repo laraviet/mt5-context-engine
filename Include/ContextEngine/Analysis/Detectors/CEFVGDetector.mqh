@@ -2,10 +2,21 @@
 #define __CE_FVG_DETECTOR_MQH__
 
 #include "../Interfaces/IFVGDetector.mqh"
+#include "../../Config/CEFVGConfig.mqh"
 
 class CEFVGDetector : public IFVGDetector
 {
+private:
+
+   const CEFVGConfig *m_config;
+
 public:
+
+   CEFVGDetector(
+      const CEFVGConfig &config)
+   {
+      m_config = &config;
+   }
 
    virtual int Detect(
       const CECandleSeries &candles,
@@ -19,7 +30,7 @@ public:
       for(int i = 2; i < candles.Count(); i++)
       {
          CECandle first  = candles.At(i - 2);
-         CECandle second = candles.At(i - 1);
+         CECandle middle = candles.At(i - 1);
          CECandle third  = candles.At(i);
 
          // Bullish FVG
@@ -27,15 +38,17 @@ public:
          {
             CEFVGPoint point;
 
-            point.Index = i - 1;
-
-            point.Time = second.Time;
-
-            point.Type = FVG_BULLISH;
+            point.Index = i;
+            point.Time  = third.Time;
+            point.Type  = FVG_BULLISH;
 
             point.LowerPrice = first.High;
-
             point.UpperPrice = third.Low;
+
+            point.Gap = point.UpperPrice - point.LowerPrice;
+
+            if(point.Gap < m_config.MinGap)
+               continue;
 
             point.Filled = false;
 
@@ -47,15 +60,17 @@ public:
          {
             CEFVGPoint point;
 
-            point.Index = i - 1;
-
-            point.Time = second.Time;
-
-            point.Type = FVG_BEARISH;
+            point.Index = i;
+            point.Time  = third.Time;
+            point.Type  = FVG_BEARISH;
 
             point.UpperPrice = first.Low;
-
             point.LowerPrice = third.High;
+
+            point.Gap = point.UpperPrice - point.LowerPrice;
+
+            if(point.Gap < m_config.MinGap)
+               continue;
 
             point.Filled = false;
 
