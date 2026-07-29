@@ -15,7 +15,13 @@ public:
 
    int StructureIndex;
 
+   int BrokenSwingIndex;
+
    double BreakPrice;
+
+   double Distance;
+
+   bool Confirmed;
 
 public:
 
@@ -34,7 +40,28 @@ public:
 
       StructureIndex = -1;
 
+      BrokenSwingIndex = -1;
+
       BreakPrice = 0;
+
+      Distance = 0;
+
+      Confirmed = false;
+   }
+   
+   bool IsBullish() const
+   {
+      return Type==BOS_BULLISH;
+   }
+   
+   bool IsBearish() const
+   {
+      return Type==BOS_BEARISH;
+   }
+   
+   bool IsConfirmed() const
+   {
+      return Confirmed;
    }
 };
 

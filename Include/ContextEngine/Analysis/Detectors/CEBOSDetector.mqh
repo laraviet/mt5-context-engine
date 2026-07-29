@@ -29,12 +29,18 @@ public:
             point.Index=current.Index;
 
             point.Time=current.Time;
-
+            
             point.Type=BOS_BULLISH;
-
+            
             point.StructureIndex=i;
-
+            
+            point.BrokenSwingIndex=i;
+            
             point.BreakPrice=current.Price;
+            
+            point.Distance=0;
+            
+            point.Confirmed=true;
 
             bos.Add(point);
          }
@@ -47,12 +53,18 @@ public:
             point.Index=current.Index;
 
             point.Time=current.Time;
-
+            
             point.Type=BOS_BEARISH;
-
+            
             point.StructureIndex=i;
-
+            
+            point.BrokenSwingIndex=i;
+            
             point.BreakPrice=current.Price;
+            
+            point.Distance=0;
+            
+            point.Confirmed=true;
 
             bos.Add(point);
          }
