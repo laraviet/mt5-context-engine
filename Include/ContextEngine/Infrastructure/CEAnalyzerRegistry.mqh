@@ -7,25 +7,37 @@
 #include "../Analysis/Detectors/CEMarketStructureDetector.mqh"
 #include "../Analysis/Analyzers/CETrendAnalyzer.mqh"
 #include "CEDetectorRegistry.mqh"
+#include "../Factories/CESwingAnalyzerFactory.mqh"
+#include "../Factories/CEStructureAnalyzerFactory.mqh"
+#include "../Factories/CETrendAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
+private:
+
+   CEAnalysisPipeline *m_pipeline;
+   
 public:
 
-   static void Register(CEAnalysisPipeline &pipeline, const CEEngineConfig &config)
+   CEAnalyzerRegistry(CEAnalysisPipeline &pipeline)
    {
-      pipeline.Add(
-         new CESwingAnalyzer(
-            CEDetectorRegistry::CreateSwingDetector(config)));
-      
-      pipeline.Add(
-         new CEStructureAnalyzer(
-            CEDetectorRegistry::CreateStructureDetector(config)));
-      
-      pipeline.Add(
-         new CETrendAnalyzer(
-            CEDetectorRegistry::CreateTrendDetector(config)));
+      m_pipeline = &pipeline;
    }
+   
+    bool Register(const CEEngineConfig &config)
+   {
+      m_pipeline.Add(
+         CESwingAnalyzerFactory::Create(config));
+
+      m_pipeline.Add(
+         CEStructureAnalyzerFactory::Create(config));
+
+      m_pipeline.Add(
+         CETrendAnalyzerFactory::Create(config));
+
+      return true;
+   }
+   
 };
 
 #endif

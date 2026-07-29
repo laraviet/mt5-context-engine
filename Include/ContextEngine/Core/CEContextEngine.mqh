@@ -33,9 +33,9 @@ public:
 
    bool Initialize()
    {
-      CEAnalyzerRegistry::Register(
-         m_pipeline,
-         m_config);
+      CEAnalyzerRegistry registry(m_pipeline);
+   
+      registry.Register(m_config);      
    
       return true;
    }

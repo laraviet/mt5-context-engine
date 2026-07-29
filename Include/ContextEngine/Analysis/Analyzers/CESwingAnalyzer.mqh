@@ -4,6 +4,7 @@
 #include "../../Core/ICEAnalyzer.mqh"
 #include "../../Core/CEAnalysisContext.mqh"
 #include "../Interfaces/ISwingDetector.mqh"
+#include "../../Constants.mqh"
 
 class CESwingAnalyzer : public ICEAnalyzer
 {
