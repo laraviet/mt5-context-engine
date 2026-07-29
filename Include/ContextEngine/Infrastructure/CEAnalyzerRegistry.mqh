@@ -12,6 +12,7 @@
 #include "../Factories/CETrendAnalyzerFactory.mqh"
 #include "../Analysis/Analyzers/CEContextSummaryAnalyzer.mqh"
 #include "../Factories/CEContextSummaryAnalyzerFactory.mqh"
+#include "../Factories/CEScoreAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -39,6 +40,9 @@ public:
          
       m_pipeline.Add(
          CEContextSummaryAnalyzerFactory::Create(config));
+         
+      m_pipeline.Add(
+         CEScoreAnalyzerFactory::Create(config));
 
       return true;
    }

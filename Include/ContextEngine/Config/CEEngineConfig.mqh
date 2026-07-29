@@ -4,6 +4,8 @@
 #include "CESwingConfig.mqh"
 #include "CEStructureConfig.mqh"
 #include "CETrendConfig.mqh"
+#include "../Core/CEScoreProfile.mqh"
+#include "../Core/CEScoreProfiles.mqh"
 
 class CEEngineConfig
 {
@@ -14,11 +16,14 @@ public:
    CEStructureConfig Structure;
 
    CETrendConfig Trend;
+   
+   CEScoreProfile ScoreProfile;
 
 public:
 
    CEEngineConfig()
    {
+      ScoreProfile = CEScoreProfiles::Default();
    }
 };
 
