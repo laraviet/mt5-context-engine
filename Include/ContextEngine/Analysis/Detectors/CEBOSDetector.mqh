@@ -1,30 +1,64 @@
 #ifndef __CE_BOS_DETECTOR_MQH__
 #define __CE_BOS_DETECTOR_MQH__
 
-#include "CEMarketStructureDetector.mqh"
-#include "../Domain/CEBOSPoint.mqh"
+#include "../Interfaces/IBOSDetector.mqh"
 
-class CEBOSDetector
+class CEBOSDetector : public IBOSDetector
 {
-private:
-
-   CEBOSPoint m_points[];
-
 public:
 
-   void Detect(const CEMarketStructureDetector &structure)
+   virtual int Detect(
+      const CEMarketStructureSeries &structures,
+      CEBOSSeries &bos)
    {
-      ArrayResize(m_points, 0);
-   }
+      bos.Clear();
 
-   int Count() const
-   {
-      return ArraySize(m_points);
-   }
+      for(int i=1;i<structures.Count();i++)
+      {
+         CEMarketStructurePoint previous=
+            structures.At(i-1);
 
-   CEBOSPoint At(int index) const
-   {
-      return m_points[index];
+         CEMarketStructurePoint current=
+            structures.At(i);
+
+         if(previous.StructureType==STRUCTURE_HL &&
+            current.StructureType==STRUCTURE_HH)
+         {
+            CEBOSPoint point;
+
+            point.Index=current.Index;
+
+            point.Time=current.Time;
+
+            point.Type=BOS_BULLISH;
+
+            point.StructureIndex=i;
+
+            point.BreakPrice=current.Price;
+
+            bos.Add(point);
+         }
+
+         if(previous.StructureType==STRUCTURE_LH &&
+            current.StructureType==STRUCTURE_LL)
+         {
+            CEBOSPoint point;
+
+            point.Index=current.Index;
+
+            point.Time=current.Time;
+
+            point.Type=BOS_BEARISH;
+
+            point.StructureIndex=i;
+
+            point.BreakPrice=current.Price;
+
+            bos.Add(point);
+         }
+      }
+
+      return bos.Count();
    }
 };
 

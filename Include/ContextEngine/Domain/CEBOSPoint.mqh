@@ -1,18 +1,41 @@
 #ifndef __CE_BOS_POINT_MQH__
 #define __CE_BOS_POINT_MQH__
 
-enum CEBOSType
-{
-   BOS_NONE = 0,
-   BOS_UP,
-   BOS_DOWN
-};
+#include "CEBOSType.mqh"
 
-struct CEBOSPoint
+class CEBOSPoint
 {
+public:
+
    int Index;
-   double Price;
+
+   datetime Time;
+
    CEBOSType Type;
+
+   int StructureIndex;
+
+   double BreakPrice;
+
+public:
+
+   CEBOSPoint()
+   {
+      Reset();
+   }
+
+   void Reset()
+   {
+      Index = -1;
+
+      Time = 0;
+
+      Type = BOS_UNKNOWN;
+
+      StructureIndex = -1;
+
+      BreakPrice = 0;
+   }
 };
 
 #endif
