@@ -9,7 +9,6 @@
 #include "../Core/CEAnalysisContext.mqh"
 #include "../Core/CEAnalysisPipeline.mqh"
 
-#include "../Domain/CEPriceSeries.mqh"
 #include "../Domain/CECandle.mqh"
 #include "../Constants.mqh"
 #include "../Core/CELogger.mqh"
@@ -36,15 +35,7 @@ public:
    {
       CEAnalyzerRegistry registry(m_pipeline);
    
-      registry.Register(m_config);
-      
-      CECandleLoader loader;
-      
-      loader.Load(
-         m_context.Symbol,
-         m_context.Timeframe,
-         m_config.Candle.MaxBars,
-         m_context.CandleSeries);      
+      registry.Register(m_config);            
    
       return true;
    }
@@ -57,11 +48,13 @@ public:
          
       m_context.UpdateChart();
          
-      return m_provider.GetPriceSeries(
-         _Symbol,
-         _Period,
-         300,
-         m_context.PriceSeries);
+      CECandleLoader loader;
+
+      return loader.Load(
+         m_context.Symbol,
+         m_context.Timeframe,
+         m_config.Candle.MaxBars,
+         m_context.CandleSeries);
    }
    
    bool Analyze()

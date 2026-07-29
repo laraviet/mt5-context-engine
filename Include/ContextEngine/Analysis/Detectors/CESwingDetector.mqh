@@ -1,7 +1,7 @@
 #ifndef __CE_SWING_DETECTOR_MQH__
 #define __CE_SWING_DETECTOR_MQH__
 
-#include "../../Domain/CEPriceSeries.mqh"
+#include "../../Domain/CECandleSeries.mqh"
 #include "../../Domain/CESwingSeries.mqh"
 #include "../Interfaces/ISwingDetector.mqh"
 #include "../../Config/CESwingConfig.mqh"
@@ -20,7 +20,7 @@ public:
    }
 
    int Detect(
-      const CEPriceSeries &series,
+      const CECandleSeries &series,
       CESwingSeries &swings)
    {
       swings.Clear();
@@ -60,7 +60,7 @@ public:
 private:
 
    bool IsValidIndex(
-      const CEPriceSeries &series,
+      const CECandleSeries &series,
       const int index) const
    {
       return index >= m_config.Strength &&
@@ -68,20 +68,20 @@ private:
    }
 
    bool IsSwingHigh(
-      const CEPriceSeries &series,
+      const CECandleSeries &series,
       const int index) const
    {
-      if(!IsValidIndex(series,index))
+      if(!IsValidIndex(series, index))
          return false;
 
       const CECandle current = series.At(index);
 
-      for(int i=1;i<=m_config.Strength;i++)
+      for(int i = 1; i <= m_config.Strength; i++)
       {
-         if(series.At(index-i).High >= current.High)
+         if(series.At(index - i).High >= current.High)
             return false;
 
-         if(series.At(index+i).High >= current.High)
+         if(series.At(index + i).High >= current.High)
             return false;
       }
 
@@ -89,26 +89,25 @@ private:
    }
 
    bool IsSwingLow(
-      const CEPriceSeries &series,
+      const CECandleSeries &series,
       const int index) const
    {
-      if(!IsValidIndex(series,index))
+      if(!IsValidIndex(series, index))
          return false;
 
       const CECandle current = series.At(index);
 
-      for(int i=1;i<=m_config.Strength;i++)
+      for(int i = 1; i <= m_config.Strength; i++)
       {
-         if(series.At(index-i).Low <= current.Low)
+         if(series.At(index - i).Low <= current.Low)
             return false;
 
-         if(series.At(index+i).Low <= current.Low)
+         if(series.At(index + i).Low <= current.Low)
             return false;
       }
 
       return true;
    }
-
 };
 
 #endif

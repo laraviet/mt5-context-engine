@@ -38,7 +38,7 @@ public:
       CEAnalysisContext &context) override
    {
       m_detector.Detect(
-         context.PriceSeries,
+         context.CandleSeries,
          context.SwingSeries);
 
       return true;
