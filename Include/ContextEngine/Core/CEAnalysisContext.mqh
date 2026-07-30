@@ -11,6 +11,7 @@
 #include "../Domain/CELiquiditySeries.mqh"
 #include "../Domain/CEFVGSeries.mqh"
 #include "../Domain/CECandleSeries.mqh"
+#include "../Domain/CEOrderBlockSeries.mqh"
 
 class CEAnalysisContext : public CEContext
 {
@@ -33,6 +34,8 @@ public:
    CEFVGSeries FVGSeries;
    
    CECandleSeries CandleSeries;
+   
+   CEOrderBlockSeries OrderBlockSeries;
 
 public:
 
@@ -58,6 +61,8 @@ public:
       FVGSeries.Clear();
 
       Summary.Reset();
+      
+      OrderBlockSeries.Clear();
    }
 
    void ClearInput()

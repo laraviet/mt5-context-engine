@@ -35,8 +35,8 @@ int OnInit()
    Print("==============================");
 
    Print(
-   "Bias : ",
-   Engine.Context().Summary.Bias.ToString());
+   "OrderBlock Count = ",
+   Engine.Context().OrderBlockSeries.Count());
    
    Print("==============================");
    

@@ -21,6 +21,7 @@
 #include "../Factories/CEFVGSummaryAnalyzerFactory.mqh"
 #include "../Factories/CEContextInitializeAnalyzerFactory.mqh"
 #include "../Factories/CEMarketBiasAnalyzerFactory.mqh"
+#include "../Factories/CEOrderBlockAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -59,7 +60,10 @@ public:
          CEFVGFillAnalyzerFactory::Create());
          
       m_pipeline.Add(
-         CEFVGSummaryAnalyzerFactory::Create());
+         CEFVGFillAnalyzerFactory::Create());
+         
+      m_pipeline.Add(
+         CEOrderBlockAnalyzerFactory::Create());
          
       m_pipeline.Add(
          CEMarketBiasAnalyzerFactory::Create());   
