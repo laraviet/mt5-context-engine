@@ -69,9 +69,6 @@ public:
          }
       }
 
-      context.Summary.Score.Calculate();
-      context.Summary.IsValid = true;
-
       return true;
    }
 };

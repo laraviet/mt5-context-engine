@@ -5,6 +5,7 @@
 #include "../../Core/CEAnalysisContext.mqh"
 #include "../../Constants.mqh"
 #include "../../Config/CEEngineConfig.mqh"
+#include "../Scoring/CEScoreCalculator.mqh"
 
 class CEScoreAnalyzer : public ICEAnalyzer
 {
@@ -41,7 +42,9 @@ public:
 
       CalculateStatisticsScore(context);
 
-      context.Summary.Score.Calculate();
+      m_calculator.Calculate(context);
+      
+      context.Summary.IsValid = true;
 
       return true;
    }
@@ -49,6 +52,7 @@ public:
 private:
 
    const CEEngineConfig *m_config;
+   CEScoreCalculator m_calculator;
 
    void CalculateTrendScore(
       CEAnalysisContext &context)

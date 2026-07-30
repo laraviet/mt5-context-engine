@@ -38,16 +38,7 @@ public:
 
       Total      = 0;
    }
-
-   void Calculate()
-   {
-      Total =
-         Trend +
-         Structure +
-         Liquidity +
-         Momentum +
-         Volatility;
-   }
+   
 };
 
 #endif
