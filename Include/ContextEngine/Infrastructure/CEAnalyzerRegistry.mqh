@@ -27,6 +27,8 @@
 #include "../Factories/CEOrderBlockFillAnalyzerFactory.mqh"
 #include "../Factories/CEOrderBlockScoreAnalyzerFactory.mqh"
 
+#include "../Analysis/Analyzers/CETrendScoreAnalyzer.mqh"
+
 class CEAnalyzerRegistry
 {
 private:
@@ -92,6 +94,9 @@ public:
          
       m_pipeline.Add(
          CEContextSummaryAnalyzerFactory::Create(config));
+         
+      m_pipeline.Add(
+         new CETrendScoreAnalyzer());
          
       m_pipeline.Add(
          CEScoreAnalyzerFactory::Create(config));               
