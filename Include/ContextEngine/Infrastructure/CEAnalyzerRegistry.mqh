@@ -24,6 +24,7 @@
 #include "../Factories/CEOrderBlockAnalyzerFactory.mqh"
 #include "../Factories/CEOrderBlockSummaryAnalyzerFactory.mqh"
 #include "../Factories/CEOrderBlockFillAnalyzerFactory.mqh"
+#include "../Factories/CEOrderBlockScoreAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -69,6 +70,9 @@ public:
       
       m_pipeline.Add(
          CEOrderBlockSummaryAnalyzerFactory::Create());
+         
+      m_pipeline.Add(
+         CEOrderBlockScoreAnalyzerFactory::Create());
          
       m_pipeline.Add(
          CEFVGSummaryAnalyzerFactory::Create());

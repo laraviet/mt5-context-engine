@@ -48,14 +48,6 @@ public:
             context.Summary.OrderBlock.Active++;
       }
 
-      Print("========== Order Block Summary ==========");
-      Print("Total      : ",context.Summary.OrderBlock.Total);
-      Print("Bullish    : ",context.Summary.OrderBlock.Bullish);
-      Print("Bearish    : ",context.Summary.OrderBlock.Bearish);
-      Print("Mitigated  : ",context.Summary.OrderBlock.Mitigated);
-      Print("Active     : ",context.Summary.OrderBlock.Active);
-      Print("=========================================");
-
       return true;
    }
 };
