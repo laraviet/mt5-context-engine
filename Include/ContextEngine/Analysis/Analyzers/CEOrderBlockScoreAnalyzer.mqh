@@ -55,11 +55,6 @@ public:
 
       context.Summary.Score.Liquidity = score;
 
-      Print("===== Order Block Score =====");
-      Print("Bullish Active : ", bullishActive);
-      Print("Bearish Active : ", bearishActive);
-      Print("Score          : ", score);
-
       return true;
    }
 };

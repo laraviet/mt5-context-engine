@@ -51,6 +51,8 @@ public:
             summary.Untouched++;
       }
 
+      context.Summary.Liquidity = summary;
+      
       return true;
    }
 };

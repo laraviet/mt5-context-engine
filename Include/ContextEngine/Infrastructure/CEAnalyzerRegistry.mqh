@@ -28,6 +28,7 @@
 #include "../Factories/CEOrderBlockScoreAnalyzerFactory.mqh"
 
 #include "../Analysis/Analyzers/CETrendScoreAnalyzer.mqh"
+#include "../Analysis/Analyzers/CELiquidityScoreAnalyzer.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -97,6 +98,9 @@ public:
          
       m_pipeline.Add(
          new CETrendScoreAnalyzer());
+         
+      m_pipeline.Add(
+         new CELiquidityScoreAnalyzer());
          
       m_pipeline.Add(
          CEScoreAnalyzerFactory::Create(config));               
