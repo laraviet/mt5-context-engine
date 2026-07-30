@@ -3,13 +3,9 @@
 
 #include "IDashboardCardBuilder.mqh"
 #include "../CEDashboardCardFactory.mqh"
-#include "../CETheme.mqh"
 
 class CEMarketBiasCardBuilder : public IDashboardCardBuilder
 {
-private:
-
-   CETheme m_theme;
    
 public:
 
@@ -24,8 +20,7 @@ public:
       dashboard.Add(
          CEDashboardCardFactory::Item(
             "Bias",
-            "Bias : " +analysis.Summary.Bias.ToString(), 
-            m_theme.TextColor));
+            analysis.Summary.Bias.ToString()));
 
       dashboard.Add(
          CEDashboardCardFactory::Separator());

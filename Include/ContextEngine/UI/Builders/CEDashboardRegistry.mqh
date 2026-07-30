@@ -12,6 +12,7 @@
 #include "CEStructureCardBuilder.mqh"
 #include "CETrendCardBuilder.mqh"
 #include "CEMarketBiasCardBuilder.mqh"
+#include "CEFVGCardBuilder.mqh"
 
 class CEDashboardRegistry
 {
@@ -46,6 +47,8 @@ public:
       m_pipeline.Add(new CETrendCardBuilder());
       
       m_pipeline.Add(new CEMarketBiasCardBuilder());
+      
+      m_pipeline.Add(new CEFVGCardBuilder());
 
       return true;
    }

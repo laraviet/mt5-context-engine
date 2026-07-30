@@ -2,6 +2,7 @@
 #define __CE_DASHBOARD_CARD_FACTORY_MQH__
 
 #include "CEDashboardCard.mqh"
+#include "CETheme.mqh"
 
 class CEDashboardCardFactory
 {
@@ -11,10 +12,11 @@ public:
       const string title)
    {
       CEDashboardCard card;
+      CETheme m_theme;
 
       card.Id    = title;
       card.Text  = title;
-      card.Color = clrGold;
+      card.Color = m_theme.TitleColor;
       card.Type  = DASHBOARD_CARD_TITLE;
 
       return card;
@@ -22,14 +24,14 @@ public:
 
    static CEDashboardCard Item(
       const string id,
-      const string value,
-      const color clr = clrWhite)
+      const string value)
    {
       CEDashboardCard card;
+      CETheme m_theme;
 
       card.Id    = id;
-      card.Text  = value;
-      card.Color = clr;
+      card.Text  = id + " : " + value;
+      card.Color = m_theme.TextColor;
       card.Type  = DASHBOARD_CARD_ITEM;
 
       return card;
@@ -38,10 +40,11 @@ public:
    static CEDashboardCard Separator()
    {
       CEDashboardCard card;
+      CETheme m_theme;
 
       card.Id    = "__separator__";
-      card.Text  = "";
-      card.Color = clrDarkGray;
+      card.Text  = "------------------------";
+      card.Color = m_theme.TextColor;
       card.Type  = DASHBOARD_CARD_SEPARATOR;
 
       return card;
