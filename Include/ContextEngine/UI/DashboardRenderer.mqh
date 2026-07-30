@@ -85,11 +85,46 @@ private:
       const CEDashboardCard &card,
       const int index)
    {
-      DrawLine(
-         card.Id,
-         card.Text,
-         card.Color);       
-   }                 
+      switch(card.Type)
+      {
+         case DASHBOARD_CARD_TITLE:
+   
+            DrawLine(
+               card.Id,
+               card.Text,
+               card.Color);
+   
+            break;
+   
+         case DASHBOARD_CARD_SEPARATOR:
+   
+            DrawLine(
+               card.Id,
+               "--------------------------------",
+               card.Color);
+   
+            break;
+   
+         case DASHBOARD_CARD_EMPTY:
+   
+            DrawLine(
+               card.Id,
+               "");
+   
+            break;
+   
+         case DASHBOARD_CARD_ITEM:
+   
+         default:
+   
+            DrawLine(
+               card.Id,
+               card.Text,
+               card.Color);
+   
+            break;
+      }
+   }                
 
 public:
 
