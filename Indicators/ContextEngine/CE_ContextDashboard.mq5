@@ -33,10 +33,18 @@ int OnInit()
       dashboard);
       
    Print("==============================");
+   CEAnalysisContext context = Engine.Context();
+   int mitigated=0;
 
-   Print(
-   "OrderBlock Count = ",
-   Engine.Context().OrderBlockSeries.Count());
+   for(int i=0;
+       i<context.OrderBlockSeries.Count();
+       i++)
+   {
+      if(context.OrderBlockSeries.At(i).Mitigated)
+         mitigated++;
+   }
+   
+   Print("Mitigated OB = ",mitigated);
    
    Print("==============================");
    

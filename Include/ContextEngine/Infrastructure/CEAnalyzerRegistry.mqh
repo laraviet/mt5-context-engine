@@ -23,6 +23,7 @@
 #include "../Factories/CEMarketBiasAnalyzerFactory.mqh"
 #include "../Factories/CEOrderBlockAnalyzerFactory.mqh"
 #include "../Factories/CEOrderBlockSummaryAnalyzerFactory.mqh"
+#include "../Factories/CEOrderBlockFillAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -62,6 +63,9 @@ public:
          
       m_pipeline.Add(      
          CEOrderBlockAnalyzerFactory::Create());
+         
+      m_pipeline.Add(      
+         CEOrderBlockFillAnalyzerFactory::Create());
       
       m_pipeline.Add(
          CEOrderBlockSummaryAnalyzerFactory::Create());

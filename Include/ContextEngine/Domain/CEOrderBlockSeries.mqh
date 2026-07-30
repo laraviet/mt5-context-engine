@@ -32,6 +32,17 @@ public:
 
       m_points[index] = point;
    }
+   
+   void Update(
+      const int index,
+      const CEOrderBlockPoint &point)
+   {
+      if(index<0 ||
+         index>=ArraySize(m_points))
+         return;
+   
+      m_points[index]=point;
+   }
 
    CEOrderBlockPoint At(
       const int index) const
