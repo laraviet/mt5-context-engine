@@ -6,6 +6,7 @@
 #include "CEContextScore.mqh"
 #include "CEFVGSummary.mqh"
 #include "CEMarketBias.mqh"
+#include "CEOrderBlockSummary.mqh"
 
 class CEContextSummary
 {
@@ -20,6 +21,8 @@ public:
    CEFVGSummary FVG;
    
    CEMarketBias Bias;
+   
+   CEOrderBlockSummary OrderBlock;
 
    bool IsValid;
 
@@ -41,6 +44,8 @@ public:
       FVG.Reset();
       
       Bias.Reset();
+      
+      OrderBlock.Reset();
 
       IsValid = false;
    }
