@@ -14,6 +14,7 @@
 #define CE_STAGE_CHOCH         360
 
 #define CE_STAGE_LIQUIDITY     370
+#define CE_STAGE_LIQUIDITY_SUMMARY     375
 #define CE_STAGE_FVG           380
 #define CE_STAGE_FVG_FILL      390
 #define CE_STAGE_ORDER_BLOCK   395
@@ -37,6 +38,7 @@ enum CEAnalyzerPriority
    CE_PRIORITY_TREND     = 30,
    CE_PRIORITY_BOS       = 40,
    CE_PRIORITY_LIQUIDITY = 35,
+   CE_PRIORITY_LIQUIDITY_SUMMARY = 37,
    CE_PRIORITY_CHOCH     = 50,   
    CE_PRIORITY_FVG       = 60,
    CE_PRIORITY_FVG_FILL  = 65,   

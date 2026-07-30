@@ -16,6 +16,7 @@
 #include "../Factories/CEBOSAnalyzerFactory.mqh"
 #include "../Factories/CEChochAnalyzerFactory.mqh"
 #include "../Factories/CELiquidityAnalyzerFactory.mqh"
+#include "../Factories/CELiquiditySummaryAnalyzerFactory.mqh"
 #include "../Factories/CEFVGAnalyzerFactory.mqh"
 #include "../Factories/CEFVGFillAnalyzerFactory.mqh"
 #include "../Factories/CEFVGSummaryAnalyzerFactory.mqh"
@@ -55,6 +56,9 @@ public:
          
       m_pipeline.Add(
          CELiquidityAnalyzerFactory::Create(config));
+         
+      m_pipeline.Add(
+         CELiquiditySummaryAnalyzerFactory::Create());
          
       m_pipeline.Add(
          CEFVGAnalyzerFactory::Create(config));

@@ -14,6 +14,7 @@
 #include "CEMarketBiasCardBuilder.mqh"
 #include "CEFVGCardBuilder.mqh"
 #include "CEOrderBlockCardBuilder.mqh"
+#include "CELiquidityCardBuilder.mqh"
 
 class CEDashboardRegistry
 {
@@ -52,6 +53,8 @@ public:
       m_pipeline.Add(new CEFVGCardBuilder());
       
       m_pipeline.Add(new CEOrderBlockCardBuilder());
+      
+      m_pipeline.Add(new CELiquidityCardBuilder());
 
       return true;
    }

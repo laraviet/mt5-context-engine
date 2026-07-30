@@ -7,6 +7,7 @@
 #include "CEFVGSummary.mqh"
 #include "CEMarketBias.mqh"
 #include "CEOrderBlockSummary.mqh"
+#include "CELiquiditySummary.mqh"
 
 class CEContextSummary
 {
@@ -23,6 +24,8 @@ public:
    CEMarketBias Bias;
    
    CEOrderBlockSummary OrderBlock;
+   
+   CELiquiditySummary Liquidity;
 
    bool IsValid;
 
@@ -46,6 +49,8 @@ public:
       Bias.Reset();
       
       OrderBlock.Reset();
+      
+      Liquidity.Reset();
 
       IsValid = false;
    }
