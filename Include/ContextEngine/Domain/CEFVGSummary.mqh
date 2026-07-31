@@ -6,8 +6,15 @@ class CEFVGSummary
 public:
 
    int Total;
-   int Filled;
-   int Active;
+
+   int Bullish;
+   int Bearish;
+
+   int ActiveBullish;
+   int ActiveBearish;
+
+   int FilledBullish;
+   int FilledBearish;
 
    double LargestGap;
    double AverageGap;
@@ -15,15 +22,41 @@ public:
 
 public:
 
+   CEFVGSummary()
+   {
+      Reset();
+   }
+
    void Reset()
    {
       Total = 0;
-      Filled = 0;
-      Active = 0;
+
+      Bullish = 0;
+      Bearish = 0;
+
+      ActiveBullish = 0;
+      ActiveBearish = 0;
+
+      FilledBullish = 0;
+      FilledBearish = 0;
 
       LargestGap = 0.0;
       AverageGap = 0.0;
       FillRatio = 0.0;
+   }
+
+   int Active() const
+   {
+      return
+         ActiveBullish +
+         ActiveBearish;
+   }
+
+   int Filled() const
+   {
+      return
+         FilledBullish +
+         FilledBearish;
    }
 };
 

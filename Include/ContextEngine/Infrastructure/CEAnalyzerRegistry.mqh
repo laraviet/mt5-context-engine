@@ -29,6 +29,7 @@
 
 #include "../Analysis/Analyzers/CETrendScoreAnalyzer.mqh"
 #include "../Analysis/Analyzers/CELiquidityScoreAnalyzer.mqh"
+#include "../Analysis/Analyzers/CEFVGScoreAnalyzer.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -101,6 +102,9 @@ public:
          
       m_pipeline.Add(
          new CELiquidityScoreAnalyzer());
+         
+      m_pipeline.Add(
+         new CEFVGScoreAnalyzer());
          
       m_pipeline.Add(
          CEScoreAnalyzerFactory::Create(config));               
