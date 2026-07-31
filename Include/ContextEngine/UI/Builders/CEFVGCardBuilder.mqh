@@ -12,7 +12,7 @@ public:
       const CEAnalysisContext &analysis,
       CEDashboardContext &dashboard) override
    {
-      CEFVGSummary summary =
+      const CEFVGSummary summary =
          analysis.Summary.FVG;
 
       dashboard.Add(
@@ -21,28 +21,41 @@ public:
 
       dashboard.Add(
          CEDashboardCardFactory::Item(
-            "Total",
-            IntegerToString(summary.Total)));
+            "Bullish Active",
+            IntegerToString(
+               summary.ActiveBullish)));
 
       dashboard.Add(
          CEDashboardCardFactory::Item(
-            "Bullish",
-            IntegerToString(summary.Bullish)));
+            "Bearish Active",
+            IntegerToString(
+               summary.ActiveBearish)));
 
       dashboard.Add(
          CEDashboardCardFactory::Item(
-            "Bearish",
-            IntegerToString(summary.Bearish)));
+            "Bullish Filled",
+            IntegerToString(
+               summary.FilledBullish)));
 
       dashboard.Add(
          CEDashboardCardFactory::Item(
-            "Active",
-            IntegerToString(summary.Active())));
+            "Bearish Filled",
+            IntegerToString(
+               summary.FilledBearish)));
 
       dashboard.Add(
          CEDashboardCardFactory::Item(
-            "Filled",
-            IntegerToString(summary.Filled())));
+            "Largest Gap",
+            DoubleToString(
+               summary.LargestGap,
+               _Digits)));
+
+      dashboard.Add(
+         CEDashboardCardFactory::Item(
+            "Average Gap",
+            DoubleToString(
+               summary.AverageGap,
+               _Digits)));
 
       dashboard.Add(
          CEDashboardCardFactory::Item(
