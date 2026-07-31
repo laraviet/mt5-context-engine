@@ -15,6 +15,7 @@
 #include "CEFVGCardBuilder.mqh"
 #include "CEOrderBlockCardBuilder.mqh"
 #include "CELiquidityCardBuilder.mqh"
+#include "CEScoreCardBuilder.mqh"
 
 class CEDashboardRegistry
 {
@@ -55,6 +56,8 @@ public:
       m_pipeline.Add(new CEOrderBlockCardBuilder());
       
       m_pipeline.Add(new CELiquidityCardBuilder());
+      
+      m_pipeline.Add(new CEScoreCardBuilder());
 
       return true;
    }
