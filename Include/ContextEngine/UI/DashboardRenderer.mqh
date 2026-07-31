@@ -124,6 +124,37 @@ private:
    
             break;
       }
+   }
+   
+   void RenderSections(const CEDashboardContext &context)
+   {
+      for(int i=0;
+          i<context.SectionCount();
+          i++)
+      {
+         RenderSection(
+            context.SectionAt(i));
+      }
+   }
+   
+   void RenderSection(const CEDashboardSection &section)
+   {
+      DrawLine(
+         section.Title,
+         section.Title,
+         clrDeepSkyBlue);
+   
+      for(int i=0;
+          i<section.Count();
+          i++)
+      {
+         RenderCard(
+            section.At(i),
+            i);
+      }
+   
+      m_y +=
+         m_lineHeight/2;
    }                
 
 public:
@@ -159,9 +190,12 @@ public:
          "Update");
    
       Begin();
-   
-      RenderCards(context);
-   
+
+      if(context.SectionCount()>0)
+         RenderSections(context);
+      else
+         RenderCards(context);
+      
       ChartRedraw();
    }
 
