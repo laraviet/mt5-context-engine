@@ -63,10 +63,10 @@ private:
    {
       switch(phase)
       {
-         case MARKET_PHASE_TREND:
+         case MARKET_PHASE_MARKUP:
             return "Trend";
    
-         case MARKET_PHASE_RANGE:
+         case MARKET_PHASE_ACCUMULATION:
             return "Range";
    
          default:

@@ -4,6 +4,7 @@
 #include "../../Core/ICEAnalyzer.mqh"
 #include "../../Core/CEAnalysisContext.mqh"
 #include "../../Constants.mqh"
+#include "../../Domain/CEMarketPhase.mqh"
 
 class CEContextSummaryAnalyzer : public ICEAnalyzer
 {
@@ -48,25 +49,7 @@ public:
 
          context.Summary.Market.Strength =
             trend.Strength;
-            
-         switch(trend.TrendType)
-         {
-            case TREND_UP:
-            case TREND_DOWN:
-               context.Summary.Market.Phase =
-                  MARKET_PHASE_TREND;
-               break;
-         
-            case TREND_RANGE:
-               context.Summary.Market.Phase =
-                  MARKET_PHASE_RANGE;
-               break;
-         
-            default:
-               context.Summary.Market.Phase =
-                  MARKET_PHASE_UNKNOWN;
-               break;
-         }
+                     
       }
 
       return true;

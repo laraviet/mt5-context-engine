@@ -100,7 +100,7 @@ public:
          CETrendStrengthAnalyzerFactory::Create(config));
          
       m_pipeline.Add(
-         CETrendQualityAnalyzerFactory::Create(config));
+         CETrendQualityAnalyzerFactory::Create(config));         
          
       m_pipeline.Add(
          CEContextSummaryAnalyzerFactory::Create(config));
