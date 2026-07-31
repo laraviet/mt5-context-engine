@@ -11,6 +11,7 @@
 #include "../Factories/CEStructureAnalyzerFactory.mqh"
 #include "../Factories/CETrendAnalyzerFactory.mqh"
 #include "../Factories/CETrendStrengthAnalyzerFactory.mqh"
+#include "../Factories/CETrendQualityAnalyzerFactory.mqh"
 #include "../Analysis/Analyzers/CEContextSummaryAnalyzer.mqh"
 #include "../Factories/CEContextSummaryAnalyzerFactory.mqh"
 #include "../Factories/CEScoreAnalyzerFactory.mqh"
@@ -97,6 +98,9 @@ public:
          
       m_pipeline.Add(
          CETrendStrengthAnalyzerFactory::Create(config));
+         
+      m_pipeline.Add(
+         CETrendQualityAnalyzerFactory::Create(config));
          
       m_pipeline.Add(
          CEContextSummaryAnalyzerFactory::Create(config));

@@ -13,6 +13,8 @@ public:
    CETrendStrength Strength;
 
    CEMarketPhase Phase;
+   
+   int Quality;
 
 public:
 
@@ -28,6 +30,8 @@ public:
       Strength = TREND_STRENGTH_UNKNOWN;
 
       Phase = MARKET_PHASE_UNKNOWN;
+      
+      Quality = 0;
    }
 };
 
