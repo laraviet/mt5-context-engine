@@ -2,6 +2,11 @@
 #define __CE_SIGNAL_CARD_BUILDER_MQH__
 
 #include "IDashboardCardBuilder.mqh"
+
+#include "../CEDashboardContext.mqh"
+#include "../CEDashboardSection.mqh"
+#include "../CEDashboardCardFactory.mqh"
+
 #include "../../Domain/CEDecisionType.mqh"
 #include "../../Domain/CETradeSignalType.mqh"
 
@@ -24,7 +29,7 @@ private:
             return "WAIT";
 
          default:
-            return "-";
+            return "UNKNOWN";
       }
    }
 
@@ -40,7 +45,7 @@ private:
             return "SELL";
 
          default:
-            return "-";
+            return "NONE";
       }
    }
 
@@ -55,11 +60,19 @@ public:
       section.Id    = "signal";
       section.Title = "Signal";
 
+      //---------------------------------
+      // Decision
+      //---------------------------------
+
       section.Add(
          CEDashboardCardFactory::Item(
             "Decision",
             DecisionToString(
                analysis.Decision.Type)));
+
+      //---------------------------------
+      // Signal
+      //---------------------------------
 
       section.Add(
          CEDashboardCardFactory::Item(
@@ -67,11 +80,24 @@ public:
             SignalToString(
                analysis.TradeSignal.Type)));
 
+      //---------------------------------
+      // Confidence
+      //---------------------------------
+
       section.Add(
          CEDashboardCardFactory::Item(
             "Confidence",
             IntegerToString(
                analysis.TradeSignal.Confidence)));
+
+      //---------------------------------
+      // Reason
+      //---------------------------------
+
+      section.Add(
+         CEDashboardCardFactory::Item(
+            "Reason",
+            analysis.Decision.Reason));
 
       dashboard.AddSection(section);
    }

@@ -2,28 +2,89 @@
 #define __CE_MARKET_BIAS_CARD_BUILDER_MQH__
 
 #include "IDashboardCardBuilder.mqh"
+
+#include "../CEDashboardContext.mqh"
+#include "../CEDashboardSection.mqh"
 #include "../CEDashboardCardFactory.mqh"
+
+#include "../../Domain/CETrendTypeHelper.mqh"
+#include "../../Domain/CEMarketPhase.mqh"
 
 class CEMarketBiasCardBuilder : public IDashboardCardBuilder
 {
-   
+private:
+
+   string BiasToString(
+      const CETrendType trend) const
+   {
+      switch(trend)
+      {
+         case TREND_UP:
+            return "Bullish";
+
+         case TREND_DOWN:
+            return "Bearish";
+
+         case TREND_RANGE:
+            return "Neutral";
+
+         default:
+            return "Unknown";
+      }
+   }
+
 public:
 
    virtual void Build(
       const CEAnalysisContext &analysis,
       CEDashboardContext &dashboard) override
    {
-      dashboard.Add(
-         CEDashboardCardFactory::Title(
-            "Market Bias"));
+      CEDashboardSection section;
 
-      dashboard.Add(
+      section.Id    = "market_bias";
+      section.Title = "Market Bias";
+
+      //--------------------------------------
+      // Bias
+      //--------------------------------------
+
+      section.Add(
          CEDashboardCardFactory::Item(
             "Bias",
-            analysis.Summary.Bias.ToString()));
+            BiasToString(
+               analysis.Summary.Market.Trend)));
 
-      dashboard.Add(
-         CEDashboardCardFactory::Separator());
+      //--------------------------------------
+      // Trend
+      //--------------------------------------
+
+      section.Add(
+         CEDashboardCardFactory::Item(
+            "Trend",
+            CETrendTypeHelper::ToString(
+               analysis.Summary.Market.Trend)));
+
+      //--------------------------------------
+      // Market Phase
+      //--------------------------------------
+
+      section.Add(
+         CEDashboardCardFactory::Item(
+            "Phase",
+            CEMarketPhaseHelper::ToString(
+               analysis.Summary.Market.Phase)));
+
+      //--------------------------------------
+      // Strength
+      //--------------------------------------
+
+      section.Add(
+         CEDashboardCardFactory::Item(
+            "Strength",
+            IntegerToString(
+               analysis.Summary.Market.Strength)));
+
+      dashboard.AddSection(section);
    }
 };
 

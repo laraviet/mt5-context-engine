@@ -2,11 +2,15 @@
 #define __CE_TREND_CARD_BUILDER_MQH__
 
 #include "IDashboardCardBuilder.mqh"
-#include "../CETheme.mqh"
+
+#include "../CEDashboardContext.mqh"
+#include "../CEDashboardSection.mqh"
+#include "../CEDashboardCardFactory.mqh"
+
+#include "../../Domain/CETrendTypeHelper.mqh"
 
 class CETrendCardBuilder : public IDashboardCardBuilder
 {
-
 public:
 
    virtual void Build(
@@ -14,65 +18,61 @@ public:
       CEDashboardContext &dashboard) override
    {
       CEDashboardSection section;
-   
+
       section.Id    = "trend";
       section.Title = "Trend";
-   
+
+      //------------------------------------------
+      // Trend Direction
+      //------------------------------------------
+
       section.Add(
          CEDashboardCardFactory::Item(
-            "Trend",
-            TrendToString(analysis.Summary.Market.Trend)));
-   
+            "Direction",
+            CETrendTypeHelper::ToString(
+               analysis.Summary.Market.Trend)));
+
+      //------------------------------------------
+      // Trend Strength
+      //------------------------------------------
+
       section.Add(
          CEDashboardCardFactory::Item(
             "Strength",
-            IntegerToString(analysis.Summary.Market.Strength)));
-   
+            IntegerToString(
+               analysis.Summary.Market.Strength)));
+
+      //------------------------------------------
+      // Trend Points
+      //------------------------------------------
+
       section.Add(
          CEDashboardCardFactory::Item(
-            "Structure",
-            PhaseToString(analysis.Summary.Market.Phase)));
-   
+            "Trend Points",
+            IntegerToString(
+               analysis.TrendSeries.Count())));
+
+      //------------------------------------------
+      // Latest Trend
+      //------------------------------------------
+
+      string latest = "-";
+
+      if(analysis.TrendSeries.Count() > 0)
+      {
+         latest =
+            CETrendTypeHelper::ToString(
+               analysis.TrendSeries.At(
+                  analysis.TrendSeries.Count()-1).TrendType);
+      }
+
+      section.Add(
+         CEDashboardCardFactory::Item(
+            "Latest",
+            latest));
+
       dashboard.AddSection(section);
    }
-
-private:
-   CETheme m_theme;
-   
-   string TrendToString(
-      const CETrendType trend) const
-   {
-      switch(trend)
-      {
-         case TREND_UP:
-            return "Up";
-   
-         case TREND_DOWN:
-            return "Down";
-   
-         case TREND_RANGE:
-            return "Range";
-   
-         default:
-            return "Unknown";
-      }
-   }
-   
-   string PhaseToString(
-      const CEMarketPhase phase) const
-   {
-      switch(phase)
-      {
-         case MARKET_PHASE_MARKUP:
-            return "Trend";
-   
-         case MARKET_PHASE_ACCUMULATION:
-            return "Range";
-   
-         default:
-            return "Unknown";
-      }
-   }
-
 };
+
 #endif

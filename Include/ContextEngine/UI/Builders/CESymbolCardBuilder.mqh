@@ -2,27 +2,35 @@
 #define __CE_SYMBOL_CARD_BUILDER_MQH__
 
 #include "IDashboardCardBuilder.mqh"
-#include "../CETheme.mqh"
+
+#include "../CEDashboardSection.mqh"
+#include "../CEDashboardCardFactory.mqh"
 
 class CESymbolCardBuilder : public IDashboardCardBuilder
 {
-private:
-
-   CETheme m_theme;
-
 public:
 
    virtual void Build(
       const CEAnalysisContext &analysis,
       CEDashboardContext &dashboard) override
    {
-      CEDashboardCard card;
+      CEDashboardSection section;
 
-      card.Id    = "SYMBOL";
-      card.Text  = "Symbol : " + analysis.Symbol;
-      card.Color = m_theme.TextColor;
+      section.Id    = "symbol";
+      section.Title = "Symbol";
 
-      dashboard.Add(card);
+      section.Add(
+         CEDashboardCardFactory::Item(
+            "Symbol",
+            analysis.Symbol));
+
+      section.Add(
+         CEDashboardCardFactory::Item(
+            "Timeframe",
+            EnumToString(
+               analysis.Timeframe)));
+
+      dashboard.AddSection(section);
    }
 };
 
