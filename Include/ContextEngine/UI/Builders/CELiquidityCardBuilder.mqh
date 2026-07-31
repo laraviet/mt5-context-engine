@@ -2,7 +2,10 @@
 #define __CE_LIQUIDITY_CARD_BUILDER_MQH__
 
 #include "IDashboardCardBuilder.mqh"
+
+#include "../CEDashboardContext.mqh"
 #include "../CEDashboardCardFactory.mqh"
+#include "../CEDashboardSection.mqh"
 
 class CELiquidityCardBuilder : public IDashboardCardBuilder
 {
@@ -15,32 +18,32 @@ public:
       const CELiquiditySummary summary =
          analysis.Summary.Liquidity;
 
-      dashboard.Add(
-         CEDashboardCardFactory::Title(
-            "Liquidity"));
+      CEDashboardSection section;
 
-      dashboard.Add(
+      section.Id    = "liquidity";
+      section.Title = "Liquidity";
+
+      section.Add(
          CEDashboardCardFactory::Item(
             "Total",
             IntegerToString(summary.Total)));
 
-      dashboard.Add(
+      section.Add(
          CEDashboardCardFactory::Item(
             "Buy Side",
             IntegerToString(summary.BuySide)));
 
-      dashboard.Add(
+      section.Add(
          CEDashboardCardFactory::Item(
             "Sell Side",
             IntegerToString(summary.SellSide)));
 
-      dashboard.Add(
+      section.Add(
          CEDashboardCardFactory::Item(
             "Untouched",
             IntegerToString(summary.Untouched)));
 
-      dashboard.Add(
-         CEDashboardCardFactory::Separator());
+      dashboard.AddSection(section);
    }
 };
 
