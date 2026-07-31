@@ -2,7 +2,10 @@
 #define __CE_FVG_CARD_BUILDER_MQH__
 
 #include "IDashboardCardBuilder.mqh"
+
+#include "../CEDashboardContext.mqh"
 #include "../CEDashboardCardFactory.mqh"
+#include "../CEDashboardSection.mqh"
 
 class CEFVGCardBuilder : public IDashboardCardBuilder
 {
@@ -14,59 +17,37 @@ public:
    {
       const CEFVGSummary summary =
          analysis.Summary.FVG;
-
-      dashboard.Add(
-         CEDashboardCardFactory::Title(
-            "Fair Value Gap"));
-
-      dashboard.Add(
+   
+      CEDashboardSection section;
+   
+      section.Id    = "fvg";
+      section.Title = "Fair Value Gap";
+   
+      section.Add(
          CEDashboardCardFactory::Item(
-            "Bullish Active",
-            IntegerToString(
-               summary.ActiveBullish)));
-
-      dashboard.Add(
+            "Total",
+            IntegerToString(summary.Total)));
+   
+      section.Add(
          CEDashboardCardFactory::Item(
-            "Bearish Active",
-            IntegerToString(
-               summary.ActiveBearish)));
-
-      dashboard.Add(
+            "Active",
+            IntegerToString(summary.Active())));
+   
+      section.Add(
          CEDashboardCardFactory::Item(
-            "Bullish Filled",
-            IntegerToString(
-               summary.FilledBullish)));
-
-      dashboard.Add(
-         CEDashboardCardFactory::Item(
-            "Bearish Filled",
-            IntegerToString(
-               summary.FilledBearish)));
-
-      dashboard.Add(
-         CEDashboardCardFactory::Item(
-            "Largest Gap",
-            DoubleToString(
-               summary.LargestGap,
-               _Digits)));
-
-      dashboard.Add(
-         CEDashboardCardFactory::Item(
-            "Average Gap",
-            DoubleToString(
-               summary.AverageGap,
-               _Digits)));
-
-      dashboard.Add(
+            "Filled",
+            IntegerToString(summary.Filled())));
+   
+      section.Add(
          CEDashboardCardFactory::Item(
             "Fill Ratio",
             DoubleToString(
                summary.FillRatio * 100.0,
                1) + "%"));
-
-      dashboard.Add(
-         CEDashboardCardFactory::Separator());
+   
+      dashboard.AddSection(section);
    }
+   
 };
 
 #endif

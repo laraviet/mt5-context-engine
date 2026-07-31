@@ -36,26 +36,26 @@ public:
       m_pipeline.Add(new CETitleCardBuilder());
 
       m_pipeline.Add(new CEVersionCardBuilder());
-
+      
       m_pipeline.Add(new CESymbolCardBuilder());
-
+      
       m_pipeline.Add(new CETimeframeCardBuilder());
-
+      
       m_pipeline.Add(new CEStatusCardBuilder());
-
+      
       m_pipeline.Add(new CESwingCardBuilder());
-
+      
       m_pipeline.Add(new CEStructureCardBuilder());
-
+      
       m_pipeline.Add(new CETrendCardBuilder());
       
-      m_pipeline.Add(new CEMarketBiasCardBuilder());
+      m_pipeline.Add(new CELiquidityCardBuilder());
       
       m_pipeline.Add(new CEFVGCardBuilder());
       
       m_pipeline.Add(new CEOrderBlockCardBuilder());
       
-      m_pipeline.Add(new CELiquidityCardBuilder());
+      m_pipeline.Add(new CEMarketBiasCardBuilder());
       
       m_pipeline.Add(new CEScoreCardBuilder());
 

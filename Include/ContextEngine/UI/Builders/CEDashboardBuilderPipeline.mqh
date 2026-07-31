@@ -21,8 +21,10 @@ public:
       for(int i=0;i<ArraySize(m_builders);i++)
       {
          if(CheckPointer(m_builders[i])!=POINTER_INVALID)
+         {
             delete m_builders[i];
             m_builders[i]=NULL;
+         }
       }
    }
 
