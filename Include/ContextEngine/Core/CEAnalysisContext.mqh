@@ -13,6 +13,7 @@
 #include "../Domain/CECandleSeries.mqh"
 #include "../Domain/CEOrderBlockSeries.mqh"
 #include "../Domain/CEDecision.mqh"
+#include "../Domain/CETradeSignal.mqh"
 
 class CEAnalysisContext : public CEContext
 {
@@ -39,6 +40,8 @@ public:
    CEOrderBlockSeries OrderBlockSeries;
    
    CEDecision Decision;
+   
+   CETradeSignal TradeSignal;
 
 public:
 
@@ -68,6 +71,8 @@ public:
       OrderBlockSeries.Clear();
       
       Decision.Reset();
+      
+      TradeSignal.Reset();
    }
 
    void ClearInput()
