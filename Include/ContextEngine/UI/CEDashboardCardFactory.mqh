@@ -1,4 +1,4 @@
-#ifndef __CE_DASHBOARD_CARD_FACTORY_MQH__
+﻿#ifndef __CE_DASHBOARD_CARD_FACTORY_MQH__
 #define __CE_DASHBOARD_CARD_FACTORY_MQH__
 
 #include "CEDashboardCard.mqh"
@@ -23,17 +23,25 @@ public:
    }
 
    static CEDashboardCard Item(
-      const string id,
-      const string value)
+   const string label,
+   const string value,
+   const color clr = clrWhite)
    {
       CEDashboardCard card;
       CETheme m_theme;
-
-      card.Id    = id;
-      card.Text  = id + " : " + value;
-      card.Color = m_theme.TextColor;
+   
       card.Type  = DASHBOARD_CARD_ITEM;
-
+      card.Color = m_theme.TextColor;
+   
+      // Đảm bảo cột Label luôn rộng 16 ký tự
+      card.Text = StringFormat(
+         "%-16s %s",
+         label,
+         value);
+   
+      // Object name không nên chứa khoảng trắng
+      card.Id = "item_" + label;
+   
       return card;
    }
 
