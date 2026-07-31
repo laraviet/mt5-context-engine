@@ -12,6 +12,7 @@
 #include "../Domain/CEFVGSeries.mqh"
 #include "../Domain/CECandleSeries.mqh"
 #include "../Domain/CEOrderBlockSeries.mqh"
+#include "../Domain/CEDecision.mqh"
 
 class CEAnalysisContext : public CEContext
 {
@@ -36,6 +37,8 @@ public:
    CECandleSeries CandleSeries;
    
    CEOrderBlockSeries OrderBlockSeries;
+   
+   CEDecision Decision;
 
 public:
 
@@ -63,6 +66,8 @@ public:
       Summary.Reset();
       
       OrderBlockSeries.Clear();
+      
+      Decision.Reset();
    }
 
    void ClearInput()

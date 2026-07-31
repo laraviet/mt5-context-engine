@@ -33,6 +33,8 @@
 #include "../Analysis/Analyzers/CELiquidityScoreAnalyzer.mqh"
 #include "../Analysis/Analyzers/CEFVGScoreAnalyzer.mqh"
 
+#include "../Factories/CEDecisionAnalyzerFactory.mqh"
+
 class CEAnalyzerRegistry
 {
 private:
@@ -115,7 +117,10 @@ public:
          new CEFVGScoreAnalyzer());
          
       m_pipeline.Add(
-         CEScoreAnalyzerFactory::Create(config));               
+         CEScoreAnalyzerFactory::Create(config));    
+         
+      m_pipeline.Add(
+         CEDecisionAnalyzerFactory::Create());           
 
       return true;
    }
