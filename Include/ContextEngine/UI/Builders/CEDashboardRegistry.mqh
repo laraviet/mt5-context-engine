@@ -17,6 +17,7 @@
 #include "CEOrderBlockCardBuilder.mqh"
 #include "CEMarketBiasCardBuilder.mqh"
 #include "CEScoreCardBuilder.mqh"
+#include "CESignalCardBuilder.mqh"
 
 class CEDashboardRegistry
 {
@@ -47,6 +48,7 @@ private:
 
       m_pipeline.Add(new CEMarketBiasCardBuilder());
       m_pipeline.Add(new CEScoreCardBuilder());
+      m_pipeline.Add(new CESignalCardBuilder());
    }
 
 public:
