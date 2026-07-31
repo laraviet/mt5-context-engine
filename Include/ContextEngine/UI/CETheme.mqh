@@ -10,6 +10,7 @@ public:
    color SuccessColor;
    color WarningColor;
    color ErrorColor;
+   color SectionColor;
 
    int FontSize;
 
@@ -31,6 +32,7 @@ public:
       SuccessColor = clrLimeGreen;
       WarningColor = clrOrange;
       ErrorColor   = clrTomato;
+      SectionColor = clrDeepSkyBlue;
 
       FontSize     = 10;
 

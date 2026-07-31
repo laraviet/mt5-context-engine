@@ -69,6 +69,14 @@ private:
       m_y += m_lineHeight;
    }
    
+   void DrawSeparator(const string id)
+   {
+      DrawLine(
+         id,
+         "------------------------------",
+         clrDarkGray);
+   }
+   
    void RenderCards(
       const CEDashboardContext &context)
    {
@@ -140,12 +148,15 @@ private:
    void RenderSection(const CEDashboardSection &section)
    {
       DrawLine(
+         section.Id + "_title",
          section.Title,
-         section.Title,
-         clrDeepSkyBlue);
+         m_theme.SectionColor);
    
-      for(int i=0;
-          i<section.Count();
+      DrawSeparator(
+         section.Id + "_separator");
+   
+      for(int i = 0;
+          i < section.Count();
           i++)
       {
          RenderCard(
@@ -153,9 +164,8 @@ private:
             i);
       }
    
-      m_y +=
-         m_lineHeight/2;
-   }                
+      m_y += m_lineHeight;
+   }              
 
 public:
 
