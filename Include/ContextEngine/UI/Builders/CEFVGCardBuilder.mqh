@@ -3,12 +3,16 @@
 
 #include "IDashboardCardBuilder.mqh"
 
-#include "../CEDashboardContext.mqh"
-#include "../CEDashboardCardFactory.mqh"
+#include "../CETheme.mqh"
 #include "../CEDashboardSection.mqh"
+#include "../CEDashboardCardFactory.mqh"
 
 class CEFVGCardBuilder : public IDashboardCardBuilder
 {
+private:
+
+   CETheme m_theme;
+
 public:
 
    virtual void Build(
@@ -17,37 +21,39 @@ public:
    {
       const CEFVGSummary summary =
          analysis.Summary.FVG;
-   
+
       CEDashboardSection section;
-   
+
       section.Id    = "fvg";
       section.Title = "Fair Value Gap";
-   
+
       section.Add(
          CEDashboardCardFactory::Item(
             "Total",
             IntegerToString(summary.Total)));
-   
+
       section.Add(
          CEDashboardCardFactory::Item(
             "Active",
             IntegerToString(summary.Active())));
-   
+
       section.Add(
          CEDashboardCardFactory::Item(
             "Filled",
             IntegerToString(summary.Filled())));
-   
+
+      string ratio =
+         DoubleToString(
+            summary.FillRatio * 100.0,
+            1) + "%";
+
       section.Add(
          CEDashboardCardFactory::Item(
             "Fill Ratio",
-            DoubleToString(
-               summary.FillRatio * 100.0,
-               1) + "%"));
-   
+            ratio));
+
       dashboard.AddSection(section);
    }
-   
 };
 
 #endif

@@ -2,7 +2,10 @@
 #define __CE_STRUCTURE_CARD_BUILDER_MQH__
 
 #include "IDashboardCardBuilder.mqh"
+
 #include "../CETheme.mqh"
+#include "../CEDashboardSection.mqh"
+#include "../CEDashboardCardFactory.mqh"
 
 class CEStructureCardBuilder : public IDashboardCardBuilder
 {
@@ -16,19 +19,18 @@ public:
       const CEAnalysisContext &analysis,
       CEDashboardContext &dashboard) override
    {
-      CEDashboardCard card;
+      CEDashboardSection section;
 
-      card.Id = "STRUCTURE";
+      section.Id    = "structure";
+      section.Title = "Structure";
 
-      card.Text =
-         "Structure : " +
-         IntegerToString(
-            analysis.StructureSeries.Count());
+      section.Add(
+         CEDashboardCardFactory::Item(
+            "Count",
+            IntegerToString(
+               analysis.StructureSeries.Count())));
 
-      card.Color =
-         m_theme.TextColor;
-
-      dashboard.Add(card);
+      dashboard.AddSection(section);
    }
 };
 

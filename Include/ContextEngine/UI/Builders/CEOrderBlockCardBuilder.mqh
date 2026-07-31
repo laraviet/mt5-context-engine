@@ -2,56 +2,57 @@
 #define __CE_ORDER_BLOCK_CARD_BUILDER_MQH__
 
 #include "IDashboardCardBuilder.mqh"
+
+#include "../CETheme.mqh"
+#include "../CEDashboardSection.mqh"
 #include "../CEDashboardCardFactory.mqh"
 
 class CEOrderBlockCardBuilder : public IDashboardCardBuilder
 {
+private:
+
+   CETheme m_theme;
+
 public:
 
    virtual void Build(
       const CEAnalysisContext &analysis,
       CEDashboardContext &dashboard) override
    {
-      CEOrderBlockSummary summary =
+      const CEOrderBlockSummary summary =
          analysis.Summary.OrderBlock;
 
-      dashboard.Add(
-         CEDashboardCardFactory::Title(
-            "Order Block"));
+      CEDashboardSection section;
 
-      dashboard.Add(
+      section.Id    = "order_block";
+      section.Title = "Order Block";
+
+      section.Add(
          CEDashboardCardFactory::Item(
-            "Bullish Active",
-            IntegerToString(
-               summary.ActiveBullish)));
+            "Total",
+            IntegerToString(summary.Total)));
 
-      dashboard.Add(
+      section.Add(
          CEDashboardCardFactory::Item(
-            "Bearish Active",
-            IntegerToString(
-               summary.ActiveBearish)));
+            "Bullish",
+            IntegerToString(summary.Bullish)));
 
-      dashboard.Add(
+      section.Add(
          CEDashboardCardFactory::Item(
-            "Bullish Filled",
-            IntegerToString(
-               summary.FilledBullish)));
+            "Bearish",
+            IntegerToString(summary.Bearish)));
 
-      dashboard.Add(
+      section.Add(
          CEDashboardCardFactory::Item(
-            "Bearish Filled",
-            IntegerToString(
-               summary.FilledBearish)));
+            "Active",
+            IntegerToString(summary.Active())));
 
-      dashboard.Add(
+      section.Add(
          CEDashboardCardFactory::Item(
-            "Fill Ratio",
-            DoubleToString(
-               summary.FillRatio * 100.0,
-               1) + "%"));
+            "Mitigated",
+            IntegerToString(summary.Filled())));
 
-      dashboard.Add(
-         CEDashboardCardFactory::Separator());
+      dashboard.AddSection(section);
    }
 };
 

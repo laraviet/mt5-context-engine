@@ -8,13 +8,14 @@
 #include "CESymbolCardBuilder.mqh"
 #include "CETimeframeCardBuilder.mqh"
 #include "CEStatusCardBuilder.mqh"
+
 #include "CESwingCardBuilder.mqh"
 #include "CEStructureCardBuilder.mqh"
 #include "CETrendCardBuilder.mqh"
-#include "CEMarketBiasCardBuilder.mqh"
+#include "CELiquidityCardBuilder.mqh"
 #include "CEFVGCardBuilder.mqh"
 #include "CEOrderBlockCardBuilder.mqh"
-#include "CELiquidityCardBuilder.mqh"
+#include "CEMarketBiasCardBuilder.mqh"
 #include "CEScoreCardBuilder.mqh"
 
 class CEDashboardRegistry
@@ -22,7 +23,32 @@ class CEDashboardRegistry
 private:
 
    CEDashboardBuilderPipeline *m_pipeline;
-   
+
+private:
+
+   void RegisterHeader()
+   {
+      m_pipeline.Add(new CETitleCardBuilder());
+      m_pipeline.Add(new CEVersionCardBuilder());
+      m_pipeline.Add(new CESymbolCardBuilder());
+      m_pipeline.Add(new CETimeframeCardBuilder());
+      m_pipeline.Add(new CEStatusCardBuilder());
+   }
+
+   void RegisterAnalysis()
+   {
+      m_pipeline.Add(new CESwingCardBuilder());
+      m_pipeline.Add(new CEStructureCardBuilder());
+      m_pipeline.Add(new CETrendCardBuilder());
+
+      m_pipeline.Add(new CELiquidityCardBuilder());
+      m_pipeline.Add(new CEFVGCardBuilder());
+      m_pipeline.Add(new CEOrderBlockCardBuilder());
+
+      m_pipeline.Add(new CEMarketBiasCardBuilder());
+      m_pipeline.Add(new CEScoreCardBuilder());
+   }
+
 public:
 
    CEDashboardRegistry(
@@ -33,31 +59,8 @@ public:
 
    bool Register()
    {
-      m_pipeline.Add(new CETitleCardBuilder());
-
-      m_pipeline.Add(new CEVersionCardBuilder());
-      
-      m_pipeline.Add(new CESymbolCardBuilder());
-      
-      m_pipeline.Add(new CETimeframeCardBuilder());
-      
-      m_pipeline.Add(new CEStatusCardBuilder());
-      
-      m_pipeline.Add(new CESwingCardBuilder());
-      
-      m_pipeline.Add(new CEStructureCardBuilder());
-      
-      m_pipeline.Add(new CETrendCardBuilder());
-      
-      m_pipeline.Add(new CELiquidityCardBuilder());
-      
-      m_pipeline.Add(new CEFVGCardBuilder());
-      
-      m_pipeline.Add(new CEOrderBlockCardBuilder());
-      
-      m_pipeline.Add(new CEMarketBiasCardBuilder());
-      
-      m_pipeline.Add(new CEScoreCardBuilder());
+      RegisterHeader();
+      RegisterAnalysis();
 
       return true;
    }
