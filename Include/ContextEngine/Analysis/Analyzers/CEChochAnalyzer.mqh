@@ -45,6 +45,7 @@ public:
       CEAnalysisContext &context) override
    {
       m_detector.Detect(
+         context.SwingSeries,
          context.BOSSeries,
          context.CHOCHSeries);
 

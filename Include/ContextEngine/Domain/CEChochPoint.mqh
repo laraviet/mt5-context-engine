@@ -17,6 +17,8 @@ public:
 
    double Price;
 
+   bool Confirmed;
+
 public:
 
    CEChochPoint()
@@ -35,6 +37,23 @@ public:
       BOSIndex = -1;
 
       Price = 0;
+
+      Confirmed = false;
+   }
+
+   void Confirm()
+   {
+      Confirmed = true;
+   }
+
+   bool IsBullish() const
+   {
+      return Type == CHOCH_BULLISH;
+   }
+
+   bool IsBearish() const
+   {
+      return Type == CHOCH_BEARISH;
    }
 };
 

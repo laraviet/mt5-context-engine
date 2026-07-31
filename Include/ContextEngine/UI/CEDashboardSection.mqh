@@ -10,6 +10,8 @@ public:
    string Id;
 
    string Title;
+   
+   bool Expanded;
 
 private:
 
@@ -21,6 +23,7 @@ public:
    {
       Id="";
       Title="";
+      Expanded = true;
    }
 
    void Clear()

@@ -155,13 +155,16 @@ private:
       DrawSeparator(
          section.Id + "_separator");
    
-      for(int i = 0;
-          i < section.Count();
-          i++)
+      if(section.Expanded)
       {
-         RenderCard(
-            section.At(i),
-            i);
+         for(int i = 0;
+             i < section.Count();
+             i++)
+         {
+            RenderCard(
+               section.At(i),
+               i);
+         }
       }
    
       m_y += m_lineHeight;

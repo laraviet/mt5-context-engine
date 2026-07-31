@@ -11,6 +11,7 @@ public:
    virtual ~IChochDetector(){}
 
    virtual int Detect(
+      const CESwingSeries &swings,
       const CEBOSSeries &bos,
       CEChochSeries &choch)=0;
 };
