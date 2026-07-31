@@ -14,6 +14,8 @@
 #include "../Core/CELogger.mqh"
 #include "../Config/CEEngineConfig.mqh"
 
+#include "../Analysis/Validators/CEContextValidator.mqh"
+
 class CEContextEngine
 {
 private:
@@ -22,6 +24,7 @@ private:
    CEAnalysisContext   m_context;
    CEAnalysisPipeline  m_pipeline;
    CEEngineConfig m_config;
+   CEContextValidator m_validator;
 
 public:
 
@@ -72,11 +75,14 @@ public:
 
       if(!Analyze())
          return false;
+         
+      if(!m_validator.Validate(m_context))
+         return false;
    
       return true;
    }
 
-   CEAnalysisContext Context()
+   CEAnalysisContext Context() const
    {
       return m_context;
    }
