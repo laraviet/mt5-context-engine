@@ -16,44 +16,37 @@ public:
 
    virtual int Stage() const override
    {
-      return CE_STAGE_ORDER_BLOCK_SCORE;
+      return CE_STAGE_SCORE;
    }
 
    virtual int Priority() const override
    {
-      return CE_PRIORITY_ORDER_BLOCK_SCORE;
+      return CE_PRIORITY_SCORE;
    }
 
    virtual bool Analyze(
       CEAnalysisContext &context) override
    {
-      int bullishActive = 0;
-      int bearishActive = 0;
+      CEOrderBlockSummary summary =
+         context.Summary.OrderBlock;
 
-      for(int i = 0; i < context.OrderBlockSeries.Count(); i++)
-      {
-         CEOrderBlockPoint point =
-            context.OrderBlockSeries.At(i);
+      CEContextScore score =
+         context.Summary.Score;
 
-         if(point.Mitigated)
-            continue;
+      if(summary.ActiveBullish > 0)
+         score.Structure += 10;
 
-         if(point.Type == ORDER_BLOCK_BULLISH)
-            bullishActive++;
+      if(summary.ActiveBearish > 0)
+         score.Structure += 10;
 
-         if(point.Type == ORDER_BLOCK_BEARISH)
-            bearishActive++;
-      }
+      if(summary.FillRatio > 0.50)
+         score.Structure += 5;
 
-      int score = 0;
+      context.Summary.Score = score;
 
-      if(bullishActive >= 2)
-         score += 10;
-
-      if(bearishActive >= 2)
-         score -= 10;
-
-      context.Summary.Score.Liquidity = score;
+      Print(
+         "Order Block Score = ",
+         score.Structure);
 
       return true;
    }
