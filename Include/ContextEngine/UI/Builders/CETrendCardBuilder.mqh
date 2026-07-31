@@ -6,9 +6,6 @@
 
 class CETrendCardBuilder : public IDashboardCardBuilder
 {
-private:
-
-   CETheme m_theme;
 
 public:
 
@@ -16,20 +13,66 @@ public:
       const CEAnalysisContext &analysis,
       CEDashboardContext &dashboard) override
    {
-      CEDashboardCard card;
-
-      card.Id = "TREND";
-
-      card.Text =
-         "Trend : " +
-         IntegerToString(
-            analysis.TrendSeries.Count());
-
-      card.Color =
-         m_theme.TextColor;
-
-      dashboard.Add(card);
+      CEDashboardSection section;
+   
+      section.Id    = "trend";
+      section.Title = "Trend";
+   
+      section.Add(
+         CEDashboardCardFactory::Item(
+            "Trend",
+            TrendToString(analysis.Summary.Market.Trend)));
+   
+      section.Add(
+         CEDashboardCardFactory::Item(
+            "Strength",
+            IntegerToString(analysis.Summary.Market.Strength)));
+   
+      section.Add(
+         CEDashboardCardFactory::Item(
+            "Structure",
+            PhaseToString(analysis.Summary.Market.Phase)));
+   
+      dashboard.AddSection(section);
    }
-};
 
+private:
+   CETheme m_theme;
+   
+   string TrendToString(
+      const CETrendType trend) const
+   {
+      switch(trend)
+      {
+         case TREND_UP:
+            return "Up";
+   
+         case TREND_DOWN:
+            return "Down";
+   
+         case TREND_RANGE:
+            return "Range";
+   
+         default:
+            return "Unknown";
+      }
+   }
+   
+   string PhaseToString(
+      const CEMarketPhase phase) const
+   {
+      switch(phase)
+      {
+         case MARKET_PHASE_TREND:
+            return "Trend";
+   
+         case MARKET_PHASE_RANGE:
+            return "Range";
+   
+         default:
+            return "Unknown";
+      }
+   }
+
+};
 #endif
