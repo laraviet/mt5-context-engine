@@ -12,7 +12,7 @@ public:
       const CEAnalysisContext &analysis,
       CEDashboardContext &dashboard) override
    {
-      const CEOrderBlockSummary summary =
+      CEOrderBlockSummary summary =
          analysis.Summary.OrderBlock;
 
       dashboard.Add(
@@ -21,28 +21,34 @@ public:
 
       dashboard.Add(
          CEDashboardCardFactory::Item(
-            "Total",
-            IntegerToString(summary.Total)));
+            "Bullish Active",
+            IntegerToString(
+               summary.ActiveBullish)));
 
       dashboard.Add(
          CEDashboardCardFactory::Item(
-            "Bullish",
-            IntegerToString(summary.Bullish)));
+            "Bearish Active",
+            IntegerToString(
+               summary.ActiveBearish)));
 
       dashboard.Add(
          CEDashboardCardFactory::Item(
-            "Bearish",
-            IntegerToString(summary.Bearish)));
+            "Bullish Filled",
+            IntegerToString(
+               summary.FilledBullish)));
 
       dashboard.Add(
          CEDashboardCardFactory::Item(
-            "Active",
-            IntegerToString(summary.Active)));
+            "Bearish Filled",
+            IntegerToString(
+               summary.FilledBearish)));
 
       dashboard.Add(
          CEDashboardCardFactory::Item(
-            "Mitigated",
-            IntegerToString(summary.Mitigated)));
+            "Fill Ratio",
+            DoubleToString(
+               summary.FillRatio * 100.0,
+               1) + "%"));
 
       dashboard.Add(
          CEDashboardCardFactory::Separator());

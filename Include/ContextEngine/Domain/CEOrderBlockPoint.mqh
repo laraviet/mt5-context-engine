@@ -21,6 +21,11 @@ public:
 
 public:
 
+   CEOrderBlockPoint()
+   {
+      Reset();
+   }
+
    void Reset()
    {
       Index = -1;
@@ -34,6 +39,26 @@ public:
       Low = 0;
 
       Mitigated = false;
+   }
+
+   bool IsBullish() const
+   {
+      return Type == ORDER_BLOCK_BULLISH;
+   }
+
+   bool IsBearish() const
+   {
+      return Type == ORDER_BLOCK_BEARISH;
+   }
+
+   bool IsActive() const
+   {
+      return !Mitigated;
+   }
+
+   bool IsMitigated() const
+   {
+      return Mitigated;
    }
 };
 

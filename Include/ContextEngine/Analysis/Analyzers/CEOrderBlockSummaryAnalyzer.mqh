@@ -27,26 +27,49 @@ public:
    virtual bool Analyze(
       CEAnalysisContext &context) override
    {
-      context.Summary.OrderBlock.Reset();
+      CEOrderBlockSummary summary =
+         context.Summary.OrderBlock;
 
-      for(int i=0;i<context.OrderBlockSeries.Count();i++)
+      summary.Reset();
+
+      for(int i = 0;
+          i < context.OrderBlockSeries.Count();
+          i++)
       {
          CEOrderBlockPoint point =
             context.OrderBlockSeries.At(i);
 
-         context.Summary.OrderBlock.Total++;
+         summary.Total++;
 
-         if(point.Type==ORDER_BLOCK_BULLISH)
-            context.Summary.OrderBlock.Bullish++;
+         if(point.IsBullish())
+         {
+            summary.Bullish++;
 
-         if(point.Type==ORDER_BLOCK_BEARISH)
-            context.Summary.OrderBlock.Bearish++;
+            if(point.IsActive())
+               summary.ActiveBullish++;
+            else
+               summary.FilledBullish++;
+         }
 
-         if(point.Mitigated)
-            context.Summary.OrderBlock.Mitigated++;
-         else
-            context.Summary.OrderBlock.Active++;
+         if(point.IsBearish())
+         {
+            summary.Bearish++;
+
+            if(point.IsActive())
+               summary.ActiveBearish++;
+            else
+               summary.FilledBearish++;
+         }
       }
+
+      if(summary.Total > 0)
+      {
+         summary.FillRatio =
+            (double)summary.Filled() /
+            (double)summary.Total;
+      }
+      
+      context.Summary.OrderBlock = summary;
 
       return true;
    }

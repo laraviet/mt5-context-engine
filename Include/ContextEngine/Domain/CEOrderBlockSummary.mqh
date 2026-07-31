@@ -8,22 +8,51 @@ public:
    int Total;
 
    int Bullish;
-
    int Bearish;
 
-   int Active;
+   int ActiveBullish;
+   int ActiveBearish;
 
-   int Mitigated;
+   int FilledBullish;
+   int FilledBearish;
+
+   double FillRatio;
 
 public:
 
+   CEOrderBlockSummary()
+   {
+      Reset();
+   }
+
    void Reset()
    {
-      Total      = 0;
-      Bullish    = 0;
-      Bearish    = 0;
-      Active     = 0;
-      Mitigated  = 0;
+      Total = 0;
+
+      Bullish = 0;
+      Bearish = 0;
+
+      ActiveBullish = 0;
+      ActiveBearish = 0;
+
+      FilledBullish = 0;
+      FilledBearish = 0;
+
+      FillRatio = 0.0;
+   }
+
+   int Active() const
+   {
+      return
+         ActiveBullish +
+         ActiveBearish;
+   }
+
+   int Filled() const
+   {
+      return
+         FilledBullish +
+         FilledBearish;
    }
 };
 
