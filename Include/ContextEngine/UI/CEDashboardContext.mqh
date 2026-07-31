@@ -2,6 +2,7 @@
 #define __CE_DASHBOARD_CONTEXT_MQH__
 
 #include "CEDashboardCard.mqh"
+#include "CEDashboardSection.mqh"
 
 class CEDashboardContext
 {
@@ -9,16 +10,25 @@ private:
 
    CEDashboardCard m_cards[];
 
+   CEDashboardSection m_sections[];
+
 public:
 
    void Clear()
    {
       ArrayResize(m_cards,0);
+
+      ArrayResize(m_sections,0);
    }
 
-   void Add(const CEDashboardCard &card)
+   //-------------------------
+   // Legacy API
+   //-------------------------
+
+   void Add(
+      const CEDashboardCard &card)
    {
-      int n = ArraySize(m_cards);
+      int n=ArraySize(m_cards);
 
       ArrayResize(m_cards,n+1);
 
@@ -30,9 +40,35 @@ public:
       return ArraySize(m_cards);
    }
 
-   CEDashboardCard At(const int index) const
+   CEDashboardCard At(
+      const int index) const
    {
       return m_cards[index];
+   }
+
+   //-------------------------
+   // Section API
+   //-------------------------
+
+   void AddSection(
+      const CEDashboardSection &section)
+   {
+      int n=ArraySize(m_sections);
+
+      ArrayResize(m_sections,n+1);
+
+      m_sections[n]=section;
+   }
+
+   int SectionCount() const
+   {
+      return ArraySize(m_sections);
+   }
+
+   CEDashboardSection SectionAt(
+      const int index) const
+   {
+      return m_sections[index];
    }
 };
 
