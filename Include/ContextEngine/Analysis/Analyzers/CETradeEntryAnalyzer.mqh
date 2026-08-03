@@ -2,6 +2,7 @@
 #define __CE_TRADE_ENTRY_ANALYZER_MQH__
 
 #include "../../Core/ICEAnalyzer.mqh"
+#include "../../Domain/CEOrderBlockPoint.mqh"
 
 class CETradeEntryAnalyzer :
    public ICEAnalyzer
@@ -28,6 +29,44 @@ public:
    {
       context.TradeEntry.Reset();
 
+      if(context.Decision.Type==DECISION_BUY)
+      {
+          for(int i=context.OrderBlockSeries.Count()-1;i>=0;i--)
+          {
+              CEOrderBlockPoint block=
+                  context.OrderBlockSeries.At(i);
+      
+              if(block.IsBullish())
+              {
+                  context.TradeEntry.Valid=true;
+      
+                  context.TradeEntry.Price=
+                      block.High;
+      
+                  return true;
+              }
+          }
+      }
+      
+      if(context.Decision.Type==DECISION_SELL)
+      {
+          for(int i=context.OrderBlockSeries.Count()-1;i>=0;i--)
+          {
+              CEOrderBlockPoint block=
+                  context.OrderBlockSeries.At(i);
+      
+              if(block.IsBearish())
+              {
+                  context.TradeEntry.Valid=true;
+      
+                  context.TradeEntry.Price=
+                      block.Low;
+      
+                  return true;
+              }
+          }
+      }
+      
       return true;
    }
 };
