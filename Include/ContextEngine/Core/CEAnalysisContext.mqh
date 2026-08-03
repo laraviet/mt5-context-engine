@@ -15,6 +15,8 @@
 #include "../Domain/CEDecision.mqh"
 #include "../Domain/CETradeSignal.mqh"
 
+#include "../Domain/CETradeEntry.mqh"
+
 class CEAnalysisContext : public CEContext
 {
 public:
@@ -42,6 +44,8 @@ public:
    CEDecision Decision;
    
    CETradeSignal TradeSignal;
+   
+   CETradeEntry TradeEntry;
 
 public:
 
@@ -73,6 +77,8 @@ public:
       Decision.Reset();
       
       TradeSignal.Reset();
+      
+      TradeEntry.Reset();
    }
 
    void ClearInput()

@@ -37,6 +37,8 @@
 
 #include "../Factories/CETradeSignalAnalyzerFactory.mqh"
 
+#include "../Factories/CETradeEntryAnalyzerFactory.mqh"
+
 class CEAnalyzerRegistry
 {
 private:
@@ -125,7 +127,10 @@ public:
          CEDecisionAnalyzerFactory::Create());
          
       m_pipeline.Add(
-         CETradeSignalAnalyzerFactory::Create());           
+         CETradeSignalAnalyzerFactory::Create());         
+         
+      m_pipeline.Add(
+         CETradeEntryAnalyzerFactory::Create());  
 
       return true;
    }
