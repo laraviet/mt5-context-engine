@@ -1,7 +1,7 @@
 #ifndef __ICE_ANALYZER_MQH__
 #define __ICE_ANALYZER_MQH__
 
-class CEAnalysisContext;
+#include "CEAnalysisContext.mqh"
 
 class ICEAnalyzer
 {
