@@ -25,7 +25,7 @@ public:
    virtual bool Analyze(
       CEAnalysisContext &context) override
    {
-      context.TradeFilter.Reset();
+      context.TradeSetup.Filter.Reset();
 
       //--------------------------------------------------
       // Entry phải hợp lệ
@@ -33,7 +33,7 @@ public:
 
       if(!context.TradeEntry.Valid)
       {
-         context.TradeFilter.Reason =
+         context.TradeSetup.Filter.Reason =
             FILTER_REASON_INVALID_ENTRY;
 
          return true;
@@ -45,7 +45,7 @@ public:
 
       if(!context.TradeQuality.Valid)
       {
-         context.TradeFilter.Reason =
+         context.TradeSetup.Filter.Reason =
             FILTER_REASON_LOW_QUALITY;
 
          return true;
@@ -57,7 +57,7 @@ public:
 
       if(context.TradeQuality.Score < 80)
       {
-         context.TradeFilter.Reason =
+         context.TradeSetup.Filter.Reason =
             FILTER_REASON_LOW_QUALITY;
 
          return true;
@@ -69,7 +69,7 @@ public:
 
       if(!context.TradeSetup.RiskReward.Valid)
       {
-         context.TradeFilter.Reason =
+         context.TradeSetup.Filter.Reason =
             FILTER_REASON_LOW_RR;
 
          return true;
@@ -81,7 +81,7 @@ public:
 
       if(context.TradeSetup.RiskReward.Ratio < 2.0)
       {
-         context.TradeFilter.Reason =
+         context.TradeSetup.Filter.Reason =
             FILTER_REASON_LOW_RR;
 
          return true;
@@ -91,9 +91,9 @@ public:
       // Passed
       //--------------------------------------------------
 
-      context.TradeFilter.Allowed = true;
+      context.TradeSetup.Filter.Allowed = true;
 
-      context.TradeFilter.Reason =
+      context.TradeSetup.Filter.Reason =
          FILTER_REASON_NONE;
 
       return true;

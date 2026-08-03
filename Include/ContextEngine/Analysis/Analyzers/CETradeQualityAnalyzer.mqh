@@ -98,6 +98,7 @@ public:
          score = 100;
 
       context.TradeSetup.Quality.Valid = true;
+
       context.TradeSetup.Quality.Score = score;
 
       return true;

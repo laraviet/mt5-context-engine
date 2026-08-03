@@ -6,6 +6,7 @@
 #include "CETakeProfit.mqh"
 #include "CERiskReward.mqh"
 #include "CETradeQuality.mqh"
+#include "CETradeFilter.mqh"
 
 class CETradeSetup
 {
@@ -20,6 +21,8 @@ public:
    CERiskReward RiskReward;
    
    CETradeQuality Quality;
+   
+   CETradeFilter Filter;
 
 public:
 
@@ -34,15 +37,23 @@ public:
       RiskReward.Reset();
       
       Quality.Reset();
+      
+      Filter.Reset();
    }
 
    bool IsValid() const
    {
-      return
-         Entry.Valid &&
-         StopLoss.Valid &&
-         TakeProfit.Valid;
+      return Entry.Valid &&
+             StopLoss.Valid &&
+             TakeProfit.Valid;
    }
+   
+   bool IsTradable() const
+   {
+      return IsValid() &&
+             Filter.Allowed;
+   }
+   
 };
 
 #endif
