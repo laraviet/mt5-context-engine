@@ -19,6 +19,7 @@
 #include "CEScoreCardBuilder.mqh"
 #include "CESignalCardBuilder.mqh"
 #include "CETradeEntryCardBuilder.mqh"
+#include "CETradeFilterCardBuilder.mqh"
 
 class CEDashboardRegistry
 {
@@ -52,6 +53,7 @@ private:
       m_pipeline.Add(new CESignalCardBuilder());
       
       m_pipeline.Add(new CETradeEntryCardBuilder());
+      m_pipeline.Add(new CETradeFilterCardBuilder());
    }
 
 public:

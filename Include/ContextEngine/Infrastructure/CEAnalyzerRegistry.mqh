@@ -43,6 +43,7 @@
 #include "../Factories/CERiskRewardAnalyzerFactory.mqh"
 
 #include "../Factories/CETradeQualityAnalyzerFactory.mqh"
+#include "../Factories/CETradeFilterAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -148,6 +149,9 @@ public:
          
       m_pipeline.Add(
          CETradeQualityAnalyzerFactory::Create());
+         
+      m_pipeline.Add(
+         CETradeFilterAnalyzerFactory::Create());
 
       return true;
    }

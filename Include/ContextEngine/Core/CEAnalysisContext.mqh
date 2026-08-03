@@ -20,6 +20,9 @@
 #include "../Domain/CETakeProfit.mqh"
 #include "../Domain/CETradeSetup.mqh"
 
+#include "../Domain/CETradeQuality.mqh"
+#include "../Domain/CETradeFilter.mqh"
+
 class CEAnalysisContext : public CEContext
 {
 public:
@@ -55,6 +58,10 @@ public:
    CETakeProfit TakeProfit;
    
    CETradeSetup TradeSetup;
+   
+   CETradeQuality TradeQuality;
+   
+   CETradeFilter TradeFilter;
 
 public:
 
@@ -94,6 +101,11 @@ public:
       TakeProfit.Reset();
       
       TradeSetup.Reset();
+      
+      TradeQuality.Reset();
+      
+      TradeFilter.Reset();      
+      
    }
 
    void ClearInput()
