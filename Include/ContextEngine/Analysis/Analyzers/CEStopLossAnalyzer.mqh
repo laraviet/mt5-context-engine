@@ -116,6 +116,9 @@ private:
 
          context.StopLoss.Source=
             STOP_LOSS_ORDER_BLOCK;
+            
+         context.TradeSetup.StopLoss =
+            context.StopLoss;
 
          return;
       }
@@ -180,6 +183,9 @@ private:
 
          context.StopLoss.Source=
             STOP_LOSS_ORDER_BLOCK;
+            
+         context.TradeSetup.StopLoss =
+            context.StopLoss;
 
          return;
       }

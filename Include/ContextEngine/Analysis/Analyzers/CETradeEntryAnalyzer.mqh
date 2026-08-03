@@ -125,6 +125,11 @@ private:
 
       context.TradeEntry.Source =
          ENTRY_SOURCE_ORDER_BLOCK;
+         
+      // Sync TradeSetup
+
+      context.TradeSetup.Entry =
+         context.TradeEntry;
    }
 
    //----------------------------------------------------------
@@ -204,6 +209,11 @@ private:
 
       context.TradeEntry.Source =
          ENTRY_SOURCE_ORDER_BLOCK;
+         
+      // Sync TradeSetup
+
+      context.TradeSetup.Entry =
+         context.TradeEntry;
    }
 
 };

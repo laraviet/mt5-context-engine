@@ -17,6 +17,8 @@
 
 #include "../Domain/CETradeEntry.mqh"
 #include "../Domain/CEStopLoss.mqh"
+#include "../Domain/CETakeProfit.mqh"
+#include "../Domain/CETradeSetup.mqh"
 
 class CEAnalysisContext : public CEContext
 {
@@ -49,6 +51,10 @@ public:
    CETradeEntry TradeEntry;
    
    CEStopLoss StopLoss;
+   
+   CETakeProfit TakeProfit;
+   
+   CETradeSetup TradeSetup;
 
 public:
 
@@ -84,6 +90,10 @@ public:
       TradeEntry.Reset();
       
       StopLoss.Reset();
+      
+      TakeProfit.Reset();
+      
+      TradeSetup.Reset();
    }
 
    void ClearInput()
