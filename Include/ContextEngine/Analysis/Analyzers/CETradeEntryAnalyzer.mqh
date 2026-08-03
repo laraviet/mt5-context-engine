@@ -1,4 +1,4 @@
-#ifndef __CE_TRADE_ENTRY_ANALYZER_MQH__
+﻿#ifndef __CE_TRADE_ENTRY_ANALYZER_MQH__
 #define __CE_TRADE_ENTRY_ANALYZER_MQH__
 
 #include "../../Core/ICEAnalyzer.mqh"
@@ -33,7 +33,11 @@ public:
       {
           for(int i=context.OrderBlockSeries.Count()-1;i>=0;i--)
           {
-              CEOrderBlockPoint block = context.OrderBlockSeries.At(i);
+             CEOrderBlockPoint block = context.OrderBlockSeries.At(i);
+              
+             // Bỏ qua Order Block đã Mitigated
+             if(!block.IsActive())
+                 continue;
       
               if(block.IsBullish())
               {
@@ -53,6 +57,10 @@ public:
           for(int i=context.OrderBlockSeries.Count()-1;i>=0;i--)
           {
               CEOrderBlockPoint block = context.OrderBlockSeries.At(i);
+              
+              // Bỏ qua Order Block đã Mitigated
+              if(!block.IsActive())
+                 continue;
       
               if(block.IsBearish())
               {
