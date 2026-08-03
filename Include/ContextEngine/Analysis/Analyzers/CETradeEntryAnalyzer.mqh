@@ -101,6 +101,23 @@ private:
 
       CEOrderBlockPoint block =
          context.OrderBlockSeries.At(bestIndex);
+         
+      //-------------------------------------
+      // Maximum Entry Distance
+      //-------------------------------------
+      
+      const int MAX_ENTRY_DISTANCE_POINTS = 300;
+      
+      double distancePoints =
+         MathAbs(
+            currentPrice -
+            block.High) / _Point;
+      
+      if(distancePoints >
+         MAX_ENTRY_DISTANCE_POINTS)
+      {
+         return;
+      }
 
       context.TradeEntry.Valid  = true;
 
@@ -163,6 +180,23 @@ private:
 
       CEOrderBlockPoint block =
          context.OrderBlockSeries.At(bestIndex);
+         
+      //-------------------------------------
+      // Maximum Entry Distance
+      //-------------------------------------
+      
+      const int MAX_ENTRY_DISTANCE_POINTS = 300;
+      
+      double distancePoints =
+         MathAbs(
+            currentPrice -
+            block.Low) / _Point;
+      
+      if(distancePoints >
+         MAX_ENTRY_DISTANCE_POINTS)
+      {
+         return;
+      }
 
       context.TradeEntry.Valid  = true;
 
