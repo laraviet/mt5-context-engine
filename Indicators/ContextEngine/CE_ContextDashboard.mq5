@@ -19,7 +19,12 @@ CEContext Context;
 int OnInit()
 {   
    CEEngineConfig config;
-   CEContextEngine Engine(config);
+   
+   config.Export.Enabled = true;
+
+   config.Export.FileName = "TradeSetup.csv";
+   
+   CEContextEngine Engine(config);     
    
    Engine.Initialize();
 

@@ -16,6 +16,8 @@
 
 #include "../Analysis/Validators/CEContextValidator.mqh"
 
+#include "../Export/CETradeSetupCsvExporter.mqh"
+
 class CEContextEngine
 {
 private:
@@ -25,6 +27,7 @@ private:
    CEAnalysisPipeline  m_pipeline;
    CEEngineConfig m_config;
    CEContextValidator m_validator;
+   CETradeSetupCsvExporter *m_exporter;
 
 public:
 
@@ -32,13 +35,21 @@ public:
       const CEEngineConfig &config)
    {
       m_config = config;
+      m_exporter = NULL;
    }
 
    bool Initialize()
    {
       CEAnalyzerRegistry registry(m_pipeline);
    
-      registry.Register(m_config);            
+      registry.Register(m_config);        
+      
+      if(m_config.Export.Enabled)
+      {
+         m_exporter =
+            new CETradeSetupCsvExporter(
+               m_config.Export.FileName);
+      }    
    
       return true;
    }
@@ -78,14 +89,36 @@ public:
          
       if(!m_validator.Validate(m_context))
          return false;
+         
+      if(!Export())
+         return false;
    
       return true;
+   }
+   
+   bool Export()
+   {
+      if(m_exporter==NULL)
+         return true;
+   
+      return m_exporter.Export(m_context);
    }
 
    CEAnalysisContext Context() const
    {
       return m_context;
    }
+   
+   ~CEContextEngine()
+   {
+      if(m_exporter!=NULL)
+      {
+         delete m_exporter;
+   
+         m_exporter = NULL;
+      }
+   }
+   
 };
 
 #endif
