@@ -18,6 +18,9 @@
 
 #include "../Export/CETradeSetupCsvExporter.mqh"
 
+#include "../Journal/CETradeJournalRepository.mqh"
+#include "../Journal/CETradeJournalMapper.mqh"
+
 class CEContextEngine
 {
 private:
@@ -28,6 +31,7 @@ private:
    CEEngineConfig m_config;
    CEContextValidator m_validator;
    CETradeSetupCsvExporter *m_exporter;
+   CETradeJournalRepository m_journal;
 
 public:
 
@@ -90,6 +94,9 @@ public:
       if(!m_validator.Validate(m_context))
          return false;
          
+      if(!UpdateJournal())
+         return false;
+         
       if(!Export())
          return false;
    
@@ -101,12 +108,27 @@ public:
       if(m_exporter==NULL)
          return true;
    
-      return m_exporter.Export(m_context);
+      return m_exporter.Export(m_journal.Last());
    }
 
    CEAnalysisContext Context() const
    {
       return m_context;
+   }
+   
+   const CETradeJournalRepository Journal() const
+   {
+      return m_journal;
+   }
+   
+   bool UpdateJournal()
+   {
+      CETradeJournalEntry entry =
+         CETradeJournalMapper::Map(
+            m_context);
+   
+      return
+         m_journal.Add(entry);
    }
    
    ~CEContextEngine()
@@ -117,7 +139,7 @@ public:
    
          m_exporter = NULL;
       }
-   }
+   }      
    
 };
 

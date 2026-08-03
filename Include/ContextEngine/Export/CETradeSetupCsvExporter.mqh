@@ -9,6 +9,7 @@
 #include "CECsvWriter.mqh"
 #include "../Core/CELogger.mqh"
 #include "../Constants.mqh"
+#include "../Journal/CETradeJournalEntry.mqh"
 
 class CETradeSetupCsvExporter :
    public ICETradeSetupExporter
@@ -35,10 +36,10 @@ public:
    }
 
    virtual bool Export(
-      const CEAnalysisContext &context) override
+      const CETradeJournalEntry &entry) override
    {      
       CETradeSetupExportRow row =
-         CETradeSetupExportMapper::Map(context);
+         CETradeSetupExportMapper::Map(entry);
    
       bool newFile = false;
 

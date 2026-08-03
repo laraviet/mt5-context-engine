@@ -3,6 +3,7 @@
 
 #include "CETradeSetupExportRow.mqh"
 #include "../Domain/CEDecisionTypeHelper.mqh"
+#include "../Journal/CETradeJournalEntry.mqh"
 
 class CETradeSetupExportMapper
 {
@@ -34,49 +35,49 @@ private:
 public:
 
    static CETradeSetupExportRow Map(
-      const CEAnalysisContext &context)
+      const CETradeJournalEntry &entry)
    {
       CETradeSetupExportRow row;
 
-      row.Time = TimeCurrent();
+      row.Time = entry.Time;
 
-      row.Symbol = context.Symbol;
+      row.Symbol = entry.Symbol;
 
       row.Timeframe =
          TimeframeToString(
-            context.Timeframe);
+            entry.Timeframe);
 
       row.Direction =
          CEDecisionTypeHelper::ToString(
-            context.Decision.Type);
+            entry.Decision.Type);
 
       row.Entry =
-         context.TradeSetup.Entry.Price;
+         entry.TradeSetup.Entry.Price;
 
       row.StopLoss =
-         context.TradeSetup.StopLoss.Price;
+         entry.TradeSetup.StopLoss.Price;
 
       row.TakeProfit =
-         context.TradeSetup.TakeProfit.Price;
+         entry.TradeSetup.TakeProfit.Price;
 
       row.Risk =
-         context.TradeSetup.RiskReward.Risk / _Point;
+         entry.TradeSetup.RiskReward.Risk / _Point;
 
       row.Reward =
-         context.TradeSetup.RiskReward.Reward / _Point;
+         entry.TradeSetup.RiskReward.Reward / _Point;
 
       row.RR =
-         context.TradeSetup.RiskReward.Ratio;
+         entry.TradeSetup.RiskReward.Ratio;
 
       row.Quality =
-         context.TradeSetup.Quality.Score;
+         entry.TradeSetup.Quality.Score;
 
       row.Allowed =
-         context.TradeSetup.Filter.Allowed;
+         entry.TradeSetup.Filter.Allowed;
 
       row.Reason =
          CETradeFilterReasonHelper::ToString(
-            context.TradeSetup.Filter.Reason);
+            entry.TradeSetup.Filter.Reason);
 
       return row;
    }
