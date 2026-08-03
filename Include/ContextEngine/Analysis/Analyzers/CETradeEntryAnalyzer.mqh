@@ -2,10 +2,8 @@
 #define __CE_TRADE_ENTRY_ANALYZER_MQH__
 
 #include "../../Core/ICEAnalyzer.mqh"
-#include "../../Domain/CEOrderBlockPoint.mqh"
 
-class CETradeEntryAnalyzer :
-   public ICEAnalyzer
+class CETradeEntryAnalyzer : public ICEAnalyzer
 {
 public:
 
@@ -29,54 +27,151 @@ public:
    {
       context.TradeEntry.Reset();
 
-      if(context.Decision.Type==DECISION_BUY)
+      if(context.CandleSeries.Count() <= 0)
+         return true;
+
+      if(context.Decision.Type == DECISION_BUY)
       {
-          for(int i=context.OrderBlockSeries.Count()-1;i>=0;i--)
-          {
-             CEOrderBlockPoint block = context.OrderBlockSeries.At(i);
-              
-             // Bỏ qua Order Block đã Mitigated
-             if(!block.IsActive())
-                 continue;
-      
-              if(block.IsBullish())
-              {
-                  context.TradeEntry.Valid = true;
-      
-                  context.TradeEntry.Price = block.High;
-                      
-                  context.TradeEntry.Source = ENTRY_SOURCE_ORDER_BLOCK;
-      
-                  return true;
-              }
-          }
+         CalculateBuy(context);
+         return true;
       }
-      
-      if(context.Decision.Type==DECISION_SELL)
+
+      if(context.Decision.Type == DECISION_SELL)
       {
-          for(int i=context.OrderBlockSeries.Count()-1;i>=0;i--)
-          {
-              CEOrderBlockPoint block = context.OrderBlockSeries.At(i);
-              
-              // Bỏ qua Order Block đã Mitigated
-              if(!block.IsActive())
-                 continue;
-      
-              if(block.IsBearish())
-              {
-                  context.TradeEntry.Valid = true;
-      
-                  context.TradeEntry.Price = block.Low;
-                  
-                  context.TradeEntry.Source = ENTRY_SOURCE_ORDER_BLOCK;
-      
-                  return true;
-              }
-          }
+         CalculateSell(context);
+         return true;
       }
-      
+
       return true;
    }
+
+private:
+
+   //----------------------------------------------------------
+   // BUY
+   //----------------------------------------------------------
+
+   void CalculateBuy(
+      CEAnalysisContext &context)
+   {
+      const CECandle candle =
+         context.CandleSeries.At(
+            context.CandleSeries.Count()-1);
+
+      double currentPrice =
+         candle.Close;
+
+      double bestDistance = DBL_MAX;
+      int    bestIndex    = -1;
+
+      for(int i=context.OrderBlockSeries.Count()-1;
+          i>=0;
+          i--)
+      {
+         CEOrderBlockPoint block =
+            context.OrderBlockSeries.At(i);
+
+         if(!block.IsActive())
+            continue;
+
+         if(!block.IsBullish())
+            continue;
+            
+            
+         //------------------------------------------
+         // Bullish OB phải nằm dưới giá hiện tại
+         //------------------------------------------
+         
+         if(block.High > currentPrice)
+            continue;
+
+         double distance =
+            MathAbs(
+               block.High-currentPrice);
+
+         if(distance<bestDistance)
+         {
+            bestDistance = distance;
+            bestIndex    = i;
+         }
+      }
+
+      if(bestIndex<0)
+         return;
+
+      CEOrderBlockPoint block =
+         context.OrderBlockSeries.At(bestIndex);
+
+      context.TradeEntry.Valid  = true;
+
+      context.TradeEntry.Price  = block.High;
+
+      context.TradeEntry.Source =
+         ENTRY_SOURCE_ORDER_BLOCK;
+   }
+
+   //----------------------------------------------------------
+   // SELL
+   //----------------------------------------------------------
+
+   void CalculateSell(
+      CEAnalysisContext &context)
+   {
+      const CECandle candle =
+         context.CandleSeries.At(
+            context.CandleSeries.Count()-1);
+
+      double currentPrice =
+         candle.Close;
+
+      double bestDistance = DBL_MAX;
+      int    bestIndex    = -1;
+
+      for(int i=context.OrderBlockSeries.Count()-1;
+          i>=0;
+          i--)
+      {
+         CEOrderBlockPoint block =
+            context.OrderBlockSeries.At(i);
+
+         if(!block.IsActive())
+            continue;
+
+         if(!block.IsBearish())
+            continue;
+            
+         //------------------------------------------
+         // Bearish OB phải nằm trên giá hiện tại
+         //------------------------------------------
+         
+         if(block.Low < currentPrice)
+            continue;
+
+         double distance =
+            MathAbs(
+               block.Low-currentPrice);
+
+         if(distance<bestDistance)
+         {
+            bestDistance = distance;
+            bestIndex    = i;
+         }
+      }
+
+      if(bestIndex<0)
+         return;
+
+      CEOrderBlockPoint block =
+         context.OrderBlockSeries.At(bestIndex);
+
+      context.TradeEntry.Valid  = true;
+
+      context.TradeEntry.Price  = block.Low;
+
+      context.TradeEntry.Source =
+         ENTRY_SOURCE_ORDER_BLOCK;
+   }
+
 };
 
 #endif
