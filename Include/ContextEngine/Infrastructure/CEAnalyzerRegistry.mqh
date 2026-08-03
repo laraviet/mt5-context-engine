@@ -38,6 +38,7 @@
 #include "../Factories/CETradeSignalAnalyzerFactory.mqh"
 
 #include "../Factories/CETradeEntryAnalyzerFactory.mqh"
+#include "../Factories/CEStopLossAnalyzerFactory.mqh"
 
 class CEAnalyzerRegistry
 {
@@ -131,6 +132,9 @@ public:
          
       m_pipeline.Add(
          CETradeEntryAnalyzerFactory::Create());  
+         
+      m_pipeline.Add(
+         CEStopLossAnalyzerFactory::Create()); 
 
       return true;
    }

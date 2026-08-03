@@ -16,6 +16,7 @@
 #include "../Domain/CETradeSignal.mqh"
 
 #include "../Domain/CETradeEntry.mqh"
+#include "../Domain/CEStopLoss.mqh"
 
 class CEAnalysisContext : public CEContext
 {
@@ -46,6 +47,8 @@ public:
    CETradeSignal TradeSignal;
    
    CETradeEntry TradeEntry;
+   
+   CEStopLoss StopLoss;
 
 public:
 
@@ -79,6 +82,8 @@ public:
       TradeSignal.Reset();
       
       TradeEntry.Reset();
+      
+      StopLoss.Reset();
    }
 
    void ClearInput()
