@@ -28,6 +28,8 @@ public:
       CEAnalysisContext &context) override
    {
       context.Decision.Reset();
+      
+      context.Decision.Type = DECISION_NONE;
 
       int score =
          context.Summary.Score.Total;

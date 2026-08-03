@@ -30,13 +30,13 @@ public:
       if(context.CandleSeries.Count() <= 0)
          return true;
 
-      if(context.Decision.Type == DECISION_BUY)
+      if(context.Decision.IsBuy())
       {
          CalculateBuy(context);
          return true;
       }
 
-      if(context.Decision.Type == DECISION_SELL)
+      if(context.Decision.IsSell())
       {
          CalculateSell(context);
          return true;

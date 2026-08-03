@@ -2,29 +2,11 @@
 #define __CE_TRADE_SETUP_EXPORT_MAPPER_MQH__
 
 #include "CETradeSetupExportRow.mqh"
+#include "../Domain/CEDecisionTypeHelper.mqh"
 
 class CETradeSetupExportMapper
 {
 private:
-
-   static string DirectionToString(
-      const CEDecisionType type)
-   {
-      switch(type)
-      {
-         case DECISION_BUY:
-
-            return "BUY";
-
-         case DECISION_SELL:
-
-            return "SELL";
-
-         default:
-
-            return "UNKNOWN";
-      }
-   }
 
    static string TimeframeToString(
       const ENUM_TIMEFRAMES tf)
@@ -65,7 +47,7 @@ public:
             context.Timeframe);
 
       row.Direction =
-         DirectionToString(
+         CEDecisionTypeHelper::ToString(
             context.Decision.Type);
 
       row.Entry =

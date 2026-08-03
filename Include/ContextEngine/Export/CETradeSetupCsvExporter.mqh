@@ -4,56 +4,29 @@
 #include "ICETradeSetupExporter.mqh"
 #include "../Domain/CETradeFilterReason.mqh"
 #include "CETradeSetupExportMapper.mqh"
+#include "CEExportPathHelper.mqh"
+#include "CECsvFileHelper.mqh"
+#include "CECsvWriter.mqh"
+#include "../Core/CELogger.mqh"
+#include "../Constants.mqh"
 
 class CETradeSetupCsvExporter :
    public ICETradeSetupExporter
 {
 private:
 
-   string m_fileName;
-
-private:
-
-   bool FileExists() const
-   {
-      int handle = FileOpen(
-         m_fileName,
-         FILE_READ | FILE_CSV);
-
-      if(handle == INVALID_HANDLE)
-         return false;
-
-      FileClose(handle);
-
-      return true;
-   }
-
-   void WriteHeader(
-      const int handle)
-   {
-      FileWrite(
-         handle,
-         "Time",
-         "Symbol",
-         "Timeframe",
-         "Direction",
-         "Entry",
-         "StopLoss",
-         "TakeProfit",
-         "Risk",
-         "Reward",
-         "RR",
-         "Quality",
-         "Allowed",
-         "Reason");
-   }
+   string m_fileName;   
 
 public:
 
    CETradeSetupCsvExporter(
-      const string fileName = "TradeSetup.csv")
+      const string fileName = "")
    {
-      m_fileName = fileName;
+      if(fileName == "")
+         m_fileName =
+            CEExportPathHelper::TradeSetupFile();
+      else
+         m_fileName = fileName;
    }
 
    string FileName() const
@@ -63,30 +36,34 @@ public:
 
    virtual bool Export(
       const CEAnalysisContext &context) override
-   {
+   {      
       CETradeSetupExportRow row =
          CETradeSetupExportMapper::Map(context);
    
-      bool exists = FileExists();
-   
+      bool newFile = false;
+
       int handle =
-         FileOpen(
-            m_fileName,
-            FILE_WRITE |
-            FILE_READ |
-            FILE_CSV |
-            FILE_SHARE_READ);
+         CECsvFileHelper::OpenAppend(m_fileName,newFile);
    
       if(handle == INVALID_HANDLE)
          return false;
+         
+      CECsvWriter writer(handle);
    
       //--------------------------------------------------
       // Header
       //--------------------------------------------------
    
-      if(!exists)
+      if(newFile)
       {
-         WriteHeader(handle);
+         if(!writer.WriteHeader())
+         {
+            CECsvFileHelper::Close(handle);
+            CELogger::Error(
+               CE_MODULE_EXPORT,
+               "Cannot export TradeSetup.csv");
+            return false;
+         }
       }
       else
       {
@@ -97,53 +74,23 @@ public:
       // Write Row
       //--------------------------------------------------
    
-      FileWrite(
-         handle,
+      if(!writer.WriteRow(row))
+      {
+         CECsvFileHelper::Close(handle);
+         CELogger::Error(
+            CE_MODULE_EXPORT,
+            "Cannot export TradeSetup.csv");
+         return false;
+      }
    
-         TimeToString(
-            row.Time,
-            TIME_DATE | TIME_SECONDS),
-   
-         row.Symbol,
-   
-         row.Timeframe,
-   
-         row.Direction,
-   
-         DoubleToString(
-            row.Entry,
-            _Digits),
-   
-         DoubleToString(
-            row.StopLoss,
-            _Digits),
-   
-         DoubleToString(
-            row.TakeProfit,
-            _Digits),
-   
-         DoubleToString(
-            row.Risk,
-            1),
-   
-         DoubleToString(
-            row.Reward,
-            1),
-   
-         DoubleToString(
-            row.RR,
-            2),
-   
-         IntegerToString(
-            row.Quality),
-   
-         row.Allowed
-            ? "YES"
-            : "NO",
-   
-         row.Reason);
-   
-      FileClose(handle);
+      CECsvFileHelper::Close(handle);
+      
+      CELogger::Info(
+         CE_MODULE_EXPORT,
+         "Trade setup exported : " +
+         row.Symbol +
+         " " +
+         row.Direction);
    
       return true;
    }

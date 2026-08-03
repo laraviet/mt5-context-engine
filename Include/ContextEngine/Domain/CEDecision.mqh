@@ -26,6 +26,34 @@ public:
       Confidence = 0;
       Reason = "";
    }
+   
+   bool IsBuy() const
+   {
+      return Type == DECISION_BUY;
+   }
+   
+   bool IsSell() const
+   {
+      return Type == DECISION_SELL;
+   }
+   
+   bool IsWait() const
+   {
+      return Type == DECISION_WAIT;
+   }
+   
+   bool IsUnknown() const
+   {
+      return Type == DECISION_NONE;
+   }
+   
+   bool IsTrade() const
+   {
+      return
+         Type == DECISION_BUY ||
+         Type == DECISION_SELL;
+   }
+
 };
 
 #endif

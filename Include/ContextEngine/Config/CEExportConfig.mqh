@@ -12,6 +12,6 @@ public:
    {
       Enabled = false;
 
-      FileName = "TradeSetup.csv";
+      FileName = "";
    }
 };
