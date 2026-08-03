@@ -3,6 +3,7 @@
 
 #include "CEDashboardCard.mqh"
 #include "CEDashboardSection.mqh"
+#include "History/CEHistorySection.mqh"
 
 class CEDashboardContext
 {
@@ -10,9 +11,11 @@ private:
 
    CEDashboardCard m_cards[];
 
-   CEDashboardSection m_sections[];
+   CEDashboardSection m_sections[];      
 
 public:
+
+   CEHistorySection History;
 
    void Clear()
    {

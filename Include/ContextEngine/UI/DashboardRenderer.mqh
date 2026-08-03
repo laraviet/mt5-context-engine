@@ -168,6 +168,70 @@ private:
       }
    
       m_y += m_lineHeight;
+   }
+   
+   void RenderHistory(
+      const CEHistorySection &history)
+   {
+      DrawLine(
+         "history_title",
+         "History",
+         m_theme.SectionColor);
+   
+      DrawSeparator(
+         "history_separator");
+   
+      if(history.Empty())
+      {
+         DrawLine(
+            "history_empty",
+            "No history");
+   
+         m_y += m_lineHeight;
+   
+         return;
+      }
+   
+      for(int i = 0;
+          i < history.Count();
+          ++i)
+      {
+         RenderHistoryCard(
+            history.At(i),
+            i);
+      }
+   
+      m_y += m_lineHeight;
+   }
+   
+   void RenderHistoryCard(
+      const CEHistoryCard &card,
+      const int index)
+   {
+      string text;
+   
+      text =
+         card.DecisionText();
+   
+      text += " ";
+   
+      text += "C:";
+      text += IntegerToString(card.Score);
+   
+      text += " ";
+   
+      text += "Q:";
+      text += DoubleToString(card.Quality,0);
+   
+      text += " ";
+   
+      text += "RR:";
+      text += DoubleToString(card.Ratio,1);
+   
+      DrawLine(
+         "history_" + IntegerToString(index),
+         text,
+         clrWhite);
    }              
 
 public:
@@ -204,10 +268,20 @@ public:
    
       Begin();
 
-      if(context.SectionCount()>0)
+      if(context.SectionCount() > 0)
+      {
          RenderSections(context);
+      
+         RenderHistory(
+            context.History);
+      }
       else
+      {
          RenderCards(context);
+      
+         RenderHistory(
+            context.History);
+      }
       
       ChartRedraw();
    }

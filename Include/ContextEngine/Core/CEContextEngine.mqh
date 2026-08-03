@@ -116,7 +116,7 @@ public:
       return m_context;
    }
    
-   const CETradeJournalRepository Journal() const
+   CETradeJournalRepository Journal() const
    {
       return m_journal;
    }

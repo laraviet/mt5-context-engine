@@ -35,6 +35,7 @@ int OnInit()
    
    builder.Build(
       Engine.Context(),
+      Engine.Journal(),
       dashboard);
       
    //CEAnalysisContext context = Engine.Context();   

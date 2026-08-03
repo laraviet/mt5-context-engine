@@ -5,11 +5,13 @@
 #include "CEDashboardContext.mqh"
 #include "/Builders/CEDashboardBuilderPipeline.mqh"
 #include "Builders/CEDashboardRegistry.mqh"
+#include "History/CEHistorySectionBuilder.mqh"
 
 class CEDashboardContextBuilder
 {
 private:
-   CEDashboardBuilderPipeline m_pipeline;
+   CEDashboardBuilderPipeline m_pipeline;   
+   CEHistorySectionBuilder m_historyBuilder;
    
 public:
 
@@ -20,10 +22,11 @@ public:
       registry.Register();
    }
 
-   void Build(const CEAnalysisContext &analysis, CEDashboardContext &dashboard)
+   void Build(const CEAnalysisContext &context, CETradeJournalRepository &repository, CEDashboardContext &dashboard)
    {      
       dashboard.Clear();
-      m_pipeline.Build(analysis, dashboard);      
+      m_pipeline.Build(context, dashboard);   
+      m_historyBuilder.Build(repository,dashboard.History); 
    }
 };
 
