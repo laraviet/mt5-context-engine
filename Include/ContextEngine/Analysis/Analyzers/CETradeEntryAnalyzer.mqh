@@ -33,15 +33,15 @@ public:
       {
           for(int i=context.OrderBlockSeries.Count()-1;i>=0;i--)
           {
-              CEOrderBlockPoint block=
-                  context.OrderBlockSeries.At(i);
+              CEOrderBlockPoint block = context.OrderBlockSeries.At(i);
       
               if(block.IsBullish())
               {
-                  context.TradeEntry.Valid=true;
+                  context.TradeEntry.Valid = true;
       
-                  context.TradeEntry.Price=
-                      block.High;
+                  context.TradeEntry.Price = block.High;
+                      
+                  context.TradeEntry.Source = ENTRY_SOURCE_ORDER_BLOCK;
       
                   return true;
               }
@@ -52,15 +52,15 @@ public:
       {
           for(int i=context.OrderBlockSeries.Count()-1;i>=0;i--)
           {
-              CEOrderBlockPoint block=
-                  context.OrderBlockSeries.At(i);
+              CEOrderBlockPoint block = context.OrderBlockSeries.At(i);
       
               if(block.IsBearish())
               {
-                  context.TradeEntry.Valid=true;
+                  context.TradeEntry.Valid = true;
       
-                  context.TradeEntry.Price=
-                      block.Low;
+                  context.TradeEntry.Price = block.Low;
+                  
+                  context.TradeEntry.Source = ENTRY_SOURCE_ORDER_BLOCK;
       
                   return true;
               }
