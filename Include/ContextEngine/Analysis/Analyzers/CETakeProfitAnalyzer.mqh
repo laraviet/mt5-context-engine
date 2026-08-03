@@ -72,7 +72,7 @@ private:
          // đã sweep -> bỏ
          //----------------------------------
 
-         if(liquidity.Swept)
+         if(liquidity.IsConfirmedSweep())
             continue;
 
          //----------------------------------
@@ -132,7 +132,7 @@ private:
          // đã sweep -> bỏ
          //----------------------------------
 
-         if(liquidity.Swept)
+         if(liquidity.IsConfirmedSweep())
             continue;
 
          //----------------------------------

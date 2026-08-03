@@ -4,6 +4,7 @@
 #include "CETradeEntry.mqh"
 #include "CEStopLoss.mqh"
 #include "CETakeProfit.mqh"
+#include "CERiskReward.mqh"
 
 class CETradeSetup
 {
@@ -14,6 +15,8 @@ public:
    CEStopLoss StopLoss;
 
    CETakeProfit TakeProfit;
+   
+   CERiskReward RiskReward;
 
 public:
 
@@ -24,6 +27,8 @@ public:
       StopLoss.Reset();
 
       TakeProfit.Reset();
+      
+      RiskReward.Reset();
    }
 
    bool IsValid() const
