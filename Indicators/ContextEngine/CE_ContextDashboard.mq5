@@ -40,7 +40,11 @@ int OnInit()
       
    //CEAnalysisContext context = Engine.Context();   
    
-   Dashboard.Update(dashboard);   
+   Dashboard.Update(dashboard);
+   
+   CELogger::Info(
+      CE_MODULE_STATISTICS,
+      dashboard.Statistics.ToString());
 
    return(INIT_SUCCEEDED);
 }

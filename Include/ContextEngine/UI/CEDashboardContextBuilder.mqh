@@ -6,12 +6,14 @@
 #include "/Builders/CEDashboardBuilderPipeline.mqh"
 #include "Builders/CEDashboardRegistry.mqh"
 #include "History/CEHistorySectionBuilder.mqh"
+#include "../Statistics/CETradeStatisticsBuilder.mqh"
 
 class CEDashboardContextBuilder
 {
 private:
    CEDashboardBuilderPipeline m_pipeline;   
    CEHistorySectionBuilder m_historyBuilder;
+   CETradeStatisticsBuilder m_statisticsBuilder;
    
 public:
 
@@ -27,6 +29,7 @@ public:
       dashboard.Clear();
       m_pipeline.Build(context, dashboard);   
       m_historyBuilder.Build(repository,dashboard.History); 
+      m_statisticsBuilder.Build(repository,dashboard.Statistics);
    }
 };
 

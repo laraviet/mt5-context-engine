@@ -4,6 +4,7 @@
 #include "CEDashboardCard.mqh"
 #include "CEDashboardSection.mqh"
 #include "History/CEHistorySection.mqh"
+#include "../Statistics/CETradeStatistics.mqh"
 
 class CEDashboardContext
 {
@@ -16,12 +17,15 @@ private:
 public:
 
    CEHistorySection History;
+   CETradeStatistics Statistics;
 
    void Clear()
    {
       ArrayResize(m_cards,0);
 
       ArrayResize(m_sections,0);
+      
+      Statistics.Reset();
    }
 
    //-------------------------
