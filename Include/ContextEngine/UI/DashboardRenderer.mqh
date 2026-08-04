@@ -10,65 +10,29 @@
 #include "CEDashboardContext.mqh";
 #include "../Statistics/CEStatisticsSection.mqh"
 #include "Performance/CEPerformanceSection.mqh"
+#include "Layout/CEDashboardLayout.mqh"
+#include "Renderers/CEDashboardLabelRenderer.mqh"
 
 class CDashboardRenderer
 {
-private:
+protected:
 
-   string m_prefix;
-   int    m_x;
-   int    m_y;
-   int    m_lineHeight;
-   CETheme m_theme;
-
-   void CreateLabel(
-      const string name,
-      const string text,
-      const int x,
-      const int y,
-      const color clr)
-   {
-      string obj = m_prefix + name;
-   
-      ResetLastError();
-   
-      if(ObjectFind(0, obj) < 0)
-      {
-         if(!ObjectCreate(0, obj, OBJ_LABEL, 0, 0, 0))
-         {
-            CELogger::Error(
-               CE_MODULE_DASHBOARD,
-               "Cannot create " + obj);
-            return;
-         }
-   
-         CELogger::Info(
-            CE_MODULE_DASHBOARD,
-            "Create " + obj);
-   
-         ObjectSetInteger(0, obj, OBJPROP_CORNER, CORNER_LEFT_UPPER);
-         ObjectSetInteger(0, obj, OBJPROP_XDISTANCE, x);
-         ObjectSetInteger(0, obj, OBJPROP_YDISTANCE, y);
-         ObjectSetInteger(0, obj, OBJPROP_COLOR, clr);
-         ObjectSetInteger(0, obj, OBJPROP_FONTSIZE, m_theme.FontSize);
-         ObjectSetString(0, obj, OBJPROP_FONT, "Consolas");
-      }
-   
-      ObjectSetString(0, obj, OBJPROP_TEXT, text);     
-   }
+   //------------------------------
+   // Low-level Drawing
+   //------------------------------
    
    void DrawLine(const string name,
               const string text,
               const color clr = clrWhite)
    {
-      CreateLabel(
+      m_labelRenderer.Draw(
          name,
          text,
-         m_x,
-         m_y,
+         m_layout.X(),
+         m_layout.Y(),
          clr);
-   
-      m_y += m_lineHeight;
+      
+      m_layout.NextLine();
    }
    
    void DrawSeparator(const string id)
@@ -77,18 +41,6 @@ private:
          id,
          "------------------------------",
          clrDarkGray);
-   }
-   
-   void RenderCards(
-      const CEDashboardContext &context)
-   {
-      for(int i = 0; i < context.Count(); i++)
-      {
-         CEDashboardCard card =
-            context.At(i);
-   
-         RenderCard(card,i);
-      }
    }
    
    void RenderCard(
@@ -135,7 +87,34 @@ private:
             break;
       }
    }
+
+private:
+
+   string m_prefix;
+   CEDashboardLayout m_layout;
+   CEDashboardLabelRenderer m_labelRenderer;
+   CETheme m_theme;            
+
+   //------------------------------
+   // Card Rendering
+   //------------------------------
+
+   void RenderCards(
+      const CEDashboardContext &context)
+   {
+      for(int i = 0; i < context.Count(); i++)
+      {
+         CEDashboardCard card =
+            context.At(i);
    
+         RenderCard(card,i);
+      }
+   }      
+   
+   //------------------------------
+   // Section Rendering
+   //------------------------------
+
    void RenderSections(const CEDashboardContext &context)
    {
       for(int i=0;
@@ -169,7 +148,7 @@ private:
          }
       }
    
-      m_y += m_lineHeight;
+      m_layout.NextLine();
    }
    
    void RenderHistory(
@@ -189,7 +168,7 @@ private:
             "history_empty",
             "No history");
    
-         m_y += m_lineHeight;
+         m_layout.NextLine();
    
          return;
       }
@@ -203,7 +182,7 @@ private:
             i);
       }
    
-      m_y += m_lineHeight;
+      m_layout.NextLine();
    }
    
    void RenderHistoryCard(
@@ -253,7 +232,7 @@ private:
             "statistics_empty",
             "No statistics");
    
-         m_y += m_lineHeight;
+         m_layout.NextLine();
    
          return;
       }
@@ -267,7 +246,7 @@ private:
             i);
       }
    
-      m_y += m_lineHeight;
+      m_layout.NextLine();
    }
    
    void RenderStatisticsCard(
@@ -321,7 +300,7 @@ private:
             "performance_empty",
             "No performance data");
    
-         m_y += m_lineHeight;
+         m_layout.NextLine();
    
          return;
       }
@@ -335,7 +314,7 @@ private:
             i);
       }
    
-      m_y += m_lineHeight;
+      m_layout.NextLine();
    }
 
 public:
@@ -343,16 +322,11 @@ public:
    CDashboardRenderer()
    {
       m_prefix="CE.";
-
-      m_x = m_theme.PaddingLeft;
-      m_y = m_theme.PaddingTop;
-   
-      m_lineHeight = m_theme.LineHeight;
    }
    
    void Begin()
    {
-      m_y = m_theme.PaddingTop;
+      m_layout.Reset();
    }
 
    bool Create()
