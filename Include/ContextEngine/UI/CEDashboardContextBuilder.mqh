@@ -9,6 +9,7 @@
 #include "../Statistics/CETradeStatisticsBuilder.mqh"
 #include "../Statistics/CEStatisticsSectionBuilder.mqh"
 #include "Performance/CEPerformanceSectionBuilder.mqh"
+#include "CEDashboardSettings.mqh"
 
 class CEDashboardContextBuilder
 {
@@ -28,9 +29,10 @@ public:
       registry.Register();
    }
 
-   void Build(const CEAnalysisContext &context, CETradeJournalRepository &repository, CEDashboardContext &dashboard)
+   void Build(const CEAnalysisContext &context, CETradeJournalRepository &repository,const CEDashboardSettings &settings, CEDashboardContext &dashboard)
    {      
       dashboard.Clear();
+      dashboard.Settings = settings;
       m_pipeline.Build(context, dashboard);   
       m_historyBuilder.Build(repository,dashboard.History); 
       m_statisticsBuilder.Build(repository,dashboard.Statistics);

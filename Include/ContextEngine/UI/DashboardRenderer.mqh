@@ -364,32 +364,38 @@ public:
       return true;
    }
 
-   void Update(const CEDashboardContext  &context)
+   void Update(
+      const CEDashboardContext &context)
    {
       CELogger::Info(
          CE_MODULE_DASHBOARD,
          "Update");
    
       Begin();
-
+   
       if(context.SectionCount() > 0)
-      {
          RenderSections(context);
-      }
       else
-      {
          RenderCards(context);
+   
+      if(context.Settings.ShowPerformance)
+      {
+         RenderPerformanceSection(
+            context.PerformanceSection);
       }
-      
-      RenderPerformanceSection(
-         context.PerformanceSection);
-      
-      RenderStatisticsSection(
-         context.StatisticsSection);
-      
-      RenderHistory(
-         context.History);
-      
+   
+      if(context.Settings.ShowStatistics)
+      {
+         RenderStatisticsSection(
+            context.StatisticsSection);
+      }
+   
+      if(context.Settings.ShowHistory)
+      {
+         RenderHistory(
+            context.History);
+      }
+   
       ChartRedraw();
    }
 

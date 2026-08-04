@@ -32,10 +32,12 @@ int OnInit()
    
    CEDashboardContext dashboard;
    CEDashboardContextBuilder builder;
+   CEDashboardSettings settings;
    
    builder.Build(
       Engine.Context(),
       Engine.Journal(),
+      settings,
       dashboard);
       
    //CEAnalysisContext context = Engine.Context();   
