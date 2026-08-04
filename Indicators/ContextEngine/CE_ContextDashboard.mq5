@@ -46,7 +46,7 @@ int OnInit()
    
    CELogger::Info(
       CE_MODULE_STATISTICS,
-      dashboard.Statistics.ToString());
+      dashboard.Statistics.ToString());         
 
    return(INIT_SUCCEEDED);
 }
