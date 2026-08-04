@@ -15,24 +15,7 @@ private:
       return
          entry.Decision.IsTrade();
    }
-   
-   CETradeJournalEntry FindLastByDecision(
-      const CEDecisionType type) const
-   {
-      for(int i = Count() - 1; i >= 0; --i)
-      {
-         CETradeJournalEntry entry =
-            m_journal.At(i);
-   
-         if(entry.Decision.Type == type)
-            return entry;
-      }
-   
-      CETradeJournalEntry empty;
-   
-      return empty;
-   }
-   
+         
    CETradeJournalEntry FindLastTradeInternal() const
    {
       for(int i = Count() - 1; i >= 0; --i)
@@ -47,6 +30,28 @@ private:
       CETradeJournalEntry empty;
    
       return empty;
+   }
+   
+   bool FindLastByDecisionInternal(
+      const CEDecisionType type,
+      CETradeJournalEntry &entry) const
+   {
+      entry.Reset();
+   
+      for(int i = Count() - 1; i >= 0; --i)
+      {
+         CETradeJournalEntry current =
+            m_journal.At(i);
+   
+         if(current.Decision.Type == type)
+         {
+            entry = current;
+   
+            return true;
+         }
+      }
+   
+      return false;
    }
 
 public:
@@ -81,43 +86,37 @@ public:
       const int index) const
    {
       return m_journal.At(index);
-   }
-
-   const CETradeJournal Journal() const
-   {
-      return m_journal;
-   }      
+   }    
    
    CETradeJournalEntry FindLastBuy() const
    {
-      return FindLastByDecision(DECISION_BUY);
+      CETradeJournalEntry entry;
+   
+      FindLastByDecisionInternal(
+         DECISION_BUY,
+         entry);
+   
+      return entry;
    }
    
    CETradeJournalEntry FindLastSell() const
    {
-      return FindLastByDecision(DECISION_SELL);
+      CETradeJournalEntry entry;
+   
+      FindLastByDecisionInternal(
+         DECISION_SELL,
+         entry);
+   
+      return entry;
    }
    
    bool FindByDecision(
       const CEDecisionType type,
       CETradeJournalEntry &entry) const
    {
-      entry.Reset();
-   
-      for(int i = Count() - 1; i >= 0; --i)
-      {
-         CETradeJournalEntry current =
-            m_journal.At(i);
-   
-         if(current.Decision.Type == type)
-         {
-            entry = current;
-   
-            return true;
-         }
-      }
-   
-      return false;
+      return FindLastByDecisionInternal(
+         type,
+         entry);
    }
    
    bool FindBySymbol(
@@ -164,13 +163,7 @@ public:
    CETradeJournalEntry LastTrade() const
    {
       return FindLastTradeInternal();
-   }
-   
-   bool Exists() const
-   {
-      return
-         !Empty();
-   }
+   }   
 
 };
 

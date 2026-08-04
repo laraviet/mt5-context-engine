@@ -16,7 +16,7 @@ public:
       statistics.Reset();
    
       int total =
-         repository.Count();
+         repository.TradeCount();
    
       statistics.TotalTrades =
          total;
