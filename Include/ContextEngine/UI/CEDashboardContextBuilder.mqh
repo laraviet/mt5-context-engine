@@ -8,6 +8,7 @@
 #include "History/CEHistorySectionBuilder.mqh"
 #include "../Statistics/CETradeStatisticsBuilder.mqh"
 #include "../Statistics/CEStatisticsSectionBuilder.mqh"
+#include "Performance/CEPerformanceSectionBuilder.mqh"
 
 class CEDashboardContextBuilder
 {
@@ -16,6 +17,7 @@ private:
    CEHistorySectionBuilder m_historyBuilder;
    CETradeStatisticsBuilder m_statisticsBuilder;
    CEStatisticsSectionBuilder m_statisticsSectionBuilder;
+   CEPerformanceSectionBuilder m_performanceSectionBuilder;
    
 public:
 
@@ -33,6 +35,7 @@ public:
       m_historyBuilder.Build(repository,dashboard.History); 
       m_statisticsBuilder.Build(repository,dashboard.Statistics);
       m_statisticsSectionBuilder.Build(dashboard.Statistics,dashboard.StatisticsSection);
+      m_performanceSectionBuilder.Build(dashboard.Statistics,dashboard.PerformanceSection);
    }
 };
 

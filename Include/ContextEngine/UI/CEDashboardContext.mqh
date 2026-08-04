@@ -6,6 +6,7 @@
 #include "History/CEHistorySection.mqh"
 #include "../Statistics/CETradeStatistics.mqh"
 #include "../Statistics/CEStatisticsSection.mqh"
+#include "Performance/CEPerformanceSection.mqh"
 
 class CEDashboardContext
 {
@@ -20,6 +21,7 @@ public:
    CEHistorySection History;
    CETradeStatistics Statistics;
    CEStatisticsSection StatisticsSection;
+   CEPerformanceSection PerformanceSection;
 
    void Clear()
    {
@@ -30,6 +32,8 @@ public:
       Statistics.Reset();
       
       StatisticsSection.Clear();
+      
+      PerformanceSection.Clear();
    }
 
    //-------------------------

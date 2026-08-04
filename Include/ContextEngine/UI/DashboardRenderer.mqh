@@ -9,6 +9,7 @@
 #include <ContextEngine/Core/CELogger.mqh>
 #include "CEDashboardContext.mqh";
 #include "../Statistics/CEStatisticsSection.mqh"
+#include "Performance/CEPerformanceSection.mqh"
 
 class CDashboardRenderer
 {
@@ -286,6 +287,56 @@ private:
          text,
          m_theme.TextColor);
    }
+   
+   void RenderPerformanceCard(
+      const CEPerformanceCard &card,
+      const int index)
+   {
+      string text =
+         StringFormat(
+            "%-20s : %s",
+            card.Label,
+            card.Value);
+   
+      DrawLine(
+         "performance_" + IntegerToString(index),
+         text,
+         m_theme.TextColor);
+   }
+   
+   void RenderPerformanceSection(
+      const CEPerformanceSection &section)
+   {
+      DrawLine(
+         "performance_title",
+         "Performance",
+         m_theme.SectionColor);
+   
+      DrawSeparator(
+         "performance_separator");
+   
+      if(section.Empty())
+      {
+         DrawLine(
+            "performance_empty",
+            "No performance data");
+   
+         m_y += m_lineHeight;
+   
+         return;
+      }
+   
+      for(int i = 0;
+          i < section.Count();
+          ++i)
+      {
+         RenderPerformanceCard(
+            section.At(i),
+            i);
+      }
+   
+      m_y += m_lineHeight;
+   }
 
 public:
 
@@ -329,6 +380,9 @@ public:
       {
          RenderCards(context);
       }
+      
+      RenderPerformanceSection(
+         context.PerformanceSection);
       
       RenderStatisticsSection(
          context.StatisticsSection);

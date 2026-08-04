@@ -74,6 +74,16 @@ public:
          AverageRatio);
    }
    
+   double ExecutionRate() const
+   {
+      if(TotalTrades == 0)
+         return 0.0;
+   
+      return (double)(BuyTrades + SellTrades)
+         * 100.0
+         / TotalTrades;
+   }
+   
 };
 
 #endif
