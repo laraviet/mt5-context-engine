@@ -5,6 +5,7 @@
 #include "CEDashboardSection.mqh"
 #include "History/CEHistorySection.mqh"
 #include "../Statistics/CETradeStatistics.mqh"
+#include "../Statistics/CEStatisticsSection.mqh"
 
 class CEDashboardContext
 {
@@ -18,6 +19,7 @@ public:
 
    CEHistorySection History;
    CETradeStatistics Statistics;
+   CEStatisticsSection StatisticsSection;
 
    void Clear()
    {
@@ -26,6 +28,8 @@ public:
       ArrayResize(m_sections,0);
       
       Statistics.Reset();
+      
+      StatisticsSection.Clear();
    }
 
    //-------------------------

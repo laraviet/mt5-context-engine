@@ -8,6 +8,7 @@
 #include <ContextEngine/UI/CETheme.mqh>
 #include <ContextEngine/Core/CELogger.mqh>
 #include "CEDashboardContext.mqh";
+#include "../Statistics/CEStatisticsSection.mqh"
 
 class CDashboardRenderer
 {
@@ -232,7 +233,59 @@ private:
          "history_" + IntegerToString(index),
          text,
          clrWhite);
-   }              
+   }
+   
+   void RenderStatisticsSection(
+      const CEStatisticsSection &section)
+   {
+      DrawLine(
+         "statistics_title",
+         "Statistics",
+         m_theme.SectionColor);
+   
+      DrawSeparator(
+         "statistics_separator");
+   
+      if(section.Empty())
+      {
+         DrawLine(
+            "statistics_empty",
+            "No statistics");
+   
+         m_y += m_lineHeight;
+   
+         return;
+      }
+   
+      for(int i = 0;
+          i < section.Count();
+          ++i)
+      {
+         RenderStatisticsCard(
+            section.At(i),
+            i);
+      }
+   
+      m_y += m_lineHeight;
+   }
+   
+   void RenderStatisticsCard(
+      const CEStatisticsCard &card,
+      const int index)
+   {
+      string text;
+   
+      text =
+         StringFormat(
+            "%-14s : %s",
+            card.Label,
+            card.Value);
+   
+      DrawLine(
+         "statistics_" + IntegerToString(index),
+         text,
+         m_theme.TextColor);
+   }
 
 public:
 
@@ -271,17 +324,17 @@ public:
       if(context.SectionCount() > 0)
       {
          RenderSections(context);
-      
-         RenderHistory(
-            context.History);
       }
       else
       {
          RenderCards(context);
-      
-         RenderHistory(
-            context.History);
       }
+      
+      RenderStatisticsSection(
+         context.StatisticsSection);
+      
+      RenderHistory(
+         context.History);
       
       ChartRedraw();
    }
