@@ -16,10 +16,6 @@
 
 #include "Performance/CEPerformanceSectionBuilder.mqh"
 
-#include "../Replay/CEReplaySession.mqh"
-#include "../Replay/CEReplayRecorder.mqh"
-#include "../Replay/CEReplaySnapshot.mqh"
-
 class CEDashboardContextBuilder
 {
 private:
@@ -32,13 +28,6 @@ private:
    CEStatisticsSectionBuilder      m_statisticsSectionBuilder;
 
    CEPerformanceSectionBuilder     m_performanceSectionBuilder;
-
-   //--------------------------------------
-   // Replay
-   //--------------------------------------
-
-   CEReplaySession                 m_replay;
-   CEReplayRecorder                m_replayRecorder;
 
 public:
 
@@ -95,40 +84,9 @@ public:
       m_performanceSectionBuilder.Build(
          dashboard.Statistics,
          dashboard.PerformanceSection);
-
-      //--------------------------------------
-      // Replay Snapshot
-      //--------------------------------------
-
-      if(!dashboard.Empty())
-      {
-         CEReplaySnapshot snapshot;
-
-         snapshot.Time      = TimeCurrent();
-         snapshot.Symbol    = _Symbol;
-         snapshot.Timeframe = (ENUM_TIMEFRAMES)_Period;
-
-         snapshot.Dashboard = dashboard;
-         snapshot.Journal   = repository.Last();
-
-         m_replayRecorder.Record(
-            m_replay.Repository(),
-            snapshot);
-
-         CELogger::Info(
-            CE_MODULE_REPLAY,
-            "Replay snapshot recorded");
-      }
+      
    }
 
-   //--------------------------------------
-   // Replay Access
-   //--------------------------------------
-
-   CEReplaySession Replay() const
-   {
-      return m_replay;
-   }
 };
 
 #endif
