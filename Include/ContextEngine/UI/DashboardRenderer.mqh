@@ -93,7 +93,7 @@ private:
    string m_prefix;
    CEDashboardLayout m_layout;
    CEDashboardLabelRenderer m_labelRenderer;
-   CETheme m_theme;            
+   CETheme m_theme; 
 
    //------------------------------
    // Card Rendering
@@ -316,6 +316,45 @@ private:
    
       m_layout.NextLine();
    }
+   
+   void RenderReplayToolbar(
+      const CEReplayToolbar &toolbar)
+   {
+      if(!toolbar.Visible)
+         return;
+   
+      DrawLine(
+         "ReplayToolbar",
+         StringFormat(
+            "[<<] [<] %d/%d [>] [>>]",
+            toolbar.CurrentIndex + 1,
+            toolbar.TotalCount),
+         clrOrange);
+   }
+   
+   void RenderReplayInfo(
+      const CEReplayInfo &info)
+   {
+      if(!info.Valid)
+         return;
+   
+      DrawLine(
+         "ReplaySymbol",
+         info.Symbol,
+         clrWhite);
+   
+      DrawLine(
+         "ReplayTimeframe",
+         EnumToString(info.Timeframe),
+         clrWhite);
+   
+      DrawLine(
+         "ReplayTime",
+         TimeToString(
+            info.Time,
+            TIME_DATE | TIME_SECONDS),
+         clrWhite);
+   }
 
 public:
 
@@ -369,6 +408,12 @@ public:
          RenderHistory(
             context.History);
       }
+      
+      RenderReplayToolbar(
+         context.ReplayToolbar);
+      
+      RenderReplayInfo(
+         context.ReplayInfo);
    
       ChartRedraw();
    }

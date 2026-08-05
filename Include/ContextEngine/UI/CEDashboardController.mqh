@@ -1,6 +1,9 @@
 #ifndef __CE_DASHBOARD_CONTROLLER_MQH__
 #define __CE_DASHBOARD_CONTROLLER_MQH__
 
+#include "../Core/CEAnalysisContext.mqh"
+
+#include "CEDashboardContext.mqh"
 #include "CEDashboardContextBuilder.mqh"
 #include "CEDashboardMode.mqh"
 
@@ -26,9 +29,9 @@ public:
       m_mode = DASHBOARD_MODE_REALTIME;
    }
 
-   //-------------------------------------------------
-   // Mode
-   //-------------------------------------------------
+   //==================================================
+   // Dashboard Mode
+   //==================================================
 
    void SetRealtime()
    {
@@ -61,9 +64,9 @@ public:
          m_mode == DASHBOARD_MODE_REPLAY;
    }
 
-   //-------------------------------------------------
+   //==================================================
    // Replay Navigation
-   //-------------------------------------------------
+   //==================================================
 
    bool FirstReplay()
    {
@@ -97,9 +100,9 @@ public:
       return m_replay.Previous();
    }
 
-   //-------------------------------------------------
+   //==================================================
    // Replay State
-   //-------------------------------------------------
+   //==================================================
 
    bool HasReplay() const
    {
@@ -120,15 +123,25 @@ public:
          m_replay.CanPrevious();
    }
 
-   //-------------------------------------------------
+   int ReplayIndex() const
+   {
+      return m_replay.CurrentIndex();
+   }
+
+   int ReplayCount() const
+   {
+      return m_replay.ReplayCount();
+   }
+
+   //==================================================
    // Update
-   //-------------------------------------------------
+   //==================================================
 
    void Update(
-      const CEAnalysisContext &context,
-      CETradeJournalRepository &repository,
-      const CEDashboardSettings &settings,
-      CEDashboardContext &dashboard)
+      const CEAnalysisContext      &context,
+      CETradeJournalRepository     &repository,
+      const CEDashboardSettings    &settings,
+      CEDashboardContext           &dashboard)
    {
       if(IsReplay())
       {
@@ -139,45 +152,76 @@ public:
 
          dashboard.Clear();
          dashboard = snapshot.Dashboard;
+         
+         dashboard.ReplayInfo.Valid = true;
 
-         return;
+         dashboard.ReplayInfo.Time =
+            snapshot.Time;
+         
+         dashboard.ReplayInfo.Symbol =
+            snapshot.Symbol;
+         
+         dashboard.ReplayInfo.Timeframe =
+            snapshot.Timeframe;
+         
+         dashboard.ReplayInfo.CurrentIndex =
+            ReplayIndex();
+         
+         dashboard.ReplayInfo.TotalCount =
+            ReplayCount();
       }
-
-      //--------------------------------------
-      // Realtime
-      //--------------------------------------
-
-      m_builder.Build(
-         context,
-         repository,
-         settings,
-         dashboard);
-
-      if(!dashboard.Empty())
+      else
       {
-         CEReplaySnapshot snapshot;
+         m_builder.Build(
+            context,
+            repository,
+            settings,
+            dashboard);
 
-         snapshot.Time      = TimeCurrent();
-         snapshot.Symbol    = _Symbol;
-         snapshot.Timeframe = (ENUM_TIMEFRAMES)_Period;
+         if(!dashboard.Empty())
+         {
+            CEReplaySnapshot snapshot;
 
-         snapshot.Dashboard = dashboard;
-         snapshot.Journal   = repository.Last();
+            snapshot.Time      = TimeCurrent();
+            snapshot.Symbol    = _Symbol;
+            snapshot.Timeframe = (ENUM_TIMEFRAMES)_Period;
 
-         m_recorder.Record(
-            m_replay.Repository(),
-            snapshot);
+            snapshot.Dashboard = dashboard;
+            snapshot.Journal   = repository.Last();
+
+            m_recorder.Record(
+               m_replay.Repository(),
+               snapshot);
+               
+            CELogger::Info(
+               CE_MODULE_REPLAY,
+               "Replay snapshot recorded");
+         }
       }
-   }
-   
-   int ReplayCount() const
-   {
-      return m_replay.ReplayCount();
-   }
-   
-   int ReplayIndex() const
-   {
-      return m_replay.CurrentIndex();
+
+      //--------------------------------------------
+      // Replay Toolbar
+      //--------------------------------------------
+
+      dashboard.ReplayToolbar.Reset();
+
+      dashboard.ReplayToolbar.Visible =
+         IsReplay();
+
+      dashboard.ReplayToolbar.HasReplay =
+         HasReplay();
+
+      dashboard.ReplayToolbar.CanPrevious =
+         CanPrevious();
+
+      dashboard.ReplayToolbar.CanNext =
+         CanNext();
+
+      dashboard.ReplayToolbar.CurrentIndex =
+         ReplayIndex();
+
+      dashboard.ReplayToolbar.TotalCount =
+         ReplayCount();
    }
 
 };

@@ -4,8 +4,6 @@
 #include "../Core/CEAnalysisContext.mqh"
 
 #include "CEDashboardContext.mqh"
-#include "CEDashboardSettings.mqh"
-
 #include "Builders/CEDashboardBuilderPipeline.mqh"
 #include "Builders/CEDashboardRegistry.mqh"
 
@@ -15,6 +13,8 @@
 #include "../Statistics/CEStatisticsSectionBuilder.mqh"
 
 #include "Performance/CEPerformanceSectionBuilder.mqh"
+
+#include "CEDashboardSettings.mqh"
 
 class CEDashboardContextBuilder
 {
@@ -40,34 +40,34 @@ public:
    }
 
    void Build(
-      const CEAnalysisContext &context,
-      CETradeJournalRepository &repository,
-      const CEDashboardSettings &settings,
-      CEDashboardContext &dashboard)
+      const CEAnalysisContext      &context,
+      CETradeJournalRepository     &repository,
+      const CEDashboardSettings    &settings,
+      CEDashboardContext           &dashboard)
    {
-      //--------------------------------------
-      // Dashboard
-      //--------------------------------------
-
       dashboard.Clear();
 
       dashboard.Settings = settings;
+
+      //-----------------------------------------
+      // Dashboard
+      //-----------------------------------------
 
       m_pipeline.Build(
          context,
          dashboard);
 
-      //--------------------------------------
+      //-----------------------------------------
       // History
-      //--------------------------------------
+      //-----------------------------------------
 
       m_historyBuilder.Build(
          repository,
          dashboard.History);
 
-      //--------------------------------------
+      //-----------------------------------------
       // Statistics
-      //--------------------------------------
+      //-----------------------------------------
 
       m_statisticsBuilder.Build(
          repository,
@@ -77,9 +77,9 @@ public:
          dashboard.Statistics,
          dashboard.StatisticsSection);
 
-      //--------------------------------------
+      //-----------------------------------------
       // Performance
-      //--------------------------------------
+      //-----------------------------------------
 
       m_performanceSectionBuilder.Build(
          dashboard.Statistics,

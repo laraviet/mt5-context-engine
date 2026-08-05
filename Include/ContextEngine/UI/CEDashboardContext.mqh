@@ -8,6 +8,8 @@
 #include "../Statistics/CEStatisticsSection.mqh"
 #include "Performance/CEPerformanceSection.mqh"
 #include "CEDashboardSettings.mqh"
+#include "Replay/CEReplayToolbar.mqh"
+#include "Replay/CEReplayInfo.mqh"
 
 class CEDashboardContext
 {
@@ -24,6 +26,8 @@ public:
    CEStatisticsSection StatisticsSection;
    CEPerformanceSection PerformanceSection;
    CEDashboardSettings Settings;
+   CEReplayToolbar ReplayToolbar;
+   CEReplayInfo ReplayInfo;
 
    void Clear()
    {
@@ -38,6 +42,10 @@ public:
       PerformanceSection.Clear();
       
       Settings.Reset();
+      
+      ReplayToolbar.Reset();
+      
+      ReplayInfo.Reset();
    }
 
    //-------------------------
