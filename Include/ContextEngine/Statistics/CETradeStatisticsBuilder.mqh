@@ -4,6 +4,7 @@
 #include "CETradeStatistics.mqh"
 #include "../Journal/CETradeJournalRepository.mqh"
 #include "../Core/CELogger.mqh"
+#include "../Constants.mqh"
 
 class CETradeStatisticsBuilder
 {
