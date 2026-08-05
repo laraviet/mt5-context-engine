@@ -89,6 +89,14 @@ public:
    {
       return m_sections[index];
    }
+   
+   bool Empty() const
+   {
+      return
+         Count() == 0 &&
+         SectionCount() == 0;
+   }
+   
 };
 
 #endif

@@ -11,6 +11,10 @@
 #include "Performance/CEPerformanceSectionBuilder.mqh"
 #include "CEDashboardSettings.mqh"
 
+#include "../Replay/CEReplayRepository.mqh"
+#include "../Replay/CEReplayRecorder.mqh"
+#include "../Replay/CEReplaySnapshot.mqh"
+
 class CEDashboardContextBuilder
 {
 private:
@@ -19,6 +23,8 @@ private:
    CETradeStatisticsBuilder m_statisticsBuilder;
    CEStatisticsSectionBuilder m_statisticsSectionBuilder;
    CEPerformanceSectionBuilder m_performanceSectionBuilder;
+   
+   CEReplayRecorder   m_replayRecorder;
    
 public:
 
@@ -29,7 +35,12 @@ public:
       registry.Register();
    }
 
-   void Build(const CEAnalysisContext &context, CETradeJournalRepository &repository,const CEDashboardSettings &settings, CEDashboardContext &dashboard)
+   void Build(
+      const CEAnalysisContext &context, 
+      CETradeJournalRepository &repository,
+      CEReplayRepository &replayRepository,
+      const CEDashboardSettings &settings, 
+      CEDashboardContext &dashboard)
    {      
       dashboard.Clear();
       dashboard.Settings = settings;
@@ -38,6 +49,26 @@ public:
       m_statisticsBuilder.Build(repository,dashboard.Statistics);
       m_statisticsSectionBuilder.Build(dashboard.Statistics,dashboard.StatisticsSection);
       m_performanceSectionBuilder.Build(dashboard.Statistics,dashboard.PerformanceSection);
+      
+      CEReplaySnapshot snapshot;
+
+      snapshot.Time      = TimeCurrent();
+      snapshot.Symbol    = _Symbol;
+      snapshot.Timeframe = (ENUM_TIMEFRAMES)_Period;
+      
+      snapshot.Dashboard = dashboard;
+      
+      snapshot.Journal = repository.Last();
+      
+      if(!dashboard.Empty())
+      {
+         m_replayRecorder.Record(replayRepository,snapshot);
+      }
+      
+      CELogger::Info(
+         CE_MODULE_REPLAY,
+         "Replay snapshot recorded");
+
    }
 };
 

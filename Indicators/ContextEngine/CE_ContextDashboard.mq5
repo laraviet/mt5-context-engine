@@ -33,10 +33,12 @@ int OnInit()
    CEDashboardContext dashboard;
    CEDashboardContextBuilder builder;
    CEDashboardSettings settings;
+   CEReplayRepository replayRepository;
    
    builder.Build(
       Engine.Context(),
       Engine.Journal(),
+      replayRepository,
       settings,
       dashboard);
       

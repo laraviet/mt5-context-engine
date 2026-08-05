@@ -5,6 +5,7 @@
 #define CE_MODULE_ENGINE    "Engine"
 #define CE_MODULE_EXPORT    "Export"
 #define CE_MODULE_STATISTICS "Statistics"
+#define CE_MODULE_REPLAY "Replay"
 
 #define CE_STAGE_INITIALIZE      0
 
