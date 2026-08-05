@@ -101,6 +101,47 @@ public:
 
       return true;
    }   
+   
+   
+   int FirstIndex() const
+   {
+      if(Empty())
+         return -1;
+   
+      return 0;
+   }
+   
+   int LastIndex() const
+   {
+      if(Empty())
+         return -1;
+   
+      return Count() - 1;
+   }
+   
+   int NextIndex(
+   const int index) const
+   {
+      if(!IsValidIndex(index))
+         return -1;
+   
+      if(index >= LastIndex())
+         return -1;
+   
+      return index + 1;
+   }
+   
+   int PreviousIndex(
+   const int index) const
+   {
+      if(!IsValidIndex(index))
+         return -1;
+   
+      if(index <= FirstIndex())
+         return -1;
+   
+      return index - 1;
+   }
 
 };
 
