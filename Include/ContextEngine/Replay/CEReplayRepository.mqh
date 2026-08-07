@@ -76,7 +76,7 @@ public:
    // Validation
    //----------------------------------
 
-   bool IsValidIndex(
+   bool ValidIndex(
       const int index) const
    {
       return
@@ -122,7 +122,7 @@ public:
    int NextIndex(
    const int index) const
    {
-      if(!IsValidIndex(index))
+      if(!ValidIndex(index))
          return -1;
    
       if(index >= LastIndex())
@@ -134,13 +134,49 @@ public:
    int PreviousIndex(
    const int index) const
    {
-      if(!IsValidIndex(index))
+      if(!ValidIndex(index))
          return -1;
    
       if(index <= FirstIndex())
          return -1;
    
       return index - 1;
+   }
+   
+   bool First(
+      CEReplaySnapshot &snapshot) const
+   {
+      if(Empty())
+         return false;
+   
+      snapshot = At(0);
+   
+      return true;
+   }
+   
+   bool Last(
+      CEReplaySnapshot &snapshot) const
+   {
+      if(Empty())
+         return false;
+   
+      snapshot =
+         At(Count()-1);
+   
+      return true;
+   }
+   
+   bool TryGet(
+      const int index,
+      CEReplaySnapshot &snapshot) const
+   {
+      if(!ValidIndex(index))
+         return false;
+   
+      snapshot =
+         At(index);
+   
+      return true;
    }
 
 };

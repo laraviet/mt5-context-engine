@@ -33,6 +33,18 @@ public:
       const CETradeJournalEntry &journal)
    {
       CEReplaySnapshot snapshot;
+      
+      if(snapshot.Dashboard.Empty())
+         return;
+         
+      if(snapshot.Time == 0)
+         return;
+         
+      if(snapshot.Symbol == "")
+         return;
+         
+      if(snapshot.Timeframe <= PERIOD_CURRENT)
+         return;
 
       snapshot.Time      = time;
       snapshot.Symbol    = symbol;

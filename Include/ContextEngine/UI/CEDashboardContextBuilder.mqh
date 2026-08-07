@@ -18,6 +18,7 @@
 
 #include "../Analysis/Backtest/CEBacktestDashboardBuilder.mqh"
 #include "../Analysis/Backtest/CEBacktestReport.mqh"
+#include "../Replay/CEReplaySnapshot.mqh"
 
 class CEDashboardContextBuilder
 {
@@ -110,6 +111,13 @@ public:
          report,
          running,
          dashboard.Backtest);
+   }
+   
+   void Build(
+      const CEReplaySnapshot &snapshot,
+      CEDashboardContext &dashboard)
+   {
+      dashboard = snapshot.Dashboard;
    }
 
 };

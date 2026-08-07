@@ -150,25 +150,9 @@ public:
          if(!m_replay.Current(snapshot))
             return;
 
-         dashboard.Clear();
-         dashboard = snapshot.Dashboard;
-         
-         dashboard.ReplayInfo.Valid = true;
-
-         dashboard.ReplayInfo.Time =
-            snapshot.Time;
-         
-         dashboard.ReplayInfo.Symbol =
-            snapshot.Symbol;
-         
-         dashboard.ReplayInfo.Timeframe =
-            snapshot.Timeframe;
-         
-         dashboard.ReplayInfo.CurrentIndex =
-            ReplayIndex();
-         
-         dashboard.ReplayInfo.TotalCount =
-            ReplayCount();
+          m_builder.Build(
+            snapshot,
+            dashboard);
       }
       else
       {
@@ -193,9 +177,6 @@ public:
                m_replay.Repository(),
                snapshot);
                
-            CELogger::Info(
-               CE_MODULE_REPLAY,
-               "Replay snapshot recorded");
          }
       }
 
