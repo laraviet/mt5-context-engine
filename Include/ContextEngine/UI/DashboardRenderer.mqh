@@ -12,6 +12,7 @@
 #include "Performance/CEPerformanceSection.mqh"
 #include "Layout/CEDashboardLayout.mqh"
 #include "Renderers/CEDashboardLabelRenderer.mqh"
+#include "../Analysis/Backtest/CEBacktestDashboard.mqh"
 
 class CDashboardRenderer
 {
@@ -317,6 +318,55 @@ private:
       m_layout.NextLine();
    }
    
+   void RenderBacktest(
+      const CEBacktestDashboard &backtest)
+   {
+      if(!backtest.Visible)
+         return;
+   
+      DrawLine(
+         "backtest_title",
+         "Backtest",
+         m_theme.SectionColor);
+   
+      DrawSeparator(
+         "backtest_separator");
+   
+      DrawLine(
+         "backtest_status",
+         StringFormat(
+            "Status       : %s",
+            backtest.Running ? "Running" : "Stopped"));
+   
+      DrawLine(
+         "backtest_progress",
+         StringFormat(
+            "Progress     : %d / %d (%.0f%%)",
+            backtest.RunCount,
+            backtest.TotalRuns,
+            backtest.Progress * 100.0));
+   
+      DrawLine(
+         "backtest_success",
+         StringFormat(
+            "Success Rate : %.1f%%",
+            backtest.SuccessRate * 100.0));
+   
+      DrawLine(
+         "backtest_failure",
+         StringFormat(
+            "Failure Rate : %.1f%%",
+            backtest.FailureRate * 100.0));
+   
+      DrawLine(
+         "backtest_elapsed",
+         StringFormat(
+            "Elapsed      : %d sec",
+            backtest.ElapsedSeconds));
+   
+      m_layout.NextLine();
+   }
+   
    void RenderReplayToolbar(
       const CEReplayToolbar &toolbar)
    {
@@ -396,6 +446,8 @@ public:
          RenderPerformanceSection(
             context.PerformanceSection);
       }
+      
+      RenderBacktest(context.Backtest);
    
       if(context.Settings.ShowStatistics)
       {

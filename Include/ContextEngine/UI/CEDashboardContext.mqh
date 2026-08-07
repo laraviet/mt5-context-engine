@@ -10,6 +10,7 @@
 #include "CEDashboardSettings.mqh"
 #include "Replay/CEReplayToolbar.mqh"
 #include "Replay/CEReplayInfo.mqh"
+#include "../Analysis/Backtest/CEBacktestDashboard.mqh"
 
 class CEDashboardContext
 {
@@ -28,6 +29,7 @@ public:
    CEDashboardSettings Settings;
    CEReplayToolbar ReplayToolbar;
    CEReplayInfo ReplayInfo;
+   CEBacktestDashboard Backtest;
 
    void Clear()
    {
@@ -46,6 +48,8 @@ public:
       ReplayToolbar.Reset();
       
       ReplayInfo.Reset();
+      
+      Backtest.Reset();
    }
 
    //-------------------------

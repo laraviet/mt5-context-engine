@@ -16,6 +16,9 @@
 
 #include "CEDashboardSettings.mqh"
 
+#include "../Analysis/Backtest/CEBacktestDashboardBuilder.mqh"
+#include "../Analysis/Backtest/CEBacktestReport.mqh"
+
 class CEDashboardContextBuilder
 {
 private:
@@ -28,6 +31,8 @@ private:
    CEStatisticsSectionBuilder      m_statisticsSectionBuilder;
 
    CEPerformanceSectionBuilder     m_performanceSectionBuilder;
+   
+   CEBacktestDashboardBuilder m_backtestBuilder;
 
 public:
 
@@ -85,6 +90,26 @@ public:
          dashboard.Statistics,
          dashboard.PerformanceSection);
       
+   }
+   
+   void Build(
+      const CEAnalysisContext      &context,
+      CETradeJournalRepository     &repository,
+      const CEDashboardSettings    &settings,
+      const CEBacktestReport       &report,
+      const bool                   running,
+      CEDashboardContext           &dashboard)
+   {
+      Build(
+         context,
+         repository,
+         settings,
+         dashboard);
+   
+      m_backtestBuilder.Build(
+         report,
+         running,
+         dashboard.Backtest);
    }
 
 };

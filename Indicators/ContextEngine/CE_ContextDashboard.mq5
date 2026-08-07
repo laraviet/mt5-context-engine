@@ -7,6 +7,7 @@
 #include <ContextEngine/UI/DashboardRenderer.mqh>
 #include <ContextEngine/UI/CEDashboardContext.mqh>
 #include <ContextEngine/UI/CEDashboardContextBuilder.mqh>
+#include <ContextEngine/UI/CEDashboardController.mqh>
 #include <ContextEngine/Core/CEContext.mqh>
 #include <ContextEngine/Config/CEEngineConfig.mqh>
 
@@ -31,14 +32,15 @@ int OnInit()
    Engine.Run();
    
    CEDashboardContext dashboard;
-   CEDashboardContextBuilder builder;
+   CEDashboardController controller;
    CEDashboardSettings settings;
    
-   builder.Build(
+   controller.Update(
       Engine.Context(),
       Engine.Journal(),
       settings,
-      dashboard);
+      dashboard
+   );
       
    //CEAnalysisContext context = Engine.Context();   
    
